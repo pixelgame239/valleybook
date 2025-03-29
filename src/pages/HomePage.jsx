@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderHome from "./HomePage";
+import HeaderHome from "../HeaderHome";
 import MainBanner from "../components/mainBanner";
 
 const HomePage = () => {
