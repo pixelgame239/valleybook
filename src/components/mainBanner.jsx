@@ -1,7 +1,7 @@
 const MainBanner = () => {
   return (
     <div className="main-banner">
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-lg-6 align-self-center">
             <div className="caption header-text">
