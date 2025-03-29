@@ -4,42 +4,7 @@ import "../assets/css/fontawesome.css";
 import "../assets/css/templatemo-lugx-gaming.css";
 import "../assets/css/owl.css";
 import "../assets/css/animate.css";
-import "../assets/css/custom.css";
-
-const HeaderShop = () => (
-  <header className="header-area header-sticky">
-    <div className="container">
-      <nav className="main-nav">
-        <a href="index.html" className="logo">
-          <img
-            src="../assets/images/logo.png"
-            alt="Logo"
-            style={{ width: 158 }}
-          />
-        </a>
-        <ul className="nav">
-          <li>
-            <a href="index.html">Home</a>
-          </li>
-          <li>
-            <a href="shop.html" className="active">
-              Our Shop
-            </a>
-          </li>
-          <li>
-            <a href="product-details.html">Product Details</a>
-          </li>
-          <li>
-            <a href="contact.html">Contact Us</a>
-          </li>
-          <li>
-            <a href="#">Sign In</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-);
+import HeaderHome from "./HeaderHome";
 
 const TrendingItems = ({ items }) => (
   <div className="row trending-box">
@@ -95,7 +60,7 @@ const Pagination = () => (
 const Footer = () => (
   <footer>
     <div className="container">
-      <p>Copyright &copy; 2048 LUGX Gaming Company. All rights reserved.</p>
+      <p>Copyright &copy; Valley Book. All rights reserved.</p>
     </div>
   </footer>
 );
@@ -127,7 +92,7 @@ const ShopPage = () => {
 
   return (
     <div>
-      <HeaderShop />
+      <HeaderHome />
       <div className="page-heading header-text">
         <div className="container">
           <h3>Our Shop</h3>

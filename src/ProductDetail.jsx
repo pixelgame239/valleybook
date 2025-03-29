@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+// import "@fortawesome/fontawesome-free/css/all.min.css";
 import "../assets/css/templatemo-lugx-gaming.css";
 import "../assets/css/owl.css";
 import "../assets/css/animate.css";
-import "swiper/swiper-bundle.min.css";
+// import "swiper/swiper-bundle.min.css";
 
 const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
@@ -94,10 +94,66 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-
+      <div class="section categories related-games">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="section-heading">
+            <h6>Action</h6>
+            <h2>Related Games</h2>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="main-button">
+            <a href="shop.html">View All</a>
+          </div>
+        </div>
+        <div class="col-lg col-sm-6 col-xs-12">
+          <div class="item">
+            <h4>Action</h4>
+            <div class="thumb">
+              <a href="/product-details"><img src="assets/images/categories-01.jpg" alt=""></img></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg col-sm-6 col-xs-12">
+          <div class="item">
+            <h4>Action</h4>
+            <div class="thumb">
+              <a href="/product-details"><img src="assets/images/categories-05.jpg" alt=""></img></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg col-sm-6 col-xs-12">
+          <div class="item">
+            <h4>Action</h4>
+            <div class="thumb">
+              <a href="/product-details"><img src="assets/images/categories-03.jpg" alt=""></img></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg col-sm-6 col-xs-12">
+          <div class="item">
+            <h4>Action</h4>
+            <div class="thumb">
+              <a href="/product-details"><img src="assets/images/categories-04.jpg" alt=""></img></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg col-sm-6 col-xs-12">
+          <div class="item">
+            <h4>Action</h4>
+            <div class="thumb">
+              <a href="/product-details"><img src="assets/images/categories-05.jpg" alt=""></img></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
       <footer>
         <div className="container">
-          <p>Copyright © 2048 LUGX Gaming Company. All rights reserved.</p>
+          <p>Copyright © Valley Book. All rights reserved.</p>
         </div>
       </footer>
     </>
