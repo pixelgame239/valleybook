@@ -4,6 +4,7 @@ import "../assets/css/fontawesome.css";
 import "../assets/css/templatemo-lugx-gaming.css";
 import "../assets/css/owl.css";
 import "../assets/css/animate.css";
+import { Link } from "react-router-dom";
 
 const HeaderHome = () => {
   return (
@@ -13,11 +14,11 @@ const HeaderHome = () => {
           <div className="col-12">
             <nav className="main-nav">
               <a href="/" className="logo">
-                {/* <img
+                <img
                   src="/assets/images/logo.png"
                   alt="Logo"
                   style={{ width: "158px" }}
-                /> */}
+                />
               </a>
               <ul className="nav">
                 <li>
@@ -32,7 +33,7 @@ const HeaderHome = () => {
                   <a href="/product-details">Product Details</a>
                 </li>
                 <li>
-                  <a href="/contact">Contact Us</a>
+                  <Link to="/contact">Contact Us</Link>{" "}
                 </li>
                 <li>
                   <a href="/Login">Sign In</a>
