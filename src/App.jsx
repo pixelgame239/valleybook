@@ -1,15 +1,15 @@
 import { useState } from "react";
 import "./App.css";
-import HeaderHome from "./homePage";
-import MainBanner from "./mainBanner";
+import HeaderHome from "./pages/HomePage";
+import MainBanner from "./components/mainBanner";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-      <HeaderHome />
-      <MainBanner />
+      <HomePage />
     </div>
   );
 }
