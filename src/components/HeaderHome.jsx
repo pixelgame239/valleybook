@@ -1,9 +1,9 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/fontawesome.css";
-import "../assets/css/templatemo-lugx-gaming.css";
-import "../assets/css/owl.css";
-import "../assets/css/animate.css";
+import "/assets/css/fontawesome.css";
+import "/assets/css/templatemo-lugx-gaming.css";
+import "/assets/css/owl.css";
+import "/assets/css/animate.css";
 import { Link } from "react-router-dom";
 
 const HeaderHome = () => {
@@ -33,7 +33,7 @@ const HeaderHome = () => {
                   <a href="/product-details">Product Details</a>
                 </li>
                 <li>
-                  <Link to="/contact">Contact Us</Link>{" "}
+                  <Link to="/Contact">Contact Us</Link>{" "}
                 </li>
                 <li>
                   <a href="/Login">Sign In</a>
