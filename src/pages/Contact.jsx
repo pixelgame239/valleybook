@@ -9,11 +9,12 @@ import ContactInfo from "../components/ContactInfor";
 import ContactForm from "../components/ContactForm";
 import FooterContact from "../components/FooterContact";
 import MapContact from "../components/MapContact";
+import Header from "../components/Header";
 
 const ContactPage = () => {
   return (
     <>
-      <HeaderContact />
+      <Header pageTab="contact" />
       <div className="page-heading header-text">
         <div className="container">
           <h3>Contact Us</h3>
