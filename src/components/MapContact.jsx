@@ -1,5 +1,4 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "/assets/css/fontawesome.css";
 import "/assets/css/templatemo-lugx-gaming.css";
 import "/assets/css/owl.css";

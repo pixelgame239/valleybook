@@ -1,45 +1,50 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import "/assets/css/loginpage.css"
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    console.log("Logging in with", email, password);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Email:", email, "Password:", password);
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh",width: "100vh", backgroundColor: "#3b82f6" }}>
-      <div style={{ width: "350px", padding: "20px", backgroundColor: "#ffffff", borderRadius: "12px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}>
-        <h2 style={{ textAlign: "center", color: "#1e40af", marginBottom: "16px" }}>Login</h2>
-        <div style={{ marginBottom: "12px" }}>
-          <label htmlFor="email" style={{ color: "#1e40af", fontWeight: "bold" }}>Email</label>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Đăng Nhập</h2>
+
+        <div className="input-group">
+          <label>Email</label>
           <input
-            id="email"
             type="email"
-            placeholder="Enter your email"
+            placeholder="Nhập email của bạn"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "4px", border: "1px solid #93c5fd", borderRadius: "6px" }}
+            required
           />
         </div>
-        <div style={{ marginBottom: "12px" }}>
-          <label htmlFor="password" style={{ color: "#1e40af", fontWeight: "bold" }}>Password</label>
+
+        <div className="input-group">
+          <label>Mật khẩu</label>
           <input
-            id="password"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Nhập mật khẩu"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "4px", border: "1px solid #93c5fd", borderRadius: "6px" }}
+            required
           />
         </div>
-        <button 
-          onClick={handleLogin} 
-          style={{ width: "100%", padding: "10px", backgroundColor: "#1e40af", color: "#ffffff", border: "none", borderRadius: "6px", cursor: "pointer" }}>
-          Login
-        </button>
-      </div>
+
+        <button type="submit" className="login-button">Đăng Nhập</button>
+
+        <div className="extra-options">
+          <a href="#" className="forgot-password">Quên mật khẩu?</a>
+        </div>
+      </form>
     </div>
   );
-}
+};
+
+export default LoginPage;

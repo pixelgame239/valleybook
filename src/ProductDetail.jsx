@@ -1,9 +1,10 @@
 import { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 // import "@fortawesome/fontawesome-free/css/all.min.css";
 import "../assets/css/templatemo-lugx-gaming.css";
 import "../assets/css/owl.css";
 import "../assets/css/animate.css";
+import Header from "./components/Header";
+import MainBanner from "./components/MainBanner";
 // import "swiper/swiper-bundle.min.css";
 
 const ProductDetail = () => {
@@ -11,40 +12,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      <header className="header-area header-sticky">
-        <div className="container">
-          <nav className="main-nav">
-            <a href="/" className="logo">
-              <img
-                src="/assets/images/logo.png"
-                alt="Logo"
-                style={{ width: 158 }}
-              />
-            </a>
-            <ul className="nav">
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li>
-                <a href="/shop">Our Shop</a>
-              </li>
-              <li>
-                <a href="/product-details" className="active">
-                  Product Details
-                </a>
-              </li>
-              <li>
-                <a href="/contact">Contact Us</a>
-              </li>
-              <li>
-                <a href="/signin">Sign In</a>
-              </li>
-            </ul>
-            <button className="menu-trigger">Menu</button>
-          </nav>
-        </div>
-      </header>
-
+    <Header pageTab="productdetails" />
       <div className="page-heading header-text">
         <div className="container">
           <h3>Modern Warfare® II</h3>
