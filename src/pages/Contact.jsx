@@ -52,15 +52,14 @@ function Contact() {
             <div className="col-lg-6 align-self-center">
               <div className="left-text">
                 <div className="section-heading">
-
-                  <h6>Liên hệ với chúng tôi qua</h6>
+                  <h6>Liên hệ với chúng tôi tôi</h6>
                   <h2>Xin chào!</h2>
+
                 </div>
                 <p>
                 Về ValleyBook
                 ValleyBook là trang web bán sách trực tuyến, nơi bạn có thể dễ dàng tìm thấy những cuốn sách hay,
                  phù hợp với mọi độ tuổi và sở thích. Chúng tôi mang đến cho bạn trải nghiệm mua sắm tiện lợi,
-
                   giá cả hợp lý và dịch vụ tận tâm. Dù bạn là người yêu tiểu thuyết, đam mê khám phá tri thức hay đang
                    tìm kiếm tài liệu học tập, ValleyBook luôn đồng hành cùng bạn trên hành trình tri thức.
                 </p>
@@ -69,12 +68,10 @@ function Contact() {
                     <span>Địa chỉ</span> Nam Từ Liêm, Hà Nội
                   </li>
                   <li>
-
                     <span>Số điện thoại</span> +84 667 253 649
                   </li>
                   <li>
-                    <span>Email</span> valleybook@contact.com
-                  </li>
+                    <span>Email</span> valleybook@contact.com                  </li>
                 </ul>
               </div>
             </div>
