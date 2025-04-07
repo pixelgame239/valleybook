@@ -52,22 +52,25 @@ function Contact() {
             <div className="col-lg-6 align-self-center">
               <div className="left-text">
                 <div className="section-heading">
-                  <h6>Liên hệ với chúng tôi tôi</h6>
+
+                  <h6>Liên hệ với chúng tôi qua</h6>
                   <h2>Xin chào!</h2>
                 </div>
                 <p>
                 Về ValleyBook
                 ValleyBook là trang web bán sách trực tuyến, nơi bạn có thể dễ dàng tìm thấy những cuốn sách hay,
                  phù hợp với mọi độ tuổi và sở thích. Chúng tôi mang đến cho bạn trải nghiệm mua sắm tiện lợi,
-                  giá cả hợp lý và dịch vụ tận tâm. Dù bạn là người yêu tiểu thuyết, đam mê khám phá tri thức hay
-                   đang tìm kiếm tài liệu học tập, ValleyBook luôn đồng hành cùng bạn trên hành trình tri thức.
+
+                  giá cả hợp lý và dịch vụ tận tâm. Dù bạn là người yêu tiểu thuyết, đam mê khám phá tri thức hay đang
+                   tìm kiếm tài liệu học tập, ValleyBook luôn đồng hành cùng bạn trên hành trình tri thức.
                 </p>
                 <ul>
                   <li>
                     <span>Địa chỉ</span> Nam Từ Liêm, Hà Nội
                   </li>
                   <li>
-                    <span>Số điện thoại</span> 08393639827
+
+                    <span>Số điện thoại</span> +84 667 253 649
                   </li>
                   <li>
                     <span>Email</span> valleybook@contact.com
@@ -81,7 +84,7 @@ function Contact() {
                   <div className="col-lg-12">
                     <div id="map">
                       <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11568.149619134794!2d105.74381005035892!3d21.0439141481478!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135096b31fa7abb%3A0xff645782804911af!2zVHLGsOG7nW5nIMSR4bqhaSBo4buNYyBDw7RuZyBuZ2jhu4cgxJDDtG5nIMOB!5e0!3m2!1svi!2s!4v1744014870383!5m2!1svi!2s"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14894.877254424797!2d105.7438101!3d21.0439141!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135096b31fa7abb%3A0xff645782804911af!2zVHLGsOG7nW5nIMSR4bqhaSBo4buNYyBDw7RuZyBuZ2jhu4cgxJDDtG5nIMOB!5e0!3m2!1svi!2s!4v1744031958504!5m2!1svi!2s"
                         width="100%"
                         height="325px"
                         frameBorder="0"

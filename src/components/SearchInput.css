@@ -1,0 +1,52 @@
+.search-input {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: -40px;
+  z-index: 1000;
+  width: 100%; /* Ensure the container takes full width */
+  max-width: 300px; /* Set a maximum width for the container */
+  margin-left: auto; /* Center the container horizontally */
+  margin-right: auto; /* Center the container horizontally */
+}
+
+.search-input form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-input-field {
+  margin-left: 40px; /* Move input field more to the right */
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  background-color: #007bff;
+  height: 40px;
+  width: 100%; /* Make the input field longer */
+  padding-right: 40px;
+}
+
+.search-input-field::placeholder {
+  color: white; /* Change placeholder text color to white */
+}
+
+.search-input-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.search-input-button:hover {
+  background-color: #0056b3;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+}
