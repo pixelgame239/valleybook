@@ -7,13 +7,13 @@ function Trending() {
         <div className="row">
           <div className="col-lg-6">
             <div className="section-heading">
-              <h6>Trending</h6>
-              <h2>Trending Games</h2>
+              <h6>Sản phẩm nổi bật</h6>
+              <h2>Sách mới thêm gần đây</h2>
             </div>
           </div>
           <div className="col-lg-6">
             <div className="main-button">
-              <a href="shop.html">View All</a>
+              <a href="shop.html">Xem tất cả</a>
             </div>
           </div>
           <div className="col-lg-3 col-md-6">

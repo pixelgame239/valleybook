@@ -7,23 +7,21 @@ function MainBanner() {
         <div className="row">
           <div className="col-lg-6 align-self-center">
             <div className="caption header-text">
-              <h6>Welcome to lugx</h6>
-              <h2>BEST GAMING SITE EVER!</h2>
+              <h6>Chào mừng đến với Valley Book</h6>
+              <h2>Nơi bạn có thể tìm kiếm và mua những quyển sách hay chứa đầy tri thức nhân loại!</h2>
               <p>
-                LUGX Gaming is free Bootstrap 5 HTML CSS website template for
-                your gaming websites. You can download and use this layout for
-                commercial purposes. Please tell your friends about TemplateMo.
+                Valley Book là công ty chuyên bán các quyển sách từ các nhà sách, tác giả trên toàn thế giới. Nơi đây bán sách vật lý, sách dưới dạng điện tử và sách nói vô cùng tiện lợi cho người thích đọc sách
               </p>
               <div className="search-input">
                 <form id="search" action="#">
                   <input
                     type="text"
-                    placeholder="Type Something"
+                    placeholder="Tìm kiếm..."
                     id="searchText"
                     name="searchKeyword"
                     onKeyPress={() => {}}
                   />
-                  <button role="button">Search Now</button>
+                  <button role="button">Tìm kiếm</button>
                 </form>
               </div>
             </div>

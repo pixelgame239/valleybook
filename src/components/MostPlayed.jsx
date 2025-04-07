@@ -7,13 +7,13 @@ function MostPlayed() {
         <div className="row">
           <div className="col-lg-6">
             <div className="section-heading">
-              <h6>TOP GAMES</h6>
-              <h2>Most Played</h2>
+              <h6>Sách hàng đầu</h6>
+              <h2>Sách bán chạy</h2>
             </div>
           </div>
           <div className="col-lg-6">
             <div className="main-button">
-              <a href="shop.html">View All</a>
+              <a href="shop.html">Xem tất cả</a>
             </div>
           </div>
           <div className="col-lg-2 col-md-6 col-sm-6">
