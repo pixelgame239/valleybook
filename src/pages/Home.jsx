@@ -1,14 +1,17 @@
+// Import React library
 import React from "react";
-import Preloader from "../components/Preloader";
-import Header from "../components/Header";
-import MainBanner from "../components/MainBanner";
-import Features from "../components/Features";
-import Trending from "../components/Trending";
-import MostPlayed from "../components/MostPlayed";
-import Categories from "../components/Categories";
-import CTA from "../components/CTA";
-import Footer from "../components/Footer";
-import Component from "../components/Book";
+
+// Import all required components
+import Preloader from "../components/Preloader"; // Loading animation component
+import Header from "../components/Header"; // Main navigation header
+import MainBanner from "../components/MainBanner"; // Hero banner section
+import Features from "../components/Features"; // Features section (currently unused)
+import Trending from "../components/Trending"; // Trending games section
+import MostPlayed from "../components/MostPlayed"; // Most played games section
+import Categories from "../components/Categories"; // Game categories section
+import CTA from "../components/CTA"; // Call-to-action section
+import Footer from "../components/Footer"; // Page footer
+import Component from "../components/Book"; // Book component (temporary)
 function Home() {
   return (
     <div>
@@ -49,4 +52,5 @@ function Home() {
   );
 }
 
+// Export Home component as default
 export default Home;
