@@ -1,3 +1,4 @@
+// filepath: c:\Users\Admin\Desktop\my-app\vite.config.js
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
