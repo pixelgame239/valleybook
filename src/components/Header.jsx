@@ -53,8 +53,8 @@ function Header({ currentPage }) {
                 </li>
                 <li>
                   <Link
-                    to="/signin"
-                    className={currentPage === "signin" ? "active" : ""}
+                    to="/signIn"
+                    className={currentPage === "signIn" ? "active" : ""}
                   >
                     Sign In
                   </Link>
