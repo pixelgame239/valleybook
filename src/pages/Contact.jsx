@@ -37,9 +37,9 @@ function Contact() {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <h3>Contact Us</h3>
+              <h3>Liên hệ với chúng tôi</h3>
               <span className="breadcrumb">
-                <a href="#">Home Contact Us</a>
+                <a href="#">Trang chủ liên hệ</a>
               </span>
             </div>
           </div>
@@ -52,25 +52,25 @@ function Contact() {
             <div className="col-lg-6 align-self-center">
               <div className="left-text">
                 <div className="section-heading">
-                  <h6>Contact Us</h6>
-                  <h2>Say Hello!</h2>
+                  <h6>Liên hệ với chúng tôi tôi</h6>
+                  <h2>Xin chào!</h2>
                 </div>
                 <p>
-                  LUGX Gaming Template is based on the latest Bootstrap 5 CSS
-                  framework. This template is provided by TemplateMo and it is
-                  suitable for your gaming shop ecommerce websites. Feel free to
-                  use this for any purpose. Thank you.
+                Về ValleyBook
+                ValleyBook là trang web bán sách trực tuyến, nơi bạn có thể dễ dàng tìm thấy những cuốn sách hay,
+                 phù hợp với mọi độ tuổi và sở thích. Chúng tôi mang đến cho bạn trải nghiệm mua sắm tiện lợi,
+                  giá cả hợp lý và dịch vụ tận tâm. Dù bạn là người yêu tiểu thuyết, đam mê khám phá tri thức hay
+                   đang tìm kiếm tài liệu học tập, ValleyBook luôn đồng hành cùng bạn trên hành trình tri thức.
                 </p>
                 <ul>
                   <li>
-                    <span>Address</span> Sunny Isles Beach, FL 33160, United
-                    States
+                    <span>Địa chỉ</span> Nam Từ Liêm, Hà Nội
                   </li>
                   <li>
-                    <span>Phone</span> +123 456 7890
+                    <span>Số điện thoại</span> 08393639827
                   </li>
                   <li>
-                    <span>Email</span> lugx@contact.com
+                    <span>Email</span> valleybook@contact.com
                   </li>
                 </ul>
               </div>
@@ -81,7 +81,7 @@ function Contact() {
                   <div className="col-lg-12">
                     <div id="map">
                       <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12469.776493332698!2d-80.14036379941481!3d25.907788681148624!2m3!1f357.26927939317244!2f20.870722720054623!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x88d9add4b4ac788f%3A0xe77469d09480fcdb!2sSunny%20Isles%20Beach!5e1!3m2!1sen!2sth!4v1642869952544!5m2!1sen!2sth"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11568.149619134794!2d105.74381005035892!3d21.0439141481478!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135096b31fa7abb%3A0xff645782804911af!2zVHLGsOG7nW5nIMSR4bqhaSBo4buNYyBDw7RuZyBuZ2jhu4cgxJDDtG5nIMOB!5e0!3m2!1svi!2s!4v1744014870383!5m2!1svi!2s"
                         width="100%"
                         height="325px"
                         frameBorder="0"
@@ -100,7 +100,7 @@ function Contact() {
                               type="text"
                               name="name"
                               id="name"
-                              placeholder="Your Name..."
+                              placeholder="Tên của bạn..."
                               autoComplete="on"
                               required
                             />
@@ -112,7 +112,7 @@ function Contact() {
                               type="text"
                               name="surname"
                               id="surname"
-                              placeholder="Your Surname..."
+                              placeholder="Họ của bạn..."
                               autoComplete="on"
                               required
                             />
@@ -125,7 +125,7 @@ function Contact() {
                               name="email"
                               id="email"
                               pattern="[^ @]*@[^ @]*"
-                              placeholder="Your E-mail..."
+                              placeholder="E-mail của bạn..."
                               required
                             />
                           </fieldset>
@@ -136,7 +136,7 @@ function Contact() {
                               type="text"
                               name="subject"
                               id="subject"
-                              placeholder="Subject..."
+                              placeholder="Chủ đề..."
                               autoComplete="on"
                             />
                           </fieldset>
@@ -146,7 +146,7 @@ function Contact() {
                             <textarea
                               name="message"
                               id="message"
-                              placeholder="Your Message"
+                              placeholder="Nhập tin nhắn..."
                             ></textarea>
                           </fieldset>
                         </div>
@@ -157,7 +157,7 @@ function Contact() {
                               id="form-submit"
                               className="orange-button"
                             >
-                              Send Message Now
+                              Gửi tin nhắn ngay
                             </button>
                           </fieldset>
                         </div>
