@@ -54,9 +54,11 @@
 
 .login-page .extra-options {
   margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
 }
 
-.login-page .forgot-password {
+.login-page .forgot-password .sign-up {
   color: #0277bd;
   text-decoration: none;
   font-size: 14px;

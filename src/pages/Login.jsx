@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./loginpage.css";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -18,7 +19,9 @@ const LoginPage = () => {
     e.preventDefault();
     alert("Chức năng quên mật khẩu chưa được triển khai.");
   };
-
+  const handleSignup=()=>{
+    navigate("/signUp");
+  }
   return (
     <div className="login-page">
       <div className="login-container">
@@ -54,6 +57,10 @@ const LoginPage = () => {
           </button>
 
           <div className="extra-options">
+            <a href="/signUp"
+            className="sign-up">
+              Đăng ký
+            </a>
             <a
               href="#"
               className="forgot-password"
