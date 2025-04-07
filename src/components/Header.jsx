@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import SearchInput from "./SearchInput";
 function Header({ currentPage }) {
   return (
     <header className="header-area header-sticky">
@@ -17,6 +17,7 @@ function Header({ currentPage }) {
                 />
               </Link>
               {/* ***** Logo End ***** */}
+              <SearchInput />
               {/* ***** Menu Start ***** */}
               <ul className="nav">
                 <li>
