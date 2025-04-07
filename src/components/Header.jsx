@@ -11,9 +11,9 @@ function Header({ currentPage }) {
               {/* ***** Logo Start ***** */}
               <Link to="/" className="logo">
                 <img
-                  src="assets/images/logo.png"
+                  src="assets/images/bookLogo.png"
                   alt="LUGX Gaming Logo"
-                  style={{ width: "158px" }}
+                  style={{ width: "128px", marginTop: "-30px" }} // Added marginTop to move it up
                 />
               </Link>
               {/* ***** Logo End ***** */}

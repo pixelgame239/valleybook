@@ -8,7 +8,7 @@ import MostPlayed from "../components/MostPlayed";
 import Categories from "../components/Categories";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
-
+import Component from "../components/Book";
 function Home() {
   return (
     <div>
