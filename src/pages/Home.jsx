@@ -16,25 +16,29 @@ import supabase from "../backend/initSupabase";
 import { useState, useEffect } from "react";
 
 function Home() {
-  const [bookdata, setBookdata] = useState([])
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function getData() {
-      const { data: bookdata } = await supabase.from('books').select();
-
-      if (bookdata.length > 1) {
-        console.log(`Fetched: ${bookdata} `);
+      const currentUser = supabase.auth.getUser();
+      if((await currentUser).data){
+        const loginInfo = (await currentUser).user?.email;
+        console.log(loginInfo);
+        const { data: loginData } = await supabase.from('accounts').select().eq('username', loginInfo);
+        if (loginData) {
+          console.log(`Fetched: ${loginData} `);
+          setLoading(false);
+        }
+      }
+      else{
+        setLoading(false);
       }
     }
-
     getData();
-  }, [])
+  }, []);
   return (
     <div>
-      {/* ***** Preloader Start ***** */}
-      {/* <Preloader /> */}
-      {/* ***** Preloader End ***** */}
-
+      {loading?<Preloader></Preloader>:
+    <>
       {/* ***** Header Area Start ***** */}
       <Header currentPage="home" />
       {/* ***** Header Area End ***** */}
@@ -64,6 +68,8 @@ function Home() {
       {/* ***** Footer Start ***** */}
       <Footer />
       {/* ***** Footer End ***** */}
+      </>
+    }
     </div>
   );
 }

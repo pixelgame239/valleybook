@@ -47,7 +47,32 @@
   border-radius: 5px;
   cursor: pointer;
 }
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: #fefefe; 
+  color: rgb(22, 138, 255);
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
 
+.google-login-button:hover {
+  background-color: #319cffe8; 
+  color: white;
+}
+
+.google-logo {
+  width: 20px;
+  margin-right: 10px; 
+}
 .login-page .login-button:hover {
   background-color: #01579b;
 }

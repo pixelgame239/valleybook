@@ -7,8 +7,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import Signup from "./pages/Signup";
 import Policy from "./pages/Policy";
+import { AuthProvider } from "./components/AuthContext";
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -20,6 +22,7 @@ function App() {
         <Route path="/policy" element={<Policy />} />
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 

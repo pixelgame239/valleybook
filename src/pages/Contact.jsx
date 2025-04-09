@@ -56,7 +56,7 @@ function Contact() {
                   <h2>Xin chào!</h2>
                 </div>
                 <p>
-                Về ValleyBook
+                Về ValleyBook:
                 ValleyBook là trang web bán sách trực tuyến, nơi bạn có thể dễ dàng tìm thấy những cuốn sách hay,
                  phù hợp với mọi độ tuổi và sở thích. Chúng tôi mang đến cho bạn trải nghiệm mua sắm tiện lợi,
                   giá cả hợp lý và dịch vụ tận tâm. Dù bạn là người yêu tiểu thuyết, đam mê khám phá tri thức hay đang
