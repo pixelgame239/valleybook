@@ -7,7 +7,7 @@ function Trending() {
         <div className="row">
           <div className="col-lg-6">
             <div className="section-heading">
-              <h6>Sản phẩm nổi bật</h6>
+              <h6>Sách nổi bật</h6>
               <h2>Sách mới thêm gần đây</h2>
             </div>
           </div>

@@ -6,6 +6,7 @@ import Shop from "./pages/Shop";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import Signup from "./pages/Signup";
+import Policy from "./pages/Policy";
 function App() {
   return (
     <BrowserRouter>
