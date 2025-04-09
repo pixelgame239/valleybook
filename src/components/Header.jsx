@@ -12,7 +12,7 @@ function Header({ currentPage }) {
               <Link to="/" className="logo">
                 <img
                   src="assets/images/bookLogo.png"
-                  alt="LUGX Gaming Logo"
+                  alt="Valley Book logo"
                   style={{ width: "128px", marginTop: "-30px" }} // Added marginTop to move it up
                 />
               </Link>
@@ -25,7 +25,7 @@ function Header({ currentPage }) {
                     to="/"
                     className={currentPage === "home" ? "active" : ""}
                   >
-                    Home
+                    Trang chủ
                   </Link>
                 </li>
                 <li>
@@ -33,7 +33,7 @@ function Header({ currentPage }) {
                     to="/shop"
                     className={currentPage === "shop" ? "active" : ""}
                   >
-                    Our Shop
+                    Cửa hàng
                   </Link>
                 </li>
                 <li>
@@ -41,7 +41,7 @@ function Header({ currentPage }) {
                     to="/productDetail"
                     className={currentPage === "productDetail" ? "active" : ""}
                   >
-                    Product Details
+                    Sự kiện
                   </Link>
                 </li>
                 <li>
@@ -49,7 +49,7 @@ function Header({ currentPage }) {
                     to="/contact"
                     className={currentPage === "contact" ? "active" : ""}
                   >
-                    Contact Us
+                    Liên hệ
                   </Link>
                 </li>
                 <li>
@@ -57,7 +57,7 @@ function Header({ currentPage }) {
                     to="/signIn"
                     className={currentPage === "signIn" ? "active" : ""}
                   >
-                    Sign In
+                    Đăng nhập
                   </Link>
                 </li>
               </ul>
