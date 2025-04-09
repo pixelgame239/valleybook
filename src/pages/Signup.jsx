@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import '../../public/assets/css/signup.css';
+import React, { useState } from "react";
+import "../../public/assets/css/signup.css";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    phoneNumber: '',
-    name: '',
-    password: '',
-    confirmPassword: ''
+    email: "",
+    phoneNumber: "",
+    name: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -16,18 +16,20 @@ const Signup = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const validateForm = () => {
     const errors = {};
-    if (!formData.email) errors.email = 'Bạn cần nhập đúng email';
-    if (!formData.phoneNumber) errors.phoneNumber = 'Vui lòng nhập đúng số điện thoại';
-    if (!formData.name) errors.name = 'Vui lòng nhập tên của bạn';
-    if (!formData.password) errors.password = 'Mật khẩu không đủ điều kiện bảo mật';
+    if (!formData.email) errors.email = "Bạn cần nhập đúng email";
+    if (!formData.phoneNumber)
+      errors.phoneNumber = "Vui lòng nhập đúng số điện thoại";
+    if (!formData.name) errors.name = "Vui lòng nhập họ và tên của bạn";
+    if (!formData.password)
+      errors.password = "Mật khẩu không đủ điều kiện bảo mật";
     if (formData.password !== formData.confirmPassword)
-      errors.confirmPassword = 'Mật khẩu không trùng khớp';
+      errors.confirmPassword = "Mật khẩu không trùng khớp";
 
     return errors;
   };
@@ -36,7 +38,7 @@ const Signup = () => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Form submitted:', formData);
+      console.log("Form submitted:", formData);
     } else {
       setErrors(validationErrors);
     }
@@ -44,7 +46,7 @@ const Signup = () => {
 
   return (
     <div className="signup-container">
-      <h2>Sign Up</h2>
+      <h2>Đăng ký</h2>
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="form-group">
           <label>Email</label>
@@ -71,13 +73,13 @@ const Signup = () => {
         </div>
 
         <div className="form-group">
-          <label>Tên</label>
+          <label>Họ và Tên</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Vui lòng nhập tên của bạn"
+            placeholder="Vui lòng nhập họ và tên của bạn"
           />
           {errors.name && <p className="error">{errors.name}</p>}
         </div>
@@ -103,10 +105,14 @@ const Signup = () => {
             onChange={handleChange}
             placeholder="Vui lòng xác nhận lại mật khẩu của bạn"
           />
-          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+          {errors.confirmPassword && (
+            <p className="error">{errors.confirmPassword}</p>
+          )}
         </div>
 
-        <button type="submit" className="submit-button">Đăng ký</button>
+        <button type="submit" className="submit-button">
+          Đăng ký
+        </button>
       </form>
     </div>
   );
