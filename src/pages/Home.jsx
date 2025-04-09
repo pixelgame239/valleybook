@@ -12,7 +12,23 @@ import Categories from "../components/Categories"; // Game categories section
 import CTA from "../components/CTA"; // Call-to-action section
 import Footer from "../components/Footer"; // Page footer
 import Component from "../components/Book"; // Book component (temporary)
+import supabase from "../backend/initSupabase";
+import { useState, useEffect } from "react";
+
 function Home() {
+  const [bookdata, setBookdata] = useState([])
+
+  useEffect(() => {
+    async function getData() {
+      const { data: bookdata } = await supabase.from('books').select();
+
+      if (bookdata.length > 1) {
+        console.log(`Fetched: ${bookdata} `);
+      }
+    }
+
+    getData();
+  }, [])
   return (
     <div>
       {/* ***** Preloader Start ***** */}

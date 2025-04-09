@@ -6,7 +6,6 @@ function Features() {
       <div className="container">
         <div className="row">
           <div className="col-lg-3 col-md-6">
-            <a href="#">
               <div className="item">
                 <div className="image">
                   <img
@@ -15,12 +14,10 @@ function Features() {
                     style={{ maxWidth: "44px" }}
                   />
                 </div>
-                <h4>Free Storage</h4>
+                <h4>Cam kết sách chính hãng</h4>
               </div>
-            </a>
           </div>
           <div className="col-lg-3 col-md-6">
-            <a href="#">
               <div className="item">
                 <div className="image">
                   <img
@@ -29,12 +26,10 @@ function Features() {
                     style={{ maxWidth: "44px" }}
                   />
                 </div>
-                <h4>User More</h4>
+                <h4>Hỗ trợ đa dạng loại hình sách</h4>
               </div>
-            </a>
           </div>
           <div className="col-lg-3 col-md-6">
-            <a href="#">
               <div className="item">
                 <div className="image">
                   <img
@@ -43,12 +38,10 @@ function Features() {
                     style={{ maxWidth: "44px" }}
                   />
                 </div>
-                <h4>Reply Ready</h4>
+                <h4>Chính sách 1 đổi 1 với những lỗi từ nhà sản xuất</h4>
               </div>
-            </a>
           </div>
           <div className="col-lg-3 col-md-6">
-            <a href="#">
               <div className="item">
                 <div className="image">
                   <img
@@ -57,9 +50,8 @@ function Features() {
                     style={{ maxWidth: "44px" }}
                   />
                 </div>
-                <h4>Easy Layout</h4>
+                <h4>Chính sách hỗ trợ rõ ràng, minh bạch</h4>
               </div>
-            </a>
           </div>
         </div>
       </div>
