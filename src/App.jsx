@@ -9,10 +9,10 @@ import Signup from "./pages/Signup";
 import Policy from "./pages/Policy";
 import ForgetPassword from "./pages/ForgetPassword";
 import { AuthProvider } from "./components/AuthContext";
+import NewBook from "./pages/NewBook";
 function App() {
   return (
     <AuthProvider>
-
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -23,9 +23,9 @@ function App() {
           <Route path="/signUp" element={<Signup></Signup>}></Route>
           <Route path="/policy" element={<Policy />} />
           <Route path="/forgetPassword" element={<ForgetPassword />} />
+          <Route path="/newBook" element={<NewBook />} />
         </Routes>
       </BrowserRouter>
-
     </AuthProvider>
   );
 }
