@@ -14,22 +14,25 @@ import Footer from "../components/Footer"; // Page footer
 import Component from "../components/Book"; // Book component (temporary)
 import supabase from "../backend/initSupabase";
 import { useState, useEffect } from "react";
-
+import IntroduceHomePage from "../components/IntroduceHomePage";
+import BookCarousel from "../components/BookCarousel";
 function Home() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function getData() {
       const currentUser = supabase.auth.getUser();
-      if((await currentUser).data){
+      if ((await currentUser).data) {
         const loginInfo = (await currentUser).user?.email;
         console.log(loginInfo);
-        const { data: loginData } = await supabase.from('accounts').select().eq('username', loginInfo);
+        const { data: loginData } = await supabase
+          .from("accounts")
+          .select()
+          .eq("username", loginInfo);
         if (loginData) {
           console.log(`Fetched: ${loginData} `);
           setLoading(false);
         }
-      }
-      else{
+      } else {
         setLoading(false);
       }
     }
@@ -37,39 +40,39 @@ function Home() {
   }, []);
   return (
     <div>
-      {loading?<Preloader></Preloader>:
-    <>
-      {/* ***** Header Area Start ***** */}
-      <Header currentPage="home" />
-      {/* ***** Header Area End ***** */}
-      <MainBanner />
-      {/* something */}
-      {/* something */}
+      {loading ? (
+        <Preloader></Preloader>
+      ) : (
+        <>
+          {/* ***** Header Area Start ***** */}
+          <Header currentPage="home" />
+          {/* ***** Header Area End ***** */}
+          <MainBanner />
+          {/* something */}
+          {/* something */}
 
-      {/* ***** Features Section Start ***** */}
-      <Features />
-      {/* ***** Features Section End ***** */}
+          {/* ***** Features Section Start ***** */}
+          <Features />
 
-      {/* ***** Trending Section Start ***** */}
-      <Trending />
-      {/* ***** Trending Section End ***** */}
-      {/* ***** Most Played Section Start ***** */}
-      <MostPlayed />
-      {/* ***** Most Played Section End ***** */}
+          <IntroduceHomePage />
+          <BookCarousel />
 
-      {/* ***** Categories Section Start ***** */}
-      <Categories />
-      {/* ***** Categories Section End ***** */}
+          <MostPlayed />
+          {/* ***** Most Played Section End ***** */}
 
-      {/* ***** CTA Section Start ***** */}
-      <CTA />
-      {/* ***** CTA Section End ***** */}
+          {/* ***** Categories Section Start ***** */}
+          <Categories />
+          {/* ***** Categories Section End ***** */}
 
-      {/* ***** Footer Start ***** */}
-      <Footer />
-      {/* ***** Footer End ***** */}
-      </>
-    }
+          {/* ***** CTA Section Start ***** */}
+          <CTA />
+          {/* ***** CTA Section End ***** */}
+
+          {/* ***** Footer Start ***** */}
+          <Footer />
+          {/* ***** Footer End ***** */}
+        </>
+      )}
     </div>
   );
 }
