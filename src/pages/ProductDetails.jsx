@@ -1,33 +1,49 @@
 import React from "react";
-import Preloader from "../components/Preloader";
+import { useParams } from "react-router-dom";
 import Header from "../components/Header";
-import MainBanner from "../components/MainBanner";
-import Features from "../components/Features";
-import Trending from "../components/Trending";
-import MostPlayed from "../components/MostPlayed";
-import Categories from "../components/Categories";
-import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 
+const sampleBooks = [
+  {
+    id: 1,
+    title: "Đắc Nhân Tâm",
+    category: "Tâm lý",
+    price: 95000,
+    oldPrice: 120000,
+    image: "public/assets/images/tam_li_hoc_tinh_yeu.jpg",
+    description:
+      "Một cuốn sách kinh điển giúp cải thiện kỹ năng giao tiếp, quản lý cảm xúc và tạo ảnh hưởng tích cực trong cuộc sống.",
+  },
+  {
+    id: 2,
+    title: "7 Thói Quen Hiệu Quả",
+    category: "Kỹ năng sống",
+    price: 110000,
+    oldPrice: 135000,
+    image: "public/assets/images/mindset.jpg",
+    description:
+      "Cuốn sách hướng dẫn phát triển bản thân bền vững dựa trên 7 nguyên tắc cốt lõi được đúc kết từ thực tiễn.",
+  },
+];
+
 function ProductDetails() {
+  const { id } = useParams();
+  const book = sampleBooks.find((b) => b.id === parseInt(id));
+
+  if (!book)
+    return <div className="container mt-5">Không tìm thấy sách.</div>;
+
   return (
     <div>
-      {/* ***** Preloader Start ***** */}
-      {/* <Preloader /> */}
-      {/* ***** Preloader End ***** */}
-
-      {/* ***** Header Area Start ***** */}
       <Header currentPage="productDetail" />
-      {/* ***** Header Area End ***** */}
 
       <div className="page-heading header-text">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <h3>Modern Warfare® II</h3>
+              <h3>{book.title}</h3>
               <span className="breadcrumb">
-                <a href="#">Home</a> &gt; <a href="#">Shop</a> &gt; Assasin
-                Creed
+                <a href="/">Trang chủ</a> &gt; <a href="/shop">Cửa hàng</a> &gt; {book.title}
               </span>
             </div>
           </div>
@@ -37,22 +53,21 @@ function ProductDetails() {
       <div className="single-product section">
         <div className="container">
           <div className="row">
+            {/* Ảnh */}
             <div className="col-lg-6">
               <div className="left-image">
-                <img src="assets/images/single-game.jpg" alt="Single Game" />
+                <img src={book.image} alt={book.title} />
               </div>
             </div>
+
+            {/* Thông tin */}
             <div className="col-lg-6 align-self-center">
-              <h4>Call of Duty®: Modern Warfare® II</h4>
+              <h4>{book.title}</h4>
               <span className="price">
-                <em>$28</em> $22
+                <em>{book.oldPrice.toLocaleString()}đ</em> {book.price.toLocaleString()}đ
               </span>
-              <p>
-                LUGX Gaming Template is based on the latest Bootstrap 5 CSS
-                framework. This template is provided by TemplateMo and it is
-                suitable for your gaming shop ecommerce websites. Feel free to
-                use this for any purpose. Thank you.
-              </p>
+              <p>{book.description}</p>
+
               <form id="qty" action="#">
                 <input
                   type="number"
@@ -60,25 +75,21 @@ function ProductDetails() {
                   id="quantity"
                   aria-describedby="quantity"
                   placeholder="1"
+                  min="1"
+                  defaultValue="1"
                 />
                 <button type="submit">
-                  <i className="fa fa-shopping-bag"></i> ADD TO CART
+                  <i className="fa fa-shopping-bag"></i> Thêm vào giỏ hàng
                 </button>
               </form>
+
               <ul>
                 <li>
-                  <span>Game ID:</span> COD MMII
-                </li>
-                <li>
-                  <span>Genre:</span> <a href="#">Action</a>,{" "}
-                  <a href="#">Team</a>, <a href="#">Single</a>
-                </li>
-                <li>
-                  <span>Multi-tags:</span> <a href="#">War</a>,{" "}
-                  <a href="#">Battle</a>, <a href="#">Royal</a>
+                  <span>Thể loại:</span> {book.category}
                 </li>
               </ul>
             </div>
+
             <div className="col-lg-12">
               <div className="sep"></div>
             </div>
@@ -86,6 +97,7 @@ function ProductDetails() {
         </div>
       </div>
 
+      {/* Mô tả & đánh giá */}
       <div className="more-info">
         <div className="container">
           <div className="row">
@@ -105,7 +117,7 @@ function ProductDetails() {
                           aria-controls="description"
                           aria-selected="true"
                         >
-                          Description
+                          Mô tả
                         </button>
                       </li>
                       <li className="nav-item" role="presentation">
@@ -119,7 +131,7 @@ function ProductDetails() {
                           aria-controls="reviews"
                           aria-selected="false"
                         >
-                          Reviews (3)
+                          Đánh giá (3)
                         </button>
                       </li>
                     </ul>
@@ -131,27 +143,7 @@ function ProductDetails() {
                       role="tabpanel"
                       aria-labelledby="description-tab"
                     >
-                      <p>
-                        You can search for more templates on Google Search using
-                        keywords such as "templatemo digital marketing",
-                        "templatemo one-page", "templatemo gallery", etc. Please
-                        tell your friends about our website. If you need a
-                        variety of HTML templates, you may visit Tooplate and
-                        Too CSS websites.
-                      </p>
-                      <br />
-                      <p>
-                        Coloring book air plant shabby chic, crucifix normcore
-                        raclette cred swag artisan activated charcoal. PBR&B
-                        fanny pack pok pok gentrify truffaut kitsch helvetica
-                        jean shorts edison bulb poutine next level humblebrag la
-                        croix adaptogen. Hashtag poke literally locavore, beard
-                        marfa kogi bruh artisan succulents seitan tonx waistcoat
-                        chambray taxidermy. Same cred meggings 3 wolf moon lomo
-                        irony cray hell of bitters asymmetrical gluten-free art
-                        party raw denim chillwave tousled try-hard succulents
-                        street art.
-                      </p>
+                      <p>{book.description}</p>
                     </div>
                     <div
                       className="tab-pane fade"
@@ -159,105 +151,9 @@ function ProductDetails() {
                       role="tabpanel"
                       aria-labelledby="reviews-tab"
                     >
-                      <p>
-                        Coloring book air plant shabby chic, crucifix normcore
-                        raclette cred swag artisan activated charcoal. PBR&B
-                        fanny pack pok pok gentrify truffaut kitsch helvetica
-                        jean shorts edison bulb poutine next level humblebrag la
-                        croix adaptogen. <br />
-                        <br />
-                        Hashtag poke literally locavore, beard marfa kogi bruh
-                        artisan succulents seitan tonx waistcoat chambray
-                        taxidermy. Same cred meggings 3 wolf moon lomo irony
-                        cray hell of bitters asymmetrical gluten-free art party
-                        raw denim chillwave tousled try-hard succulents street
-                        art.
-                      </p>
+                      <p>Chưa có đánh giá nào. Hãy là người đầu tiên!</p>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="section categories related-games">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="section-heading">
-                <h6>Action</h6>
-                <h2>Related Games</h2>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="main-button">
-                <a href="shop.html">View All</a>
-              </div>
-            </div>
-            <div className="col-lg col-sm-6 col-xs-12">
-              <div className="item">
-                <h4>Action</h4>
-                <div className="thumb">
-                  <a href="product-details.html">
-                    <img
-                      src="assets/images/categories-01.jpg"
-                      alt="Category 1"
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg col-sm-6 col-xs-12">
-              <div className="item">
-                <h4>Action</h4>
-                <div className="thumb">
-                  <a href="product-details.html">
-                    <img
-                      src="assets/images/categories-05.jpg"
-                      alt="Category 2"
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg col-sm-6 col-xs-12">
-              <div className="item">
-                <h4>Action</h4>
-                <div className="thumb">
-                  <a href="product-details.html">
-                    <img
-                      src="assets/images/categories-03.jpg"
-                      alt="Category 3"
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg col-sm-6 col-xs-12">
-              <div className="item">
-                <h4>Action</h4>
-                <div className="thumb">
-                  <a href="product-details.html">
-                    <img
-                      src="assets/images/categories-04.jpg"
-                      alt="Category 4"
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg col-sm-6 col-xs-12">
-              <div className="item">
-                <h4>Action</h4>
-                <div className="thumb">
-                  <a href="product-details.html">
-                    <img
-                      src="assets/images/categories-05.jpg"
-                      alt="Category 5"
-                    />
-                  </a>
                 </div>
               </div>
             </div>
