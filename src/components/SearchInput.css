@@ -8,6 +8,7 @@
   max-width: 300px; /* Set a maximum width for the container */
   margin-left: auto; /* Center the container horizontally */
   margin-right: auto; /* Center the container horizontally */
+  top: 5px;
 }
 
 .search-input form {
@@ -17,6 +18,7 @@
 }
 
 .search-input-field {
+  top: 10px;
   margin-left: 40px; /* Move input field more to the right */
   padding: 8px 12px;
   font-size: 16px;

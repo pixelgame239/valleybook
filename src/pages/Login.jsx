@@ -2,18 +2,27 @@ import React, { useState } from "react";
 import "./loginpage.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import supabase from "../backend/initSupabase";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       alert("Vui lòng nhập email và mật khẩu.");
       return;
     }
-    console.log("Email:", email, "Password:", password);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+    if (error) {
+      alert("Sai tài khoản hoặc mật khẩu");
+    } else {
+      navigate("/");
+    }
   };
 
   const handleForgotPassword = (e) => {
@@ -56,7 +65,14 @@ const LoginPage = () => {
           <button type="submit" className="login-button">
             Đăng Nhập
           </button>
-
+          <button className="google-login-button">
+            <img
+              className="google-logo"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"
+              alt="Google"
+            ></img>
+            Đăng nhập với Google
+          </button>
           <div className="extra-options">
             <a href="/signUp" className="sign-up">
               Đăng ký

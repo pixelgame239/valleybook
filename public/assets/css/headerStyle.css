@@ -1,0 +1,18 @@
+.cart-button{
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: white;
+    margin-right: 10px;
+    font-size: large;
+}
+.cart-button:hover{
+    background-color: rgb(188, 186, 186);
+}
+.profile-button{
+    border: 1px solid white;
+    border-radius: 100%;
+    background-color: transparent;
+    color: white;
+    width: 40px;
+}

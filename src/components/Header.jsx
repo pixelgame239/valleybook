@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "./SearchInput";
+import supabase from "../backend/initSupabase";
+import bookLogo from "../../public/assets/images/bookLogo.png";
+import "../../public/assets/css/headerStyle.css";
+import { AuthContext } from "./AuthContext";
+
 function Header({ currentPage }) {
+  const { loggedIn } = useContext(AuthContext);
+  const handleSignOut = async () =>{
+    const { error } = await supabase.auth.signOut();
+  }
+  // useEffect(() => {
+  //   const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+  //     if (event === 'SIGNED_IN') {
+  //       setLoggedIn(true);
+  //     }
+  //     if (event === "SIGNED_OUT") {
+  //       setLoggedIn(false);
+  //     }
+  //   }
+  //   );
+  //   return ()=> authListener.subscription.unsubscribe();
+  // }, [])
   return (
     <header className="header-area header-sticky">
       <div className="container">
@@ -12,7 +33,7 @@ function Header({ currentPage }) {
               <Link to="/" className="logo">
                 <img
                   src="assets/images/bookLogo.png"
-                  alt="LUGX Gaming Logo"
+                  alt="Valley Book logo"
                   style={{ width: "128px", marginTop: "-30px" }} // Added marginTop to move it up
                 />
               </Link>
@@ -25,7 +46,7 @@ function Header({ currentPage }) {
                     to="/"
                     className={currentPage === "home" ? "active" : ""}
                   >
-                    Home
+                    Trang chủ
                   </Link>
                 </li>
                 <li>
@@ -33,7 +54,7 @@ function Header({ currentPage }) {
                     to="/shop"
                     className={currentPage === "shop" ? "active" : ""}
                   >
-                    Our Shop
+                    Cửa hàng
                   </Link>
                 </li>
                 <li>
@@ -41,7 +62,7 @@ function Header({ currentPage }) {
                     to="/productDetail"
                     className={currentPage === "productDetail" ? "active" : ""}
                   >
-                    Product Details
+                    Sự kiện
                   </Link>
                 </li>
                 <li>
@@ -49,16 +70,32 @@ function Header({ currentPage }) {
                     to="/contact"
                     className={currentPage === "contact" ? "active" : ""}
                   >
-                    Contact Us
+                    Liên hệ
                   </Link>
                 </li>
                 <li>
+                {loggedIn ? (
+                  <div className="logged-in-buttons">
+                    {/* Cart Button (Logo) */}
+                    <button className={'cart-button'}>
+                      <i className="fa fa-shopping-cart"></i> 
+                    </button>
+                    <button className={'profile-button'} onClick={handleSignOut}>
+                      <img 
+                        src={bookLogo}
+                        alt="Profile"
+                        className="profile-avatar"
+                      />
+                    </button>
+                  </div>
+                ) : (
                   <Link
                     to="/signIn"
                     className={currentPage === "signIn" ? "active" : ""}
                   >
-                    Sign In
+                    Đăng nhập
                   </Link>
+                )}
                 </li>
               </ul>
               <a className="menu-trigger">
