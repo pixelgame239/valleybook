@@ -20,6 +20,7 @@ function App() {
         <Route path="/signIn" element={<LoginPage />} />
         <Route path="/signUp" element={<Signup></Signup>}></Route>
         <Route path="/policy" element={<Policy />} />
+
       </Routes>
     </BrowserRouter>
     </AuthProvider>

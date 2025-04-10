@@ -52,8 +52,9 @@ function Contact() {
             <div className="col-lg-6 align-self-center">
               <div className="left-text">
                 <div className="section-heading">
-                  <h6>Liên hệ với chúng tôi qua</h6>
+                  <h6>Liên hệ với chúng tôi tôi</h6>
                   <h2>Xin chào!</h2>
+
                 </div>
                 <p>
                 Về ValleyBook:
@@ -70,8 +71,7 @@ function Contact() {
                     <span>Số điện thoại</span> +84 667 253 649
                   </li>
                   <li>
-                    <span>Email</span> valleybook@contact.com
-                  </li>
+                    <span>Email</span> valleybook@contact.com                  </li>
                 </ul>
               </div>
             </div>
