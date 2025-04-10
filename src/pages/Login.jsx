@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./loginpage.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import supabase from "../backend/initSupabase";
 
 const LoginPage = () => {
@@ -17,10 +18,9 @@ const LoginPage = () => {
       email: email,
       password: password,
     });
-    if(error){
+    if (error) {
       alert("Sai tài khoản hoặc mật khẩu");
-    }
-    else{
+    } else {
       navigate("/");
     }
   };
@@ -29,9 +29,9 @@ const LoginPage = () => {
     e.preventDefault();
     alert("Chức năng quên mật khẩu chưa được triển khai.");
   };
-  const handleSignup=()=>{
+  const handleSignup = () => {
     navigate("/signUp");
-  }
+  };
   return (
     <div className="login-page">
       <div className="login-container">
@@ -65,19 +65,21 @@ const LoginPage = () => {
           <button type="submit" className="login-button">
             Đăng Nhập
           </button>
-          <button className="google-login-button"><img className="google-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="Google"></img>Đăng nhập với Google</button>
+          <button className="google-login-button">
+            <img
+              className="google-logo"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"
+              alt="Google"
+            ></img>
+            Đăng nhập với Google
+          </button>
           <div className="extra-options">
-            <a href="/signUp"
-            className="sign-up">
+            <a href="/signUp" className="sign-up">
               Đăng ký
             </a>
-            <a
-              href="#"
-              className="forgot-password"
-              onClick={handleForgotPassword}
-            >
+            <Link to="/forgetPassword" className="forgot-password">
               Quên mật khẩu?
-            </a>
+            </Link>
           </div>
         </form>
       </div>

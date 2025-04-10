@@ -57,18 +57,20 @@ function Contact() {
 
                 </div>
                 <p>
-                Về ValleyBook:
-                ValleyBook là trang web bán sách trực tuyến, nơi bạn có thể dễ dàng tìm thấy những cuốn sách hay,
-                 phù hợp với mọi độ tuổi và sở thích. Chúng tôi mang đến cho bạn trải nghiệm mua sắm tiện lợi,
-                  giá cả hợp lý và dịch vụ tận tâm. Dù bạn là người yêu tiểu thuyết, đam mê khám phá tri thức hay đang
-                   tìm kiếm tài liệu học tập, ValleyBook luôn đồng hành cùng bạn trên hành trình tri thức.
+                  Valley Book là trang web bán sách trực tuyến, nơi bạn có thể
+                  dễ dàng tìm thấy những cuốn sách hay, phù hợp với mọi độ tuổi
+                  và sở thích. Chúng tôi mang đến cho bạn trải nghiệm mua sắm
+                  tiện lợi, giá cả hợp lý và dịch vụ tận tâm. Dù bạn là người
+                  yêu tiểu thuyết, đam mê khám phá tri thức hay đang tìm kiếm
+                  tài liệu học tập, Valley Book luôn đồng hành cùng bạn trên
+                  hành trình tri thức.
                 </p>
                 <ul>
                   <li>
                     <span>Địa chỉ</span> Nam Từ Liêm, Hà Nội
                   </li>
                   <li>
-                    <span>Số điện thoại</span> +84 667 253 649
+                    <span>Số điện thoại</span> 0869003199
                   </li>
                   <li>
                     <span>Email</span> valleybook@contact.com                  </li>
