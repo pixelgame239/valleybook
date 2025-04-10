@@ -29,7 +29,7 @@ function Shop() {
             <div className="col-lg-12">
               <h3>Sách</h3>
               <span className="breadcrumb">
-                <a href="#">Home</a> &gt; Our Shop
+                <a href="">Trang chủ</a> &gt; Cửa hàng
               </span>
             </div>
           </div>
@@ -37,7 +37,7 @@ function Shop() {
       </div>
 
       <div className="section trending">
-        <div className="container">
+        <div style={{margin:"25px"}}>
           <div className="row">
             {/* Sidebar Filter: 1/3 width */}
             <div className="col-lg-3">
@@ -47,9 +47,7 @@ function Shop() {
             {/* Shop Items: 2/3 width */}
             <div className="col-lg-9">
               <div className="row trending-box">
-                {/* Example Item */}
                 <GridBook></GridBook>
-                {/* Add more items here */}
               </div>
 
               {/* Pagination */}
