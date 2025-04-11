@@ -31,7 +31,7 @@ export default function GridBook() {
       {books.map((book) => (
         <div
           key={book.id}
-          onClick={() => handleCardClick(book.id)}
+          onClick={() => handleCardClick(book.book_id)}
           className="book-card"
         >
           <img
