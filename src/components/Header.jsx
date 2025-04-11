@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import supabase from "../backend/initSupabase";
-import bookLogo from "../../public/assets/images/bookLogo.png";
 import "../../public/assets/css/headerStyle.css";
 import { AuthContext } from "./AuthContext";
+import bookLogo from "../../public/assets/images/bookLogo.png";
 
 function Header({ currentPage }) {
   const { loggedIn } = useContext(AuthContext);
@@ -32,7 +32,7 @@ function Header({ currentPage }) {
               {/* ***** Logo Start ***** */}
               <Link to="/" className="logo">
                 <img
-                  src="assets/images/bookLogo.png"
+                  src={bookLogo}
                   alt="Valley Book logo"
                   style={{ width: "128px", marginTop: "-30px" }} // Added marginTop to move it up
                 />

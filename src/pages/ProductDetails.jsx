@@ -1,49 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
-const sampleBooks = [
-  {
-    id: 1,
-    title: "Đắc Nhân Tâm",
-    category: "Tâm lý",
-    price: 95000,
-    oldPrice: 120000,
-    image: "public/assets/images/tam_li_hoc_tinh_yeu.jpg",
-    description:
-      "Một cuốn sách kinh điển giúp cải thiện kỹ năng giao tiếp, quản lý cảm xúc và tạo ảnh hưởng tích cực trong cuộc sống.",
-  },
-  {
-    id: 2,
-    title: "7 Thói Quen Hiệu Quả",
-    category: "Kỹ năng sống",
-    price: 110000,
-    oldPrice: 135000,
-    image: "public/assets/images/mindset.jpg",
-    description:
-      "Cuốn sách hướng dẫn phát triển bản thân bền vững dựa trên 7 nguyên tắc cốt lõi được đúc kết từ thực tiễn.",
-  },
-];
+import { getSingleBookData } from "../backend/getBookData";
+import Preloader from "../components/Preloader";
 
 function ProductDetails() {
   const { id } = useParams();
-  const book = sampleBooks.find((b) => b.id === parseInt(id));
+  const [book, setBook] = useState();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+      const fetchBookDetail = async () =>{
+        let bookData= await getSingleBookData(id);
+        console.log(bookData);
+        if(bookData){
+          setBook(bookData);
+          setLoading(false);
+        }
+      };
+      fetchBookDetail();
+    }, []);
 
   if (!book)
     return <div className="container mt-5">Không tìm thấy sách.</div>;
-
   return (
     <div>
-      <Header currentPage="productDetail" />
-
+      {loading?<Preloader></Preloader>:<>
+        <Header></Header>
       <div className="page-heading header-text">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <h3>{book.title}</h3>
+              <h3>{book.book_name}</h3>
               <span className="breadcrumb">
-                <a href="/">Trang chủ</a> &gt; <a href="/shop">Cửa hàng</a> &gt; {book.title}
+                <a href="/">Trang chủ</a> &gt; <a href="/shop">Cửa hàng</a> &gt; {book.book_name}
               </span>
             </div>
           </div>
@@ -56,17 +46,19 @@ function ProductDetails() {
             {/* Ảnh */}
             <div className="col-lg-6">
               <div className="left-image">
-                <img src={book.image} alt={book.title} />
+                <img src={book.url_image} alt={book.book_name} />
               </div>
             </div>
 
             {/* Thông tin */}
             <div className="col-lg-6 align-self-center">
-              <h4>{book.title}</h4>
+              <h4>{book.book_name}</h4>
               <span className="price">
-                <em>{book.oldPrice.toLocaleString()}đ</em> {book.price.toLocaleString()}đ
+                Giá: 
+                {(book.price - (book.price*(book.discount/100))).toLocaleString()}đ
+                {book.discount?<em>{book.price.toLocaleString()}đ</em>:null}
               </span>
-              <p>{book.description}</p>
+              <p style={{textAlign:"justify"}}>{book.description}</p>
 
               <form id="qty" action="#">
                 <input
@@ -109,20 +101,6 @@ function ProductDetails() {
                       <li className="nav-item" role="presentation">
                         <button
                           className="nav-link active"
-                          id="description-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#description"
-                          type="button"
-                          role="tab"
-                          aria-controls="description"
-                          aria-selected="true"
-                        >
-                          Mô tả
-                        </button>
-                      </li>
-                      <li className="nav-item" role="presentation">
-                        <button
-                          className="nav-link"
                           id="reviews-tab"
                           data-bs-toggle="tab"
                           data-bs-target="#reviews"
@@ -139,14 +117,6 @@ function ProductDetails() {
                   <div className="tab-content" id="myTabContent">
                     <div
                       className="tab-pane fade show active"
-                      id="description"
-                      role="tabpanel"
-                      aria-labelledby="description-tab"
-                    >
-                      <p>{book.description}</p>
-                    </div>
-                    <div
-                      className="tab-pane fade"
                       id="reviews"
                       role="tabpanel"
                       aria-labelledby="reviews-tab"
@@ -160,8 +130,8 @@ function ProductDetails() {
           </div>
         </div>
       </div>
-
       <Footer />
+      </>}
     </div>
   );
 }

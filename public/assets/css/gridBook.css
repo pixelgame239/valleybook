@@ -46,6 +46,7 @@
   .book-price {
     margin-top: 0.5rem;
     font-size: 1.3rem;
+    width: 100%;
   }
   
   .old-price {
@@ -58,4 +59,12 @@
     color: #dc3545;
     font-weight: bold;
   }
-  
+  .discount-tag{
+    width: fit-content;
+    height: fit-content;
+    background-color: red;
+    color: white;
+    border: #dc3545;
+    display: inline-block;
+    margin-left: 5px;
+  }

@@ -58,10 +58,10 @@ function Shop() {
                       <a href="#">&lt;</a>
                     </li>
                     <li>
-                      <a href="#">1</a>
+                      <a className="is_active" href="#">1</a>
                     </li>
                     <li>
-                      <a className="is_active" href="#">
+                      <a href="#">
                         2
                       </a>
                     </li>

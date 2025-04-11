@@ -4,6 +4,7 @@ import "../../public/assets/css/gridBook.css";
 import supabase from "../backend/initSupabase";
 import { getBookData } from "../backend/getBookData";
 import Preloader from "./Preloader";
+import DiscountTag from "./DiscountTag";
 
 export default function GridBook() {
   const [books, setBooks] = useState([]);
@@ -11,11 +12,11 @@ export default function GridBook() {
   const navigate = useNavigate();
 
   const handleCardClick = (bookId) => {
-    navigate(`/product/${bookId}`); 
+    navigate(`/shop/${bookId}`); 
   };
   useEffect(() => {
     const fetchBooks = async () =>{
-      let bookData= await getBookData();
+      let bookData= await getBookData(1);
       console.log(bookData);
       if(bookData.length>0){
         setBooks(bookData);
@@ -30,11 +31,12 @@ export default function GridBook() {
     <div className="book-list-container">
       {books.map((book) => (
         <div
-          key={book.id}
+          key={book.book_id}
           onClick={() => handleCardClick(book.book_id)}
           className="book-card"
         >
           <img
+            loading="lazy"
             src={book.url_image}
             alt={book.book_name}
             className="book-image"
@@ -43,12 +45,13 @@ export default function GridBook() {
             <h5 className="book-title">{book.book_name}</h5>
             <div className="book-category">{book.quantity}</div>
             <div className="book-price">
-              <span className="old-price">
+              {book.discount?<span className="old-price">
                 {book.price.toLocaleString()}đ
-              </span>
+              </span>:null}
               <span className="new-price">
                 {(book.price-(book.price*book.discount/100)).toLocaleString()}đ
               </span>
+              {book.discount?<DiscountTag discountAmount={book.discount}></DiscountTag>:null}
             </div>
           </div>
         </div>
