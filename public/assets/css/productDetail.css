@@ -1,0 +1,6 @@
+.book-genre{
+    color: rgb(0, 74, 148);
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 20px;
+}

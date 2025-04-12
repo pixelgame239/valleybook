@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { getSingleBookData } from "../backend/getBookData";
 import Preloader from "../components/Preloader";
+import "../../public/assets/css/productDetail.css";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -77,7 +78,9 @@ function ProductDetails() {
 
               <ul>
                 <li>
-                  <span>Thể loại:</span> {book.category}
+                  <span>Thể loại:</span>
+                  {book.book_genres.map((singleGenre,index)=>(
+                  <p key={index} className="book-genre">{singleGenre.genre_name}</p>))}
                 </li>
               </ul>
             </div>
