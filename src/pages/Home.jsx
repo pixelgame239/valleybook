@@ -15,7 +15,7 @@ import Component from "../components/Book"; // Book component (temporary)
 import supabase from "../backend/initSupabase";
 import { useState, useEffect } from "react";
 import IntroduceHomePage from "../components/IntroduceHomePage";
-import BookCarousel from "../components/BookCarousel";
+
 function Home() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -54,9 +54,6 @@ function Home() {
           {/* ***** Features Section Start ***** */}
           <Features />
 
-          <IntroduceHomePage />
-          <BookCarousel />
-
           <MostPlayed />
           {/* ***** Most Played Section End ***** */}
 
@@ -67,7 +64,7 @@ function Home() {
           {/* ***** CTA Section Start ***** */}
           <CTA />
           {/* ***** CTA Section End ***** */}
-
+          <IntroduceHomePage />
           {/* ***** Footer Start ***** */}
           <Footer />
           {/* ***** Footer End ***** */}

@@ -1,55 +1,119 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+const suggestedBooks = [
+  {
+    id: 1,
+    title: "Muôn Kiếp Nhân Sinh",
+    description: "Cuốn sách khám phá luân hồi và nghiệp báo trong cuộc sống.",
+    image:
+      "https://bizweb.dktcdn.net/thumb/large/100/545/202/themes/987910/assets/season_coll_2_img.png?1744182537967",
+  },
+  {
+    id: 2,
+    title: "Bí Mật Tư Duy Triệu Phú",
+    description: "Khám phá tư duy thành công và làm giàu bền vững.",
+    image:
+      "https://bizweb.dktcdn.net/thumb/large/100/545/202/themes/987910/assets/season_coll_4_img.png?1744182537967",
+  },
+  {
+    id: 3,
+    title: "Tôi Tài Giỏi, Bạn Cũng Thế!",
+    description: "Truyền cảm hứng học tập và phát triển bản thân cho giới trẻ.",
+    image:
+      "https://bizweb.dktcdn.net/thumb/large/100/545/202/themes/987910/assets/season_coll_6_img.png?1744182537967",
+  },
+];
 
 function CTA() {
   return (
-    <div className="section cta">
+    <div className="section cta py-5" style={{ backgroundColor: "#fef8f3" }}>
       <div className="container">
         <div className="row">
+          {/* Cột trái */}
           <div className="col-lg-5">
             <div className="shop">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="section-heading">
-                    <h6>Our Shop</h6>
-                    <h2>
-                      Go Pre-Order Buy & Get Best <em>Prices</em> For You!
-                    </h2>
-                  </div>
-                  <p>
-                    Lorem ipsum dolor consectetur adipiscing, sed do eiusmod
-                    tempor incididunt.
-                  </p>
-                  <div className="main-button">
-                    <a href="shop.html">Shop Now</a>
-                  </div>
-                </div>
+              <div className="section-heading mb-3">
+                <h6 style={{ color: "#ff6600" }}>Gợi ý cho bạn</h6>
+                <h2 style={{ fontSize: "2rem" }}>
+                  📖 Sách hay nên đọc <em>trong tháng này</em>
+                </h2>
+              </div>
+              <p style={{ fontSize: "1.1rem", color: "#555" }}>
+                Khám phá những cuốn sách đang được cộng đồng yêu thích và đánh
+                giá cao. Hãy dành thời gian cho bản thân với những trang sách ý
+                nghĩa.
+              </p>
+              <div className="main-button mt-3">
+                <Link to="/shop">Khám phá thêm</Link>
               </div>
             </div>
           </div>
-          <div className="col-lg-5 offset-lg-2 align-self-end">
-            <div className="subscribe">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="section-heading">
-                    <h6>NEWSLETTER</h6>
-                    <h2>
-                      Get Up To $100 Off Just Buy <em>Subscribe</em> Newsletter!
-                    </h2>
+
+          {/* Cột phải: Danh sách sách đề xuất */}
+          <div className="col-lg-6 offset-lg-1">
+            <div className="row">
+              {suggestedBooks.map((book) => (
+                <div
+                  className="col-lg-12 mb-4"
+                  key={book.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    backgroundColor: "#ffffff",
+                    borderRadius: "12px",
+                    padding: "16px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                  }}
+                >
+                  <div
+                    className="book-image"
+                    style={{
+                      width: "100px",
+                      height: "130px",
+                      marginRight: "20px",
+                      backgroundColor: "#f1f1f1",
+                      borderRadius: "10px",
+                      overflow: "hidden",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img
+                      src={book.image}
+                      alt={book.title}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
                   </div>
-                  <div className="search-input">
-                    <form id="subscribe" action="#">
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        placeholder="Your email..."
-                      />
-                      <button type="submit">Subscribe Now</button>
-                    </form>
+                  <div className="book-info">
+                    <h5 style={{ fontSize: "1.2rem", marginBottom: "8px" }}>
+                      {book.title}
+                    </h5>
+                    <p
+                      style={{
+                        fontSize: "1rem",
+                        color: "#444",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {book.description}
+                    </p>
+                    <Link
+                      to={`/product/${book.id}`}
+                      style={{
+                        fontSize: "0.95rem",
+                        color: "#ff6600",
+                        fontWeight: "500",
+                      }}
+                    >
+                      Xem chi tiết →
+                    </Link>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
