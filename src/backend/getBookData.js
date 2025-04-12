@@ -9,7 +9,7 @@ export async function getBookData(pageNumber) {
     return data;
 }
 export async function getSingleBookData(book_id){
-    const { data, error } = await supabase.from("books").select().eq("book_id", book_id).single();
+    const { data, error } = await supabase.from("books").select(`*, book_genres(genre_name)`).eq("book_id", book_id).single();
     if(error){
         console.error("Unexpected error: ", error);
         return null;

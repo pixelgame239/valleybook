@@ -1,106 +1,29 @@
-.filter-sidebar {
-    width: 250px;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .filter-group {
-    margin-bottom: 20px;
-  }
-  
-  .filter-title {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .filter-content {
-    margin-left: 10px;
-  }
-  
-  .parent-category {
-    display: block;
-    margin: 5px 0;
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .parent-category h3 {
-    font-size: 14px;
-    margin: 0;
-  }
-  
-  .current-category {
-    margin: 5px 0 5px 10px;
-  }
-  
-  .current-category a h3 {
-    font-size: 14px;
-    color: #333;
-    margin: 0;
-  }
-  
-  .category-list,
-  .price-list,
-  .supplier-list,
-  .filter-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .category-list li,
-  .price-list li,
-  .supplier-list li,
-  .filter-list li {
-    margin: 5px 0;
-  }
-  
-  .category-list a,
-  .price-list a,
-  .supplier-list a,
-  .filter-list a {
-    text-decoration: none;
-    color: #0066c0;
-    cursor: pointer;
-  }
-  
-  .category-list a h3,
-  .filter-list a {
-    font-size: 14px;
-    margin: 0;
-  }
-  
-  .category-list a:hover,
-  .price-list a:hover,
-  .supplier-list a:hover,
-  .filter-list a:hover {
-    text-decoration: underline;
-  }
-  
-  .selected h3 {
-    font-weight: bold;
-    color: #000;
-    font-size: 14px;
-    margin: 0;
-  }
-  
-  .more-less {
-    margin-top: 10px;
-  }
-  
-  .show-more,
-  .show-less {
-    background: none;
-    border: none;
-    color: #0066c0;
-    cursor: pointer;
-    padding: 0;
-    font-size: 14px;
-  }
-  
-  .show-more:hover,
-  .show-less:hover {
-    text-decoration: underline;
-  }
+.filter-sidebar input[type="checkbox"] {
+  padding: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.sort-title{
+  font-size: 23px;
+  font-weight: bold;
+  color:royalblue;
+  background-color: aliceblue;
+  padding: 8px;
+  border-bottom: 2px solid rgb(0, 110, 207);
+}
+.genre-tile{
+  background-color: aliceblue;
+  transition: all 0.2s ease;
+}
+.genre-tile:hover{
+  background-color: rgb(0, 113, 183);
+  color: white;
+}
+.label-title{
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+}
