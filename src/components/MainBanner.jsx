@@ -1,11 +1,12 @@
 import React from "react";
+import banner from "../../public/assets/images/banner-image.jpg";
 
 function MainBanner() {
   return (
     <div className="main-banner py-5" style={{ backgroundColor: "#fff9f2" }}>
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-lg-6">
+          <div className="col-lg-3">
             <div className="caption header-text">
               <h6 style={{ color: "#ff6b6b", fontWeight: "bold" }}>
                 <br />
@@ -38,13 +39,13 @@ function MainBanner() {
               <p></p>
             </div>
           </div>
-          <div className="col-lg-5 offset-lg-1">
+          <div className="col-lg-8 offset-lg-1">
             <div
               className="right-image position-relative"
               style={{ textAlign: "center" }}
             >
               <img
-                src="https://bizweb.dktcdn.net/100/545/202/themes/987910/assets/bento_grid_item_4_img.jpg?1744182537967"
+                src={banner}
                 alt="Banner"
                 style={{
                   width: "100%",
@@ -56,7 +57,7 @@ function MainBanner() {
                 className="offer"
                 style={{
                   position: "absolute",
-                  top: "20px",
+                  top: "40px",
                   right: "20px",
                   backgroundColor: "#ff6b6b",
                   color: "#fff",
