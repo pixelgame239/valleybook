@@ -1,35 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../public/assets/css/gridBook.css";
 import supabase from "../backend/initSupabase";
 import { getBookData } from "../backend/getBookData";
 import Preloader from "./Preloader";
 import DiscountTag from "./DiscountTag";
+import { BookContext } from "../backend/BookContext";
 
 export default function GridBook() {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {bookList} = useContext(BookContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleCardClick = (bookId) => {
     navigate(`/shop/${bookId}`); 
   };
-  useEffect(() => {
-    const fetchBooks = async () =>{
-      let bookData= await getBookData(1);
-      console.log(bookData);
-      if(bookData.length>0){
-        setBooks(bookData);
-        setLoading(false);
-      }
-    };
-    fetchBooks();
-  }, []);
+  // useEffect(() => {
+  //   const fetchBooks = async () =>{
+  //     let bookData= await getBookData(1);
+  //     console.log(bookData);
+  //     if(bookData.length>0){
+  //       setBooks(bookData);
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchBooks();
+  // }, []);
   return (
     <div className="grid-book">
       {loading?<Preloader></Preloader>:( <>
     <div className="book-list-container">
-      {books.map((book) => (
+      {bookList.map((book) => (
         <div
           key={book.book_id}
           onClick={() => handleCardClick(book.book_id)}

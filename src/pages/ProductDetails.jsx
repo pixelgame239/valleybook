@@ -21,9 +21,6 @@ function ProductDetails() {
       };
       fetchBookDetail();
     }, []);
-
-  if (!book)
-    return <div className="container mt-5">Không tìm thấy sách.</div>;
   return (
     <div>
       {loading?<Preloader></Preloader>:<>
