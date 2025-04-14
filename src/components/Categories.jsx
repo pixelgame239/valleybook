@@ -1,5 +1,5 @@
 import React from "react";
-
+import HeadingHomepage from "./HeadingHomepage";
 const categories = [
   {
     name: "Tâm lý học",
@@ -34,8 +34,9 @@ function Categories() {
       <div className="row mb-4">
         <div className="col-12 text-center">
           <div className="section-heading">
-            <h6 style={{ color: "#ff6b6b", fontWeight: "bold" }}>Thể loại</h6>
-            <h2 style={{ fontWeight: "700" }}>Khám phá theo thể loại sách</h2>
+            <br />
+            <br />
+            <HeadingHomepage title="Thể loại" />
           </div>
         </div>
       </div>
@@ -45,6 +46,7 @@ function Categories() {
             <div
               className="item text-center"
               style={{
+                height: "100%",
                 backgroundColor: "#ffffff",
                 borderRadius: "10px",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.06)",

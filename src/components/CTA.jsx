@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import HeadingHomepage from "./HeadingHomepage";
 const suggestedBooks = [
   {
     id: 1,
@@ -27,14 +27,21 @@ const suggestedBooks = [
 
 function CTA() {
   return (
-    <div className="section cta py-5" style={{ backgroundColor: "#fef8f3" }}>
+    <div className="section cta" style={{ backgroundColor: "#fef8f3" }}>
       <div className="container">
+        <HeadingHomepage title="Gợi ý cho bạn" />
+
         <div className="row">
           {/* Cột trái */}
-          <div className="col-lg-5">
+          <div
+            className="col-lg-5 d-flex align-items-center"
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <div className="shop">
               <div className="section-heading mb-3">
-                <h6 style={{ color: "#ff6600" }}>Gợi ý cho bạn</h6>
                 <h2 style={{ fontSize: "2rem" }}>
                   📖 Sách hay nên đọc <em>trong tháng này</em>
                 </h2>
@@ -61,8 +68,8 @@ function CTA() {
                     display: "flex",
                     alignItems: "center",
                     backgroundColor: "#ffffff",
+                    marginTop: "10px",
                     borderRadius: "12px",
-                    padding: "16px",
                     boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                   }}
                 >

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import HeadingHomepage from "./HeadingHomepage";
 const bestSellingBooks = [
   {
     id: 1,
@@ -63,23 +63,12 @@ function MostPlayed() {
   };
 
   return (
-    <div
-      className="section most-played py-5"
-      style={{ backgroundColor: "#fff9f2" }}
-    >
+    <div className="section most-played" style={{ backgroundColor: "#fff9f2" }}>
       <div className="container">
         <div className="row align-items-center mb-4">
-          <div className="col-lg-6">
-            <h2 style={{ fontWeight: "700", fontSize: "2rem" }}>
-              📚 Sách Bán Chạy
-            </h2>
-          </div>
-          <div className="col-lg-6 text-end">
-            <div className="main-button">
-              <Link to="/shop">Xem tất cả</Link>
-            </div>
-          </div>
+          <div className="col-lg-6"></div>
         </div>
+        <HeadingHomepage title="Sách bán chạy" />
 
         <Slider {...settings}>
           {bestSellingBooks.map((book) => (
@@ -104,10 +93,9 @@ function MostPlayed() {
                       src={book.image}
                       alt={book.title}
                       style={{
-                        height: "350px",
-                        width: "100%",
+                        height: "300px", // Reduced height
+                        width: "80%", // Adjusted width to 80% of its container
                         objectFit: "cover",
-                        borderRadius: "8px",
                       }}
                     />
                   </Link>

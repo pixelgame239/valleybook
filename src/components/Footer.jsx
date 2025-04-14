@@ -115,7 +115,9 @@ export default function Footer() {
                       style={{ boxSizing: "border-box" }}
                     />{" "}
                   </svg>
-                  <p
+                  <a
+                    href="https://maps.app.goo.gl/5QGpCUbRbiyqGUYaA"
+                    target="_blank"
                     style={{
                       boxSizing: "border-box",
                       margin: "0px",
@@ -128,10 +130,11 @@ export default function Footer() {
                       fontSize: "14px",
                       color: "white",
                       fontFamily: "'civil-regular', sans-serif",
+                      textDecoration: "none", // Optional: removes underline
                     }}
                   >
-                    {"Nam Từ Liêm, Hà Nội"}
-                  </p>
+                    Nam Từ Liêm, Hà Nội
+                  </a>
                 </li>
                 <li
                   style={{

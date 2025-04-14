@@ -5,12 +5,24 @@ import supabase from "../backend/initSupabase";
 import "../../public/assets/css/headerStyle.css";
 import { AuthContext } from "./AuthContext";
 import bookLogo from "../../public/assets/images/bookLogo.png";
+import accountLogo from "../../public/assets/images/account.png";
 
 function Header({ currentPage }) {
   const { loggedIn } = useContext(AuthContext);
-  const handleSignOut = async () =>{
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
-  }
+    if (!error) {
+      window.location.href = "/";
+    } else {
+      console.error("Sign out error:", error.message);
+    }
+  };
+
+  const toggleDropdown = () => {
+    setShowDropdown((prev) => !prev);
+  };
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
   //     if (event === 'SIGNED_IN') {
@@ -74,28 +86,41 @@ function Header({ currentPage }) {
                   </Link>
                 </li>
                 <li>
-                {loggedIn ? (
-                  <div className="logged-in-buttons">
-                    {/* Cart Button (Logo) */}
-                    <button className={'cart-button'}>
-                      <i className="fa fa-shopping-cart"></i> 
-                    </button>
-                    <button className={'profile-button'} onClick={handleSignOut}>
-                      <img 
-                        src={bookLogo}
-                        alt="Profile"
-                        className="profile-avatar"
-                      />
-                    </button>
-                  </div>
-                ) : (
-                  <Link
-                    to="/signIn"
-                    className={currentPage === "signIn" ? "active" : ""}
-                  >
-                    Đăng nhập
-                  </Link>
-                )}
+                  {loggedIn ? (
+                    <div className="logged-in-buttons">
+                      {/* Cart Button (Logo) */}
+                      <button className={"cart-button"}>
+                        <i className="fa fa-shopping-cart"></i>
+                      </button>
+
+                      <button
+                        className={"profile-button"}
+                        onClick={handleSignOut}
+                      >
+                        <img
+                          src={accountLogo}
+                          alt="Profile"
+                          className="profile-avatar"
+                        />
+                      </button>
+                    </div>
+                  ) : (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <button
+                        className="cart-button"
+                        style={{ marginRight: "10px" }}
+                      >
+                        <i className="fa fa-shopping-cart"></i>
+                      </button>
+                      <Link
+                        to="/signIn"
+                        className={currentPage === "signIn" ? "active" : ""}
+                        style={{ textDecoration: "none", color: "white" }}
+                      >
+                        Đăng nhập
+                      </Link>
+                    </div>
+                  )}
                 </li>
               </ul>
               <a className="menu-trigger">
