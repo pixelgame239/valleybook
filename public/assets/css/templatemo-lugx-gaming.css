@@ -970,9 +970,9 @@ Most Played Style
   overflow: hidden;
 }
 
-.most-played .item .down-content {
+/* .most-played .item .down-content {
   padding: 20px 15px 40px 15px;
-}
+} */
 
 .most-played .item .down-content span.category {
   font-size: 14px;

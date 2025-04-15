@@ -5,10 +5,18 @@
   color: white;
   margin-right: 15px;
   font-size: large;
+  width: 35px; /* Set the width */
+  height: 35px; /* Set the height to match the width */
+  display: flex;
+  justify-content: center; /* Center the icon */
+  align-items: center; /* Center the icon */
 }
+
 .cart-button:hover {
-  background-color: rgb(188, 186, 186);
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease; /* Smooth hover transition */
 }
+
 .profile-button {
   border: 1px solid white;
   border-radius: 100%;

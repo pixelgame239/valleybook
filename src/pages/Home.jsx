@@ -15,7 +15,7 @@ import Component from "../components/Book"; // Book component (temporary)
 import supabase from "../backend/initSupabase";
 import { useState, useEffect } from "react";
 import IntroduceHomePage from "../components/IntroduceHomePage";
-
+import BestSellerCarousel from "../components/BestSellerCarousel";
 function Home() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -53,8 +53,8 @@ function Home() {
 
           {/* ***** Features Section Start ***** */}
           <Features />
-
-          <MostPlayed />
+          <BestSellerCarousel />
+          {/* <MostPlayed /> */}
           {/* ***** Most Played Section End ***** */}
 
           {/* ***** Categories Section Start ***** */}

@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HeadingHomepage from "./HeadingHomepage";
+
 const bestSellingBooks = [
   {
     id: 1,
@@ -96,6 +97,9 @@ function MostPlayed() {
                         height: "300px", // Reduced height
                         width: "80%", // Adjusted width to 80% of its container
                         objectFit: "cover",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
                     />
                   </Link>
