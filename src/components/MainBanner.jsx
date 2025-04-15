@@ -16,7 +16,7 @@ function MainBanner() {
               </h6>
               <h2 style={{ fontWeight: "700", fontSize: "2rem" }}>
                 Valley Book <br />
-                thung lũng của tri thức.{" "}
+                thung lũng của tri thức
               </h2>
               <p
                 style={{
