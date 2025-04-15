@@ -238,10 +238,10 @@ body {
   transition: all 0.3s;
 }
 
-.main-button a:hover {
+/* .main-button a:hover {
   background-color: #0071f8;
   color: #fff;
-}
+} */
 
 /* 
 ---------------------------------------------
@@ -452,17 +452,22 @@ Header Style
 }
 
 .header-area .main-nav .nav li:last-child a {
-  background-color: #ee626b;
+  /* background-color: #ee626b; */
   text-transform: uppercase;
   font-weight: 500;
 }
 
-.header-area .main-nav .nav li:last-child:hover a {
+/* .header-area .main-nav .nav li:last-child:hover a {
   background-color: #ee626b;
-}
+} */
 
 .header-area .main-nav .nav li:hover a {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Reset background-color khi nằm trong .nav li:hover a */
+.nav li:hover .no-hover-bg {
+  background-color: transparent !important;
 }
 
 .header-area .main-nav .nav li a.active {

@@ -16,6 +16,8 @@ import supabase from "../backend/initSupabase";
 import { useState, useEffect } from "react";
 import IntroduceHomePage from "../components/IntroduceHomePage";
 import BestSellerCarousel from "../components/BestSellerCarousel";
+import CustomerSaying from "../components/CustomerSaying";
+
 function Home() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -60,9 +62,9 @@ function Home() {
           {/* ***** Categories Section Start ***** */}
           <Categories />
           {/* ***** Categories Section End ***** */}
-
+          <CustomerSaying />
           {/* ***** CTA Section Start ***** */}
-          <CTA />
+          {/* <CTA /> */}
           {/* ***** CTA Section End ***** */}
           <IntroduceHomePage />
           {/* ***** Footer Start ***** */}
