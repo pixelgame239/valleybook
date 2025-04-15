@@ -18,15 +18,42 @@ function BestSellerCarousel() {
     fetchBooks();
   }, []);
 
+  // Custom arrows
+  const NextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={`${className} custom-next-arrow`}
+        style={{ ...style, display: "block", right: 0 }}
+        onClick={onClick}
+      >
+        <i className="fa fa-angle-right fa-2x" />
+      </div>
+    );
+  };
+
+  const PrevArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={`${className} custom-prev-arrow`}
+        style={{ ...style, display: "block", left: 0, zIndex: 1 }}
+        onClick={onClick}
+      >
+        <i className="fa fa-angle-left fa-2x" />
+      </div>
+    );
+  };
+
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
     autoplay: true,
-    autoplayspeed: 3000,
-    NextArrow: <NextArrow />,
-    PrevArrow: <PrevArrow />,
+    autoplaySpeed: 3000,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     slidesToScroll: 1,
     responsive: [
       {
@@ -43,50 +70,6 @@ function BestSellerCarousel() {
       },
     ],
   };
-
-  function NextArrow(props) {
-    const { onClick } = props;
-    return (
-      <div
-        className="slick-arrow slick-next"
-        style={{
-          display: "block",
-          right: 0,
-          zIndex: 1,
-          position: "absolute",
-          top: "40%",
-          fontSize: "30px",
-          cursor: "pointer",
-          color: "#000",
-        }}
-        onClick={onClick}
-      >
-        ➡️
-      </div>
-    );
-  }
-
-  function PrevArrow(props) {
-    const { onClick } = props;
-    return (
-      <div
-        className="slick-arrow slick-prev"
-        style={{
-          display: "block",
-          left: 0,
-          zIndex: 1,
-          position: "absolute",
-          top: "40%",
-          fontSize: "30px",
-          cursor: "pointer",
-          color: "#000",
-        }}
-        onClick={onClick}
-      >
-        ⬅️
-      </div>
-    );
-  }
 
   return (
     <div className="my-5">
@@ -109,8 +92,12 @@ function BestSellerCarousel() {
                   <img
                     src={book.url_image || "/placeholder.jpg"}
                     alt={book.book_name}
-                    className="w-75 h-125 object-fit-cover"
-                    style={{ objectFit: "cover" }}
+                    style={{
+                      objectFit: "cover",
+                      width: "200px",
+                      height: "300px",
+                      borderRadius: "5px",
+                    }}
                   />
                 </div>
                 <div className="p-3">
