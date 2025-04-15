@@ -20,10 +20,21 @@ const saveCartItemsToStorage = (items) => {
 
 function ProductDetails() {
   const { id } = useParams();
-  const [book, setBook] = useState(null); // Khởi tạo là null
+  const [book, setBook] = useState();
   const [loading, setLoading] = useState(true);
 const [quantity, setQuantity] = useState(1); // State cho số lượng, mặc định là 1
 const [addedMessage, setAddedMessage] = useState(""); // State cho thông báo
+useEffect(() => {
+  const fetchBookDetail = async () =>{
+    let bookData= await getSingleBookData(id);
+    console.log(bookData);
+    if(bookData){
+      setBook(bookData);
+      setLoading(false);
+    }
+  };
+  fetchBookDetail();
+}, []);
 const handleAddToCart = () => {
   if (!book) return; // Chưa có thông tin sách thì không làm gì
 
@@ -61,19 +72,9 @@ const handleQuantityChange = (event) => {
     setQuantity(1); // Nếu nhập không hợp lệ thì đặt lại là 1
   }
 };
-  useEffect(() => {
-      const fetchBookDetail = async () =>{
-        let bookData= await getSingleBookData(id);
-        console.log(bookData);
-        if(bookData){
-          setBook(bookData);
-          setLoading(false);
-        }
-      };
-      fetchBookDetail();
-    }, []);
   return (
     <div>
+      {loading?<Preloader></Preloader>:<>
       <Header />
       <div className="page-heading header-text">
         <div className="container">
@@ -218,6 +219,8 @@ const handleQuantityChange = (event) => {
         </div>
       </div>
       <Footer />
+      </>
+    }
     </div>
   );
 }
