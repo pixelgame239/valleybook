@@ -11,6 +11,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 import { AuthProvider } from "./components/AuthContext";
 import NewBook from "./pages/NewBook";
 import Cart from "./pages/Cart";
+import { BookProvider } from "./backend/BookContext";
 function App() {
   return (
     <AuthProvider>
@@ -18,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/shop" element={<Shop />} />
+          <Route path="/shop" element={<BookProvider><Shop /></BookProvider>} />
           <Route path="/shop/:id" element={<ProductDetails />} />
           <Route path="/signIn" element={<LoginPage />} />
           <Route path="/signUp" element={<Signup></Signup>}></Route>
