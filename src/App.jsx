@@ -10,6 +10,7 @@ import Policy from "./pages/Policy";
 import ForgetPassword from "./pages/ForgetPassword";
 import { AuthProvider } from "./components/AuthContext";
 import NewBook from "./pages/NewBook";
+import Cart from "./pages/Cart";
 function App() {
   return (
     <AuthProvider>
@@ -24,6 +25,7 @@ function App() {
           <Route path="/policy" element={<Policy />} />
           <Route path="/forgetPassword" element={<ForgetPassword />} />
           <Route path="/newBook" element={<NewBook />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
