@@ -9,7 +9,6 @@ import accountLogo from "../../public/assets/images/account.png";
 
 function Header({ currentPage }) {
   const { loggedIn } = useContext(AuthContext);
-<<<<<<< HEAD
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleSignOut = async () => {
@@ -23,10 +22,6 @@ function Header({ currentPage }) {
 
   const toggleDropdown = () => {
     setShowDropdown((prev) => !prev);
-=======
-  const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
->>>>>>> 932512b527ccfa1517283fd95b0fd04f6f555983
   };
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
@@ -97,27 +92,18 @@ function Header({ currentPage }) {
                       <button className={"cart-button"}>
                         <i className="fa fa-shopping-cart"></i>
                       </button>
-<<<<<<< HEAD
-
-=======
->>>>>>> 932512b527ccfa1517283fd95b0fd04f6f555983
                       <button
                         className={"profile-button"}
                         onClick={handleSignOut}
                       >
                         <img
-<<<<<<< HEAD
                           src={accountLogo}
-=======
-                          src={bookLogo}
->>>>>>> 932512b527ccfa1517283fd95b0fd04f6f555983
                           alt="Profile"
                           className="profile-avatar"
                         />
                       </button>
                     </div>
                   ) : (
-<<<<<<< HEAD
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <button
                         className="cart-button"
@@ -133,14 +119,6 @@ function Header({ currentPage }) {
                         Đăng nhập
                       </Link>
                     </div>
-=======
-                    <Link
-                      to="/signIn"
-                      className={currentPage === "signIn" ? "active" : ""}
-                    >
-                      Đăng nhập
-                    </Link>
->>>>>>> 932512b527ccfa1517283fd95b0fd04f6f555983
                   )}
                 </li>
               </ul>
