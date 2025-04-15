@@ -17,100 +17,61 @@ const saveCartItemsToStorage = (items) => {
   // Thay localStorage bằng sessionStorage
   sessionStorage.setItem("cartItems", JSON.stringify(items));
 };
-// --- End Helper Functions ---
 
 function ProductDetails() {
   const { id } = useParams();
   const [book, setBook] = useState(null); // Khởi tạo là null
   const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1); // State cho số lượng, mặc định là 1
-  const [addedMessage, setAddedMessage] = useState(""); // State cho thông báo
+const [quantity, setQuantity] = useState(1); // State cho số lượng, mặc định là 1
+const [addedMessage, setAddedMessage] = useState(""); // State cho thông báo
+const handleAddToCart = () => {
+  if (!book) return; // Chưa có thông tin sách thì không làm gì
 
-  useEffect(() => {
-    const fetchBookDetail = async () => {
-      try {
-        let bookData = await getSingleBookData(id);
-        console.log("Fetched book data:", bookData);
-        if (bookData) {
-          setBook(bookData);
-        } else {
-          console.error("Book data not found for id:", id);
-          // Có thể set state lỗi hoặc chuyển hướng người dùng
-        }
-      } catch (error) {
-        console.error("Error fetching book details:", error);
-        // Xử lý lỗi (ví dụ: hiển thị thông báo lỗi)
-      } finally {
-        setLoading(false);
-      }
+  const cartItems = getCartItemsFromStorage();
+  const existingItemIndex = cartItems.findIndex(
+    (item) => item.book_id === book.book_id
+  );
+
+  if (existingItemIndex > -1) {
+    // Sản phẩm đã có trong giỏ, cập nhật số lượng
+    cartItems[existingItemIndex].quantity += quantity;
+  } else {
+    // Sản phẩm chưa có, thêm mới
+    const newItem = {
+      ...book, // Sao chép tất cả thông tin sách
+      id: book.book_id, // Đảm bảo có thuộc tính 'id' nếu Cart.jsx dùng 'id'
+      quantity: quantity,
     };
-    fetchBookDetail();
-  }, [id]); // Thêm id vào dependency array
+    cartItems.push(newItem);
+  }
 
-  // Hàm xử lý thêm vào giỏ hàng
-  const handleAddToCart = () => {
-    if (!book) return; // Chưa có thông tin sách thì không làm gì
+  saveCartItemsToStorage(cartItems);
+  console.log("Updated cart items:", cartItems);
+  setAddedMessage(`Đã thêm ${quantity} "${book.book_name}" vào giỏ hàng!`); // Đặt thông báo
+  // Xóa thông báo sau vài giây
+  setTimeout(() => setAddedMessage(""), 3000);
+};
 
-    const cartItems = getCartItemsFromStorage();
-    const existingItemIndex = cartItems.findIndex(
-      (item) => item.book_id === book.book_id
-    );
-
-    if (existingItemIndex > -1) {
-      // Sản phẩm đã có trong giỏ, cập nhật số lượng
-      cartItems[existingItemIndex].quantity += quantity;
-    } else {
-      // Sản phẩm chưa có, thêm mới
-      const newItem = {
-        ...book, // Sao chép tất cả thông tin sách
-        id: book.book_id, // Đảm bảo có thuộc tính 'id' nếu Cart.jsx dùng 'id'
-        quantity: quantity,
+// Xử lý thay đổi số lượng input
+const handleQuantityChange = (event) => {
+  const value = parseInt(event.target.value, 10);
+  if (!isNaN(value) && value > 0) {
+    setQuantity(value);
+  } else {
+    setQuantity(1); // Nếu nhập không hợp lệ thì đặt lại là 1
+  }
+};
+  useEffect(() => {
+      const fetchBookDetail = async () =>{
+        let bookData= await getSingleBookData(id);
+        console.log(bookData);
+        if(bookData){
+          setBook(bookData);
+          setLoading(false);
+        }
       };
-      cartItems.push(newItem);
-    }
-
-    saveCartItemsToStorage(cartItems);
-    console.log("Updated cart items:", cartItems);
-    setAddedMessage(`Đã thêm ${quantity} "${book.book_name}" vào giỏ hàng!`); // Đặt thông báo
-    // Xóa thông báo sau vài giây
-    setTimeout(() => setAddedMessage(""), 3000);
-  };
-
-  // Xử lý thay đổi số lượng input
-  const handleQuantityChange = (event) => {
-    const value = parseInt(event.target.value, 10);
-    if (!isNaN(value) && value > 0) {
-      setQuantity(value);
-    } else {
-      setQuantity(1); // Nếu nhập không hợp lệ thì đặt lại là 1
-    }
-  };
-
-  // --- Render Logic ---
-  if (loading) {
-    return <Preloader />;
-  }
-
-  if (!book) {
-    return (
-      <div>
-        <Header />
-        <div
-          className="container mt-5"
-          style={{ textAlign: "center", padding: "50px" }}
-        >
-          <h2>Không tìm thấy thông tin sách.</h2>
-          <p>Có thể sách này không tồn tại hoặc đã bị xóa.</p>
-          <a href="/shop" className="orange-button">
-            Quay lại cửa hàng
-          </a>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  // Đã có thông tin sách, render chi tiết
+      fetchBookDetail();
+    }, []);
   return (
     <div>
       <Header />
