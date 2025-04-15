@@ -8,9 +8,9 @@ import bookLogo from "../../public/assets/images/bookLogo.png";
 
 function Header({ currentPage }) {
   const { loggedIn } = useContext(AuthContext);
-  const handleSignOut = async () =>{
+  const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
-  }
+  };
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
   //     if (event === 'SIGNED_IN') {
@@ -59,8 +59,8 @@ function Header({ currentPage }) {
                 </li>
                 <li>
                   <Link
-                    to="/productDetail"
-                    className={currentPage === "productDetail" ? "active" : ""}
+                    to="/cart"
+                    className={currentPage === "cart" ? "active" : ""}
                   >
                     Sự kiện
                   </Link>
@@ -74,28 +74,31 @@ function Header({ currentPage }) {
                   </Link>
                 </li>
                 <li>
-                {loggedIn ? (
-                  <div className="logged-in-buttons">
-                    {/* Cart Button (Logo) */}
-                    <button className={'cart-button'}>
-                      <i className="fa fa-shopping-cart"></i> 
-                    </button>
-                    <button className={'profile-button'} onClick={handleSignOut}>
-                      <img 
-                        src={bookLogo}
-                        alt="Profile"
-                        className="profile-avatar"
-                      />
-                    </button>
-                  </div>
-                ) : (
-                  <Link
-                    to="/signIn"
-                    className={currentPage === "signIn" ? "active" : ""}
-                  >
-                    Đăng nhập
-                  </Link>
-                )}
+                  {loggedIn ? (
+                    <div className="logged-in-buttons">
+                      {/* Cart Button (Logo) */}
+                      <button className={"cart-button"}>
+                        <i className="fa fa-shopping-cart"></i>
+                      </button>
+                      <button
+                        className={"profile-button"}
+                        onClick={handleSignOut}
+                      >
+                        <img
+                          src={bookLogo}
+                          alt="Profile"
+                          className="profile-avatar"
+                        />
+                      </button>
+                    </div>
+                  ) : (
+                    <Link
+                      to="/signIn"
+                      className={currentPage === "signIn" ? "active" : ""}
+                    >
+                      Đăng nhập
+                    </Link>
+                  )}
                 </li>
               </ul>
               <a className="menu-trigger">

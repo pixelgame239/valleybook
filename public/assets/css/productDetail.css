@@ -1,6 +1,61 @@
-.book-genre{
-    color: rgb(0, 74, 148);
-    cursor: pointer;
-    display: inline-block;
-    margin-right: 20px;
+.book-genre {
+  color: rgb(0, 74, 148);
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 20px;
+}
+/* Ví dụ CSS cho orange-button (điều chỉnh màu sắc, padding cho khớp template) */
+.orange-button {
+  display: inline-block; /* Quan trọng cho button */
+  background-color: #ee626b; /* Màu cam/hồng đặc trưng của template */
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500; /* Hoặc 600 tùy template */
+  height: 46px; /* Chiều cao nút */
+  line-height: 46px; /* Căn giữa text theo chiều dọc */
+  padding: 0px 25px; /* Padding trái phải */
+  border-radius: 23px; /* Bo góc tròn */
+  border: none; /* Bỏ viền mặc định */
+  text-transform: capitalize; /* Hoặc uppercase tùy template */
+  transition: all 0.3s;
+  cursor: pointer; /* Đảm bảo có con trỏ chuột */
+  text-decoration: none; /* Bỏ gạch chân nếu là thẻ <a> */
+}
+
+.orange-button:hover {
+  background-color: #2685b8; /* Màu đậm hơn khi hover */
+  color: #fff;
+}
+
+/* Điều chỉnh khoảng cách nếu cần */
+.quantity-add-cart .orange-button {
+  margin-left: 10px; /* Tạo khoảng cách với ô nhập số lượng */
+}
+
+/* Có thể cần style thêm cho icon bên trong nút */
+.orange-button i {
+  margin-right: 5px; /* Khoảng cách giữa icon và text */
+}
+
+/* Style cho ô nhập số lượng cho khớp hơn */
+.quantity-input {
+  height: 46px;
+  max-width: 70px; /* Giới hạn chiều rộng */
+  text-align: center;
+  border: 1px solid #eee;
+  border-radius: 23px; /* Bo góc giống nút */
+  padding: 0 10px;
+}
+
+.quantity-add-cart {
+  display: flex; /* Căn chỉnh input và button trên cùng hàng */
+  align-items: center;
+  margin-top: 20px; /* Khoảng cách với phần mô tả bên trên */
+  margin-bottom: 15px; /* Khoảng cách với thông báo hoặc danh sách bên dưới */
+}
+
+.added-message {
+  margin-top: 10px;
+  color: green;
+  font-weight: bold;
 }
