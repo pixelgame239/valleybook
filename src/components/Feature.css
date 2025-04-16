@@ -1,22 +1,28 @@
-.features .item {
-  height: 220px; /* hoặc dùng min-height nếu bạn muốn responsive hơn */
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+.features {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px; /* Adjust based on your design */
+}
+
+.row {
+  display: flex;
   justify-content: center;
 }
 
-.features .item .image {
+.item {
+  margin: 15px;
+}
+
+.item .image {
   margin-bottom: 10px;
 }
 
-.features .item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+.item h4 {
+  margin-top: 10px;
 }

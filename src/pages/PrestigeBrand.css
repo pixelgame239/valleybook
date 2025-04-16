@@ -1,0 +1,53 @@
+.prestige-brand .page-heading {
+  background-color: #f7f7f7;
+  padding: 60px 0;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.prestige-brand .page-heading .header-text h3 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+}
+
+.prestige-brand .page-heading .breadcrumb {
+  font-size: 16px;
+  color: #777;
+}
+
+.prestige-brand .page-heading .breadcrumb a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.prestige-brand .page-heading .breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.prestige-brand h4 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.prestige-brand p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555;
+  max-width: 900px;
+  margin: 30px auto;
+  text-align: justify;
+}
+
+@media (max-width: 768px) {
+  .prestige-brand h4 {
+    font-size: 24px;
+  }
+
+  .prestige-brand p {
+    font-size: 16px;
+  }
+}

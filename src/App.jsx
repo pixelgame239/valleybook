@@ -12,6 +12,7 @@ import { AuthProvider } from "./components/AuthContext";
 import NewBook from "./pages/NewBook";
 import Cart from "./pages/Cart";
 import { BookProvider } from "./backend/BookContext";
+import PrestigeBrand from "./pages/PrestigeBrand";
 function App() {
   return (
     <AuthProvider>
@@ -34,6 +35,7 @@ function App() {
           <Route path="/forgetPassword" element={<ForgetPassword />} />
           <Route path="/newBook" element={<NewBook />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/prestigeBrand" element={<PrestigeBrand />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
