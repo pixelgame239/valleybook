@@ -1,0 +1,13 @@
+.flexContainer {
+  display: flex;
+  gap: 30px;
+  height: 450px;
+}
+
+.flexColumn {
+  flex: 1;
+  background-color: #f2f2f2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
+
+  padding: 10px; /* Tuỳ chọn: thêm khoảng đệm bên trong */
+}

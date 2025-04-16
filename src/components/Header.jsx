@@ -87,11 +87,14 @@ function Header({ currentPage }) {
                 </li>
                 <li>
                   {loggedIn ? (
-                    <div className="logged-in-buttons">
+                    <div className="logged-in-buttons d-flex justify-content-center">
                       {/* Cart Button (Logo) */}
-                      <button className={"cart-button"}>
-                        <i className="fa fa-shopping-cart"></i>
-                      </button>
+                      <Link to="/cart" className="no-hover-bg">
+                        <button className="cart-button">
+                          <i className="fa fa-shopping-cart"></i>
+                        </button>
+                      </Link>
+
                       <button
                         className={"profile-button"}
                         onClick={handleSignOut}
@@ -133,5 +136,4 @@ function Header({ currentPage }) {
     </header>
   );
 }
-
 export default Header;
