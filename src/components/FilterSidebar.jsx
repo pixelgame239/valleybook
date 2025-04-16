@@ -3,21 +3,53 @@ import "../../public/assets/css/FilterSidebar.css";
 import { getGenres } from "../backend/getGenres";
 import Preloader from "./Preloader";
 import { BookContext } from "../backend/BookContext";
+import { filterBook, getBookData, getNumsBook } from "../backend/getBookData";
 
 export default function FilterSidebar() {
   const [loading, setLoading] = useState(false);
-  const { genres } = useContext(BookContext);
+  const { genres, setBookList, setCurrentPage, setPageCount, bookList } = useContext(BookContext);
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState({});
-  const handleGenreChange = (genre_name) =>{
-    if(selectedGenres.includes(genre_name)){
-      setSelectedGenres((prev)=>prev.filter(keepGenre => keepGenre!==genre_name));
+  const [selectedPrice, setSelectedPrice] = useState([]);
+  const handleGenreChange = async (genre_name) => {
+    setLoading(true);
+    let updatedGenres;
+    if (selectedGenres.includes(genre_name)) {
+      updatedGenres = selectedGenres.filter((g) => g !== genre_name);
+    } else {
+      updatedGenres = [...selectedGenres, genre_name];
+    }
+  
+    setSelectedGenres(updatedGenres);
+    setCurrentPage(1);
+    if(updatedGenres.length===0){
+       let bookData= await getBookData();
+       if(bookData){
+        setBookList(bookData);
+        setPageCount(getNumsBook(bookData));
+       }
+       setLoading(false);
     }
     else{
-      setSelectedGenres((prev)=>[...prev, genre_name]);
+      const bookFilterData = await filterBook(updatedGenres, 1);
+      if (bookFilterData) {
+        setBookList(bookFilterData);
+        setPageCount(getNumsBook(bookFilterData));
+      }  
+      setLoading(false);
     }
-    console.log(selectedGenres);
+  };
+  const handleClearFilter=async ()=>{
+    setLoading(true);
+    setSelectedGenres([]);
+    let bookData = await getBookData();
+    if(bookData){
+      setBookList(bookData);
+      let numPages = getNumsBook(bookData);
+      setPageCount(numPages); 
+    }
+    setLoading(false);
   }
+  
   //  useEffect(() => {
   //     const fetchGenres = async () =>{
   //       let genreData= await getGenres();
@@ -37,7 +69,7 @@ export default function FilterSidebar() {
         {genres.map((genre=>(
             <li className="genre-tile">
               <label className="label-title">
-                <input type="checkbox" onChange={()=>handleGenreChange(genre.genre_name)}></input>
+                <input type="checkbox"  checked={selectedGenres.includes(genre.genre_name)} onChange={async()=>handleGenreChange(genre.genre_name)}></input>
                 {genre.genre_name}
               </label>
           </li>
@@ -71,13 +103,10 @@ export default function FilterSidebar() {
           </label>
         </li>
       </ol>
-      {selectedGenres.length>0?      
-      <div className="apply-filter-button">
-        <p style={{color:"white", fontSize:"20px", fontWeight:"bold"}}>Áp dụng</p>
-      </div>: null}
-      <div className="clear-filter-button">
+      {(selectedGenres.length+selectedPrice.length)>0? 
+      <div className="clear-filter-button" onClick={async()=>{handleClearFilter()}}>
           Huỷ áp dụng
-      </div>
+      </div>:null}
     </div>}
     </>
   );
