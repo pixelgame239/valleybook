@@ -66,7 +66,7 @@ function Home() {
           {/* ***** CTA Section Start ***** */}
           {/* <CTA /> */}
           {/* ***** CTA Section End ***** */}
-          <IntroduceHomePage />
+          {/* <IntroduceHomePage /> */}
           {/* ***** Footer Start ***** */}
           <Footer />
           {/* ***** Footer End ***** */}

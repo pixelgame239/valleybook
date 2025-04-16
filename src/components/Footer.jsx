@@ -437,8 +437,8 @@ export default function Footer() {
                   className="li_menu"
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
-                  <a
-                    href="https://nhanam.vn/chinh-sach"
+                  <Link
+                    to="/policy"
                     title="Chính sách bảo mật"
                     style={{
                       boxSizing: "border-box",
@@ -451,14 +451,15 @@ export default function Footer() {
                     }}
                   >
                     Chính sách bảo mật
-                  </a>
+                  </Link>
                 </li>
+
                 <li
                   className="li_menu"
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
-                  <a
-                    href="https://nhanam.vn/chinh-sach"
+                  <Link
+                    to="/policy"
                     title="Chính sách đổi trả/hoàn tiền"
                     style={{
                       boxSizing: "border-box",
@@ -471,14 +472,14 @@ export default function Footer() {
                     }}
                   >
                     Chính sách đổi trả/hoàn tiền
-                  </a>
+                  </Link>
                 </li>
                 <li
                   className="li_menu"
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
                   <a
-                    href="https://nhanam.vn/chinh-sach"
+                    href="/policy"
                     title="Chính sách thanh toán/ vận chuyển"
                     style={{
                       boxSizing: "border-box",
