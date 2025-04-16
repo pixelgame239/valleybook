@@ -29,7 +29,6 @@ function Shop() {
           if(bookData.length>0){
             setBookList(bookData);
             setPageCount(numPages);
-            console.log(bookList);
             setLoading(false);
           }
             if(genreData){
@@ -77,15 +76,27 @@ function Shop() {
                 <div className="col-lg-12">
                   <ul className="pagination">
                     <li>
-                      <a href="#">&lt;</a>
+                      <a style={{cursor: currentPage===1?"not-allowed":"pointer", backgroundColor: currentPage===1?"gray":null, color:currentPage===1?"black":null}} onClick={()=>{
+                        if(currentPage===1)
+                          return;
+                        else{
+                          handleChangingPage(currentPage-1)
+                        }
+                      }}>&lt;</a>
                     </li>
                     {pages.map(page=>(
                     <li>
-                      <a className={currentPage===page?"is_active":""} onClick={()=>{handleChangingPage(page)}}>{page}</a>
+                      <a style={{cursor:"pointer"}} className={currentPage===page?"is_active":""} onClick={()=>{handleChangingPage(page)}}>{page}</a>
                     </li>
                     ))}
                     <li>
-                      <a href="#">&gt;</a>
+                      <a style={{cursor: currentPage===pageCount?"not-allowed":"pointer", backgroundColor: currentPage===pageCount?"gray":null, color:currentPage===pageCount?"black":null}} onClick={()=>{
+                        if(currentPage===pageCount)
+                          return;
+                        else{
+                          handleChangingPage(currentPage+1)
+                        }
+                      }}>&gt;</a>
                     </li>
                   </ul>
                 </div>
