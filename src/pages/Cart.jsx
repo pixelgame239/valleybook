@@ -1,35 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "../../public/assets/css/Cart.css"; // Tạo file này nếu cần style riêng
+import "../../public/assets/css/Cart.css";
 import { Link } from "react-router-dom";
 
+// --- Helper Functions for Cart ---
 const getCartItemsFromStorage = () => {
-  // Dữ liệu mẫu nếu chưa có gì trong storage (Giữ lại để test)
-  const sampleItems = [
-    {
-      id: 1,
-      book_id: 1,
-      book_name: "Sách Mẫu 1",
-      price: 150000,
-      quantity: 1,
-      url_image: "https://via.placeholder.com/100x150",
-      discount: 10,
-    },
-    {
-      id: 2,
-      book_id: 2,
-      book_name: "Sách Mẫu 2 Dài Tên Hơn Một Chút",
-      price: 220000,
-      quantity: 2,
-      url_image: "https://via.placeholder.com/100x150",
-      discount: 0,
-    },
-  ];
   // Thay localStorage bằng sessionStorage
   const items = sessionStorage.getItem("cartItems");
-  // Ưu tiên lấy từ sessionStorage, nếu không có thì dùng sample
-  return items ? JSON.parse(items) : sampleItems;
+  return items ? JSON.parse(items) : []; // Chỉ lấy từ storage, không dùng sample nữa
 };
 
 const saveCartItemsToStorage = (items) => {
@@ -38,32 +17,45 @@ const saveCartItemsToStorage = (items) => {
 };
 // --- End Helper Functions ---
 
-// --- Dữ liệu Voucher mẫu (Nên lấy từ API hoặc cấu hình) ---
+// --- Dữ liệu Voucher mẫu (Giữ nguyên) ---
 const VALID_VOUCHERS = {
-  GIAM10: { type: "percentage", value: 10 }, // Giảm 10%
-  GIAM50K: { type: "fixed", value: 50000 }, // Giảm 50,000đ
-  FREESHIP: { type: "shipping", value: 0 }, // Logic freeship có thể khác
+  GIAM10: { type: "percentage", value: 10 },
+  GIAM50K: { type: "fixed", value: 50000 },
+  FREESHIP: { type: "shipping", value: 0 },
 };
 // --- End Voucher mẫu ---
 
+// Hàm ánh xạ mã loại sách sang tên tiếng Việt
+const mapBookType = (typeCode) => {
+  switch (typeCode) {
+    case "paper":
+      return "Sách giấy";
+    case "ebook":
+      return "Ebook";
+    case "audio":
+      return "Sách nói";
+    default:
+      return "Không xác định";
+  }
+};
+
 function Cart() {
   const [cartItems, setCartItems] = useState(getCartItemsFromStorage());
-  const [voucherCode, setVoucherCode] = useState(""); // State cho input voucher
-  const [appliedVoucher, setAppliedVoucher] = useState(null); // State lưu voucher đã áp dụng
-  const [discountAmount, setDiscountAmount] = useState(0); // State lưu số tiền giảm giá
-  const [voucherMessage, setVoucherMessage] = useState({ text: "", type: "" }); // State cho thông báo voucher (success/error)
+  const [voucherCode, setVoucherCode] = useState("");
+  const [appliedVoucher, setAppliedVoucher] = useState(null);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [voucherMessage, setVoucherMessage] = useState({ text: "", type: "" });
 
-  // --- Đặt tiêu đề trang ---
   useEffect(() => {
-    document.title = "Giỏ hàng - Valley Book"; // Thay Valley Book bằng tên trang web của bạn
-  }, []);
-  // --- Hết đặt tiêu đề trang ---
+    document.title = "Giỏ hàng - Valley Book";
+    // Tính toán lại giảm giá khi cartItems thay đổi (ví dụ sau khi xóa)
+    applyVoucherDiscount(appliedVoucher, cartItems);
+  }, [cartItems, appliedVoucher]); // Thêm appliedVoucher và cartItems vào dependencies
 
-  // Tính tổng tiền tạm tính (chưa voucher)
+  // --- Tính tổng tiền tạm tính (sử dụng price_at_cart) ---
   const calculateSubtotalForItem = (item) => {
-    const priceAfterDiscount =
-      item.price - (item.price * (item.discount || 0)) / 100;
-    return priceAfterDiscount * item.quantity;
+    // Sử dụng giá đã lưu khi thêm vào giỏ hàng
+    return (item.price_at_cart || 0) * (item.quantity || 1);
   };
 
   const subtotalAmount = cartItems.reduce(
@@ -71,77 +63,74 @@ function Cart() {
     0
   );
 
-  // Hàm cập nhật số lượng (Giữ nguyên)
-  const updateQuantity = (id, newQuantity) => {
+  // Hàm cập nhật số lượng
+  const updateQuantity = (id, type, newQuantity) => {
     if (newQuantity < 1) return;
-    const updatedItems = cartItems.map(
-      (item) =>
-        item.book_id === id ? { ...item, quantity: newQuantity } : item // Dùng book_id để nhất quán
+    const updatedItems = cartItems.map((item) =>
+      item.book_id === id && item.type === type // Phân biệt dựa trên cả id và type
+        ? { ...item, quantity: newQuantity }
+        : item
     );
     setCartItems(updatedItems);
     saveCartItemsToStorage(updatedItems);
-    // Tính toán lại giảm giá nếu số lượng thay đổi
-    applyVoucherDiscount(appliedVoucher, updatedItems);
+    // Tính lại giảm giá đã được tích hợp trong useEffect
   };
 
-  // Hàm xóa sản phẩm (Giữ nguyên)
-  const removeItem = (id) => {
-    const updatedItems = cartItems.filter((item) => item.book_id !== id); // Dùng book_id
+  // Hàm xóa sản phẩm
+  const removeItem = (id, type) => {
+    const updatedItems = cartItems.filter(
+      (item) => !(item.book_id === id && item.type === type) // Phân biệt dựa trên cả id và type
+    );
     setCartItems(updatedItems);
     saveCartItemsToStorage(updatedItems);
-    // Tính toán lại giảm giá nếu số lượng thay đổi
-    applyVoucherDiscount(appliedVoucher, updatedItems);
+    // Tính lại giảm giá đã được tích hợp trong useEffect
   };
 
-  // --- Hàm tính toán và áp dụng giảm giá voucher ---
+  // Hàm tính toán và áp dụng giảm giá voucher (sử dụng subtotalAmount đã tính đúng)
   const applyVoucherDiscount = (voucher, currentCartItems) => {
-    if (!voucher) {
-      setDiscountAmount(0);
-      return 0; // Không có voucher thì không giảm
-    }
-
+    // Tính lại subtotal dựa trên currentCartItems để đảm bảo tính đúng
     const currentSubtotal = currentCartItems.reduce(
       (total, item) => total + calculateSubtotalForItem(item),
       0
     );
-    let calculatedDiscount = 0;
 
+    if (!voucher || currentSubtotal === 0) {
+      setDiscountAmount(0);
+      return 0;
+    }
+
+    let calculatedDiscount = 0;
     if (voucher.type === "percentage") {
       calculatedDiscount = (currentSubtotal * voucher.value) / 100;
     } else if (voucher.type === "fixed") {
       calculatedDiscount = voucher.value;
     }
-    // Thêm các loại voucher khác nếu cần (ví dụ: freeship)
 
-    // Đảm bảo giảm giá không vượt quá tổng tiền
     calculatedDiscount = Math.min(calculatedDiscount, currentSubtotal);
     setDiscountAmount(calculatedDiscount);
-    return calculatedDiscount; // Trả về để dùng ngay nếu cần
+    return calculatedDiscount;
   };
 
-  // --- Hàm xử lý khi nhấn nút Áp dụng Voucher ---
+  // Hàm xử lý khi nhấn nút Áp dụng Voucher
   const handleApplyVoucher = () => {
-    const code = voucherCode.trim().toUpperCase(); // Chuẩn hóa mã
+    const code = voucherCode.trim().toUpperCase();
     const voucher = VALID_VOUCHERS[code];
 
     if (voucher) {
-      // Áp dụng thành công
-      setAppliedVoucher(voucher); // Lưu lại voucher đã áp dụng
-      applyVoucherDiscount(voucher, cartItems); // Tính toán và set state giảm giá
+      setAppliedVoucher(voucher);
+      applyVoucherDiscount(voucher, cartItems); // Cập nhật state giảm giá
       setVoucherMessage({
         text: `Áp dụng thành công voucher "${code}"!`,
         type: "success",
       });
     } else {
-      // Áp dụng thất bại
-      setAppliedVoucher(null); // Xóa voucher cũ (nếu có)
-      setDiscountAmount(0); // Reset giảm giá
+      setAppliedVoucher(null);
+      setDiscountAmount(0);
       setVoucherMessage({
         text: "Mã voucher không hợp lệ hoặc đã hết hạn.",
         type: "error",
       });
     }
-    // Xóa thông báo sau vài giây
     setTimeout(() => setVoucherMessage({ text: "", type: "" }), 4000);
   };
 
@@ -156,7 +145,6 @@ function Cart() {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              {/* Có thể giữ lại H3 này hoặc bỏ đi nếu đã có H1 bên dưới */}
               <h3>Giỏ Hàng Của Bạn</h3>
               <span className="breadcrumb">
                 <Link to="/">Trang chủ</Link> &gt; Giỏ hàng
@@ -166,15 +154,13 @@ function Cart() {
         </div>
       </div>
 
-      <div className="cart-section ">
+      <div className="cart-section">
         <div className="container">
-          {/* --- Thêm Tiêu đề Trang --- */}
           <div className="row">
             <div className="col-lg-12">
-              <h1 className="page-title">Giỏ hàng</h1> {/* Tiêu đề chính */}
+              <h1 className="page-title">Giỏ hàng</h1>
             </div>
           </div>
-          {/* --- Hết Tiêu đề Trang --- */}
 
           {cartItems.length === 0 ? (
             <div className="empty-cart">
@@ -186,13 +172,13 @@ function Cart() {
             </div>
           ) : (
             <div className="row">
-              {/* Danh sách sản phẩm (Giữ nguyên logic render) */}
+              {/* Danh sách sản phẩm */}
               <div className="col-lg-8">
                 <table className="cart-table">
                   <thead>
                     <tr>
                       <th>Sản phẩm</th>
-                      <th>Giá</th>
+                      <th>Đơn giá</th>
                       <th>Số lượng</th>
                       <th>Tạm tính</th>
                       <th></th>
@@ -200,41 +186,61 @@ function Cart() {
                   </thead>
                   <tbody>
                     {cartItems.map((item) => (
-                      // Đảm bảo key là duy nhất, dùng book_id nếu có
-                      <tr key={item.book_id || item.id}>
+                      // --- Sử dụng key kết hợp id và type ---
+                      <tr key={`${item.book_id}-${item.type}`}>
                         <td>
                           <div className="product-info">
                             <img
-                              src={item.url_image}
+                              src={
+                                item.url_image ||
+                                "https://via.placeholder.com/100x150?text=No+Image"
+                              }
                               alt={item.book_name}
                               className="product-image"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src =
+                                  "https://via.placeholder.com/100x150?text=No+Image";
+                              }}
                             />
-                            <span className="product-name">
-                              {item.book_name}
-                            </span>
+                            <div>
+                              {" "}
+                              {/* Thêm div để chứa tên và loại */}
+                              <span className="product-name">
+                                {item.book_name}
+                              </span>
+                              {/* --- Hiển thị loại sách --- */}
+                              <small className="product-type-display">
+                                Loại: {mapBookType(item.type)}
+                              </small>
+                            </div>
                           </div>
                         </td>
                         <td>
                           <span className="product-price">
-                            {(
-                              item.price -
-                              (item.price * (item.discount || 0)) / 100
-                            ).toLocaleString()}
-                            đ
-                            {item.discount > 0 && (
+                            {/* --- Hiển thị giá tại thời điểm thêm vào giỏ --- */}
+                            {(item.price_at_cart || 0).toLocaleString()}đ
+                            {/* Hiển thị giá gốc nếu có giảm giá (dựa trên discount gốc của sách giấy) */}
+                            {item.discount_at_cart > 0 && (
                               <em className="original-price">
-                                {item.price.toLocaleString()}đ
+                                {item.original_price
+                                  ? item.original_price.toLocaleString() + "đ"
+                                  : ""}
                               </em>
                             )}
                           </span>
                         </td>
                         <td>
                           <div className="quantity-control">
-                            {/* Dùng book_id cho các hàm */}
                             <button
                               onClick={() =>
-                                updateQuantity(item.book_id, item.quantity - 1)
+                                updateQuantity(
+                                  item.book_id,
+                                  item.type,
+                                  item.quantity - 1
+                                )
                               }
+                              disabled={item.quantity <= 1} // Vô hiệu hóa nút nếu số lượng là 1
                             >
                               -
                             </button>
@@ -242,11 +248,15 @@ function Cart() {
                               type="number"
                               value={item.quantity}
                               min="1"
-                              readOnly
+                              readOnly // Nên để readOnly vì đã có nút +/-
                             />
                             <button
                               onClick={() =>
-                                updateQuantity(item.book_id, item.quantity + 1)
+                                updateQuantity(
+                                  item.book_id,
+                                  item.type,
+                                  item.quantity + 1
+                                )
                               }
                             >
                               +
@@ -254,12 +264,12 @@ function Cart() {
                           </div>
                         </td>
                         <td>
+                          {/* --- Tạm tính dựa trên giá tại giỏ hàng --- */}
                           {calculateSubtotalForItem(item).toLocaleString()}đ
                         </td>
                         <td>
-                          {/* Dùng book_id cho hàm xóa */}
                           <button
-                            onClick={() => removeItem(item.book_id)}
+                            onClick={() => removeItem(item.book_id, item.type)}
                             className="remove-button"
                           >
                             <i className="fa fa-times"></i>
@@ -271,7 +281,7 @@ function Cart() {
                 </table>
               </div>
 
-              {/* Tóm tắt giỏ hàng (Cập nhật) */}
+              {/* Tóm tắt giỏ hàng */}
               <div className="col-lg-4">
                 <div className="cart-summary">
                   <h4>Tóm tắt đơn hàng</h4>
@@ -280,7 +290,7 @@ function Cart() {
                     <span>{subtotalAmount.toLocaleString()}đ</span>
                   </div>
 
-                  {/* --- Phần Voucher --- */}
+                  {/* Phần Voucher */}
                   <div className="voucher-section">
                     <label htmlFor="voucher">Mã giảm giá:</label>
                     <div className="voucher-input-group">
@@ -298,24 +308,20 @@ function Cart() {
                         Áp dụng
                       </button>
                     </div>
-                    {/* Hiển thị thông báo voucher */}
                     {voucherMessage.text && (
                       <p className={`voucher-message ${voucherMessage.type}`}>
                         {voucherMessage.text}
                       </p>
                     )}
                   </div>
-                  {/* --- Hết Phần Voucher --- */}
+                  {/* Hết Phần Voucher */}
 
-                  {/* Hiển thị giảm giá nếu có */}
                   {discountAmount > 0 && (
                     <div className="summary-row discount-row">
                       <span>Giảm giá voucher:</span>
                       <span>- {discountAmount.toLocaleString()}đ</span>
                     </div>
                   )}
-
-                  {/* Có thể thêm phí vận chuyển ở đây */}
 
                   <div className="summary-row total-row">
                     <span>Tổng cộng:</span>

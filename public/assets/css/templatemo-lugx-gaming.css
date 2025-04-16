@@ -166,13 +166,13 @@ ul {
 }
 
 p {
-  font-size: 14px;
+  font-size: 18px;
   line-height: 28px;
   color: #4a4a4a;
 }
 
 img {
-  width: 100%;
+  width: 85%;
   overflow: hidden;
 }
 
@@ -1381,7 +1381,7 @@ Single Page Style
 }
 
 .single-product .left-image img {
-  border-radius: 25px;
+  border-radius: 20px;
 }
 
 .single-product h4 {
@@ -1405,7 +1405,7 @@ Single Page Style
 }
 
 .single-product p {
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 60px;
 }
 

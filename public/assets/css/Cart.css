@@ -39,7 +39,7 @@
 
 .product-price {
   font-weight: 600;
-  color: #e83e8c; /* Màu giá nổi bật */
+  color: #c92127; /* Màu giá nổi bật */
 }
 .original-price {
   text-decoration: line-through;
@@ -135,7 +135,7 @@
 .orange-button {
   background-color: #ee626b; /* Hoặc màu bạn muốn */
   color: white;
-  padding: 10px 20px;
+  padding: 1px 20px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -237,7 +237,7 @@
   font-weight: bold; /* Tổng tiền đậm */
 }
 .total-row span:last-child {
-  color: #e83e8c; /* Màu tổng tiền nổi bật */
+  color: #c92127; /* Màu tổng tiền nổi bật */
 }
 
 /* --- Empty Cart Icon --- */
@@ -274,4 +274,42 @@
   .page-title {
     font-size: 2em; /* Giảm kích thước tiêu đề */
   }
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Tạo khoảng cách giữa ảnh và khối text */
+}
+
+.product-info > div {
+  display: flex;
+  flex-direction: column; /* Xếp tên sách và loại sách theo chiều dọc */
+  justify-content: center;
+}
+
+.product-name {
+  font-weight: 500;
+  display: block; /* Đảm bảo tên sách chiếm 1 dòng */
+  margin-bottom: 3px; /* Khoảng cách nhỏ giữa tên và loại */
+}
+
+.product-type-display {
+  font-size: 0.85em;
+  color: #6c757d; /* Màu xám */
+  font-style: italic;
+}
+
+/* Điều chỉnh lại nếu cần */
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-left: 8px;
+  font-size: 0.9em;
+  font-weight: normal;
+}
+
+.quantity-control button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
