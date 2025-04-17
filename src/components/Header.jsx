@@ -86,16 +86,14 @@ function Header({ currentPage }) {
                   </Link>
                 </li>
                 <li>
-                  {loggedIn ? (
-                    <div className="logged-in-buttons d-flex justify-content-center">
-                      {/* Cart Button (Logo) */}
-                      <Link to="/cart" className="no-hover-bg">
+                <Link to="/cart" className="no-hover-bg">
                         <button className="cart-button">
                           <i className="fa fa-shopping-cart"></i>
                         </button>
-                      </Link>
-
-                      <button
+                </Link>
+                </li>
+                <li>
+                {loggedIn ?   <button
                         className={"profile-button"}
                         onClick={handleSignOut}
                       >
@@ -105,15 +103,7 @@ function Header({ currentPage }) {
                           className="profile-avatar"
                         />
                       </button>
-                    </div>
-                  ) : (
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <button
-                        className="cart-button"
-                        style={{ marginRight: "10px" }}
-                      >
-                        <i className="fa fa-shopping-cart"></i>
-                      </button>
+                      :
                       <Link
                         to="/signIn"
                         className={currentPage === "signIn" ? "active" : ""}
@@ -121,8 +111,7 @@ function Header({ currentPage }) {
                       >
                         Đăng nhập
                       </Link>
-                    </div>
-                  )}
+                    }
                 </li>
               </ul>
               <a className="menu-trigger">
