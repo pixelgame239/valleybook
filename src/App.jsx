@@ -13,6 +13,8 @@ import NewBook from "./pages/NewBook";
 import Cart from "./pages/Cart";
 import { BookProvider } from "./backend/BookContext";
 import PrestigeBrand from "./pages/PrestigeBrand";
+import QualityProduct from "./pages/QualityProduct";
+import InnovationPage from "./pages/InnovationPage";
 function App() {
   return (
     <AuthProvider>
@@ -36,6 +38,8 @@ function App() {
           <Route path="/newBook" element={<NewBook />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/prestigeBrand" element={<PrestigeBrand />} />
+          <Route path="/qualityProduct" element={<QualityProduct />} />
+          <Route path="/innovationPage" element={<InnovationPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

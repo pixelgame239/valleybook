@@ -3,9 +3,11 @@ import Header from "../components/Header";
 import Preloader from "../components/Preloader";
 import Footer from "../components/Footer";
 import "./Policy.css";
+import { useLocation } from "react-router-dom";
 
 function Policy() {
   const [loading, setLoading] = useState(true);
+  const { hash } = useLocation();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -13,6 +15,13 @@ function Policy() {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  setTimeout(() => {
+    const element = document.getElementById(hash.replace("#", ""));
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, 100); // thêm delay nhẹ
 
   return (
     <>
@@ -35,7 +44,9 @@ function Policy() {
           </div>
 
           <div className="container policy-content my-5">
-            <h4>Chính sách bảo mật thông tin khách hàng</h4>
+            <div className="policy-heading">
+              <h4 id="bao-mat">Chính sách bảo mật thông tin khách hàng</h4>
+            </div>
             <p>
               - Chúng tôi thu thập, lưu trữ và xử lý thông tin của bạn cho quá
               trình mua hàng và cho những thông báo sau này liên quan đến đơn
@@ -77,8 +88,9 @@ function Policy() {
               thị trường. Mọi thông tin chi tiết sẽ được ẩn và chỉ được dùng để
               thống kê. Quý khách có thể từ chối không tham gia bất cứ lúc nào.
             </p>
-
-            <h4>2. Bảo mật</h4>
+            {/* <div className="policy-heading">
+              <h4>Bảo mật</h4>
+            </div>
             <p>
               - Chúng tôi có biện pháp thích hợp về kỹ thuật và an ninh để ngăn
               chặn truy cập trái phép hoặc trái pháp luật hoặc mất mát hoặc tiêu
@@ -104,9 +116,10 @@ function Policy() {
               - Các điều kiện, điều khoản và nội dung của trang web này được
               điều chỉnh bởi luật pháp Việt Nam và tòa án Việt Nam có thẩm quyền
               xem xét.
-            </p>
-
-            <h4>3. Quyền lợi khách hàng</h4>
+            </p> */}
+            <div className="policy-heading">
+              <h4 id="quyen-loi">Quyền lợi khách hàng</h4>
+            </div>
             <p>
               - Quý khách có quyền yêu cầu truy cập vào dữ liệu cá nhân của
               mình, có quyền yêu cầu chúng tôi sửa lại những sai sót trong dữ
@@ -116,10 +129,14 @@ function Policy() {
               - Bất cứ lúc nào bạn cũng có quyền yêu cầu chúng tôi ngưng sử dụng
               dữ liệu cá nhân của bạn cho mục đích tiếp thị.
             </p>
-            <h4>4. Chính sách đổi trả</h4>
+
+            <h4 id="doi-tra"></h4>
+            <div className="policy-heading">
+              <h4>Chính sách đổi trả</h4>
+            </div>
             <h5>1. Các trường hợp chấp nhận đổi trả</h5>
             <p>1.1. Sản phẩm bị lỗi in ấn, nội dung.</p>
-            <p>1.2. Sản phẩm bị giao nhầm lẫn do lỗi từ Dinhtibooks.</p>
+            <p>1.2. Sản phẩm bị giao nhầm lẫn do lỗi từ Valley Book.</p>
             <p>1.3. Sản phẩm nhầm do khách hàng đặt nhầm</p>
 
             <h5>2. Thời gian hoàn trả</h5>
@@ -130,19 +147,21 @@ function Policy() {
 
             <h5>3. Phí hoàn trả</h5>
             <p>
-              3.1. Phí vận chuyển sản phẩm hoàn trả sẽ do Dinhtibooks hỗ trợ
+              3.1. Phí vận chuyển sản phẩm hoàn trả sẽ do Valley Book hỗ trợ
               trong các trường hợp 1.1 và 1.2.
             </p>
             <p>3.2. Trong trường hợp 1.3, khách hàng sẽ chịu phí vận chuyển.</p>
 
             <h5>4. Phương thức hoàn tiền</h5>
             <p>
-              Với những trường hợp do sai sót của Dinhtibooks, khách hàng sẽ
+              Với những trường hợp do sai sót của Valley Book, khách hàng sẽ
               được chuyển khoản ngay sau khi được sự thống nhất giữa hai bên.
             </p>
 
             {/* giao hàng */}
-            <h4>5. Chính sách giao hàng</h4>
+            <div className="policy-heading">
+              <h4 id="van-chuyen">Chính sách giao hàng</h4>
+            </div>
             <h5>1. Cước phí đóng gói và giao hàng</h5>
             <p>Đơn hàng sẽ được miễn phí "Phí đóng gói và giao hàng" khi:</p>
             <ul>
@@ -181,10 +200,6 @@ function Policy() {
               Đặc biệt, nếu khách hàng ở tỉnh thành khác chọn hình thức thanh
               toán chuyển khoản qua ngân hàng hoặc thanh toán qua VNPAY thì với
               đơn hàng lớn hơn 300.000, Quý khách sẽ được tặng phí vận chuyển.
-            </p>
-            <p>
-              Duy nhất từ 1 -31/7/2020, Đinh Tị Books áp dụng chính sách miễn
-              phí vận chuyển với đơn hàng từ 300K.
             </p>
 
             <h5>2. Thời gian giao hàng</h5>

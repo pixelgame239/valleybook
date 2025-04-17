@@ -56,7 +56,7 @@ export default function Footer() {
             >
               <a
                 className="logo"
-                href="https://nhanam.vn/"
+                href="#"
                 style={{
                   boxSizing: "border-box",
                   textDecoration: "none",
@@ -313,7 +313,7 @@ export default function Footer() {
                     Về Valley Book
                   </a>
                 </li>
-                <li
+                {/* <li
                   className="li_menu"
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
@@ -332,8 +332,8 @@ export default function Footer() {
                   >
                     Hệ thống hiệu sách
                   </a>
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className="li_menu"
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
@@ -352,7 +352,7 @@ export default function Footer() {
                   >
                     Hệ thống phát hành
                   </a>
-                </li>
+                </li> */}
 
                 <li
                   className="li_menu"
@@ -438,7 +438,7 @@ export default function Footer() {
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
                   <Link
-                    to="/policy"
+                    to="/policy#bao-mat"
                     title="Chính sách bảo mật"
                     style={{
                       boxSizing: "border-box",
@@ -459,7 +459,7 @@ export default function Footer() {
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
                   <Link
-                    to="/policy"
+                    to="/policy#doi-tra"
                     title="Chính sách đổi trả/hoàn tiền"
                     style={{
                       boxSizing: "border-box",
@@ -479,7 +479,7 @@ export default function Footer() {
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
                   <a
-                    href="/policy"
+                    href="/policy#van-chuyen"
                     title="Chính sách thanh toán/ vận chuyển"
                     style={{
                       boxSizing: "border-box",
@@ -491,7 +491,7 @@ export default function Footer() {
                       lineHeight: "20px",
                     }}
                   >
-                    Chính sách thanh toán/ vận chuyển
+                    Chính sách vận chuyển
                   </a>
                 </li>
               </ul>

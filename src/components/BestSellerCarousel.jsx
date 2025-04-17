@@ -49,7 +49,7 @@ function BestSellerCarousel() {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: 4,
     autoplay: true,
     autoplaySpeed: 3000,
     nextArrow: <NextArrow />,
@@ -74,7 +74,7 @@ function BestSellerCarousel() {
   return (
     <div className="my-5">
       <div className="w-100" style={{ maxWidth: "85%", margin: "0 auto" }}>
-        <HeadingHomepage title={"Best Seller"} />
+        <HeadingHomepage title={"Bestseller"} />
       </div>
 
       <Slider {...settings}>

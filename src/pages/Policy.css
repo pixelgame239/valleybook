@@ -4,10 +4,20 @@
   color: #333;
 }
 
-.policy-content h4 {
+.policy-heading {
+  text-align: center;
+}
+
+.policy-heading h4 {
+  text-align: center;
+  border: 2px solid #007cf8;
+  border-radius: 10px;
   margin-top: 30px;
   font-weight: bold;
-  color: #2c3e50;
+  color: #007cf8;
+  display: inline-block;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
 .policy-content p {

@@ -21,7 +21,7 @@ function Features() {
               </div>
             </Link>
           </div>
-          <div className="col-lg-4 col-md-6">
+          <Link to="/qualityProduct" className="col-lg-4 col-md-6">
             <div className="item">
               <div className="image">
                 <img
@@ -32,8 +32,8 @@ function Features() {
               </div>
               <h4>Sản phẩm chất lượng</h4>
             </div>
-          </div>
-          <div className="col-lg-4 col-md-6">
+          </Link>
+          <Link to="/innovationPage" className="col-lg-4 col-md-6">
             <div className="item">
               <div className="image">
                 <img
@@ -44,7 +44,7 @@ function Features() {
               </div>
               <h4>Sự sáng tạo và đổi mới</h4>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
