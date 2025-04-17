@@ -6,7 +6,7 @@ import DiscountTag from "./DiscountTag";
 import { BookContext } from "../backend/BookContext";
 
 export default function GridBook() {
-  const {bookList} = useContext(BookContext);
+  const {bookList, currentPage} = useContext(BookContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ export default function GridBook() {
     <div className="grid-book">
       {loading?<Preloader></Preloader>:( <>
     <div className="book-list-container">
-      {bookList.map((book) => (
+      {bookList.slice(8*(currentPage-1),currentPage*8).map((book) => (
         <div
           key={book.book_id}
           onClick={() => handleCardClick(book.book_id)}

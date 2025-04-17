@@ -9,26 +9,20 @@ import { getBookData, getNumsBook } from "../backend/getBookData";
 import { getGenres } from "../backend/getGenres";
 
 function Shop() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const { bookList, genres, setBookList, setGenres, pageCount, setPageCount } = useContext(BookContext);
+  const { currentPage, setCurrentPage, bookList, genres, setBookList, setGenres, pageCount, setPageCount } = useContext(BookContext);
   const [loading, setLoading] = useState(true);
   const handleChangingPage=async (pageNumber)=>{
     setLoading(true);
-    let newPageData = await getBookData(pageNumber);
-    if(newPageData.length>0){
-      setBookList(newPageData);
-      setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber);
       setLoading(false);
-    }
   }
     useEffect(() => {
       const fetchShop = async () =>{
-          let bookData= await getBookData(1);
+          let bookData= await getBookData();
           let genreData= await getGenres();
-          let numPages = await getNumsBook();
           if(bookData.length>0){
             setBookList(bookData);
-            setPageCount(numPages);
+            setPageCount(getNumsBook(bookData));
             setLoading(false);
           }
             if(genreData){
@@ -36,6 +30,7 @@ function Shop() {
                 console.log(genres);
                 setLoading(false);
             }
+            setCurrentPage(1);
       };
       fetchShop();
     }, []);

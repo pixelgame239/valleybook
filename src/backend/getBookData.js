@@ -1,7 +1,8 @@
 import supabase from "./initSupabase";
 
-export async function getBookData(pageNumber) {
-    const { data, error } = await supabase.from("books").select().range(8*(pageNumber-1), pageNumber*8-1).order("created_at", {ascending:false});
+export async function getBookData() {
+    // const { data, error } = await supabase.from("books").select().range(8*(pageNumber-1), pageNumber*8-1).order("created_at", {ascending:false});
+    const { data, error } = await supabase.from("books").select().order("created_at", {ascending:false});
     if(error){
         console.error("Unexpected error: ", error);
         return [];
@@ -16,15 +17,21 @@ export async function getSingleBookData(book_id){
     }
     return data;
 }
-export async function filterBook(genreList){
-    const { data, error } = await supabase.from("books").select(`*,book_genres(genre_name)`).in('genre_name', genreList);
-
-}
-export async function getNumsBook(filter) {
-    if(!filter){
-        const { data, error, count } = await supabase.from("books").select("*", {count:"exact"});
-        const numPages = Math.ceil(count/8);
-        return numPages;
+export async function filterBook(genreList, pageNumber){
+    const { data, error } = await supabase
+    .from("books")
+    .select(`*, book_genres!inner(genre_name)`)
+    .in('book_genres.genre_name', genreList)
+    .order("created_at", { ascending: false });
+    // const { data, error } = await supabase.from("books").select(`*,book_genres(genre_name)`).filter('genre_name',"in", genreList).order("created_at", {ascending:false});;
+    if(error){
+        console.error("Unexpected error: ", error);
+        return [];
     }
-    return;
+    return data;
+}
+export function getNumsBook(bookData) {
+    let numPages;
+    numPages = Math.ceil(bookData.length/8);
+    return numPages;
 }
