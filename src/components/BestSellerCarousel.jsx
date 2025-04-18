@@ -46,7 +46,7 @@ function BestSellerCarousel() {
   };
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
@@ -90,6 +90,7 @@ function BestSellerCarousel() {
                   style={{ height: "350px" }}
                 >
                   <img
+                    loading="lazy"
                     src={book.url_image || "/placeholder.jpg"}
                     alt={book.book_name}
                     style={{

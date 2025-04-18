@@ -12,7 +12,7 @@ function Features() {
               <div className="item">
                 <div className="image">
                   <img
-                    src="assets/images/featured-01.png"
+                    src="assets/images/prestige-brand-logo.png"
                     alt="Thương hiệu uy tín"
                     style={{ maxWidth: "44px" }}
                   />

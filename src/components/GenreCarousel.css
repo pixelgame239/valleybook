@@ -1,0 +1,14 @@
+.custom-next-arrow,
+.custom-prev-arrow {
+  cursor: pointer;
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  padding: 8px;
+  transition: transform 0.2s;
+}
+
+.custom-next-arrow:hover,
+.custom-prev-arrow:hover {
+  transform: scale(1.1);
+}
