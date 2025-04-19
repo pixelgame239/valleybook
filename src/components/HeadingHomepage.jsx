@@ -28,7 +28,7 @@ export default function HeadingHomepage({ title }) {
           }}
         >
           <a
-            href="https://nhanam.vn/tac-gia"
+            href="#"
             title="Các tác giả"
             style={{
               boxSizing: "border-box",

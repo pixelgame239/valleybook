@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./GenreCarousel.css";
-
+import HeadingHomepage from "./HeadingHomepage";
 const categories = [
   {
     name: "Thiếu nhi",
@@ -92,7 +92,7 @@ function GenreCarousel() {
   return (
     <div className="my-5">
       <div className="w-100" style={{ maxWidth: "85%", margin: "0 auto" }}>
-        <h3 className="fw-bold text-center mb-4">Thể loại nổi bật</h3>
+        <HeadingHomepage title={"Thể loại nổi bật"} />{" "}
       </div>
 
       <Slider {...settings}>

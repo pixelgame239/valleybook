@@ -9,6 +9,13 @@
   margin-left: auto; /* Center the container horizontally */
   margin-right: auto; /* Center the container horizontally */
   top: 5px;
+  color: white;
+}
+
+.search-input-field:focus {
+  outline: none; /* Tắt hiệu ứng outline mặc định khi focus */
+  border: 1px solid #ccc; /* Đặt lại border theo ý bạn. Thay đổi giá trị nếu border bình thường của bạn khác. */
+  /* Hoặc nếu bạn muốn border hoàn toàn không thay đổi, hãy đảm bảo giá trị border ở đây giống hệt border ở trạng thái bình thường */
 }
 
 .search-input form {
@@ -22,6 +29,7 @@
   margin-left: 40px; /* Move input field more to the right */
   padding: 8px 12px;
   font-size: 16px;
+  color: white;
   border: 1px solid #007bff;
   border-radius: 4px;
   background-color: #007bff;

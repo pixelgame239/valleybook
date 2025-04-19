@@ -20,7 +20,7 @@ function QualityProduct() {
         <Preloader />
       ) : (
         <>
-          <Header currentPage="shop" />
+          <Header />
           <div className="page-heading header-text">
             <div className="container">
               <div className="row">

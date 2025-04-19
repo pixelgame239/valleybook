@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import brand from "../../public/assets/images/prestige-brand-logo.png";
 import "./Feature.css";
 function Features() {
   return (
@@ -12,7 +12,7 @@ function Features() {
               <div className="item">
                 <div className="image">
                   <img
-                    src="assets/images/prestige-brand-logo.png"
+                    src={brand}
                     alt="Thương hiệu uy tín"
                     style={{ maxWidth: "44px" }}
                   />
@@ -25,7 +25,7 @@ function Features() {
             <div className="item">
               <div className="image">
                 <img
-                  src="assets/images/featured-02.png"
+                  src="assets/images/Picture1.png"
                   alt="User More"
                   style={{ maxWidth: "44px" }}
                 />

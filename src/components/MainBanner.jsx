@@ -53,6 +53,7 @@ function MainBanner() {
                 alt="Banner"
                 style={{
                   width: "100%",
+                  marginTop: "40px",
                   borderRadius: "12px",
                   boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
                   transform: "scale(1.2)", // hoặc dùng transform để phóng to
