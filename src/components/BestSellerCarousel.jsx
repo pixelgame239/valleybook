@@ -80,10 +80,7 @@ function BestSellerCarousel() {
       <Slider {...settings}>
         {books.map((book) => (
           <div key={book.book_id} className="p-2">
-            <Link
-              to={`/books/${book.book_id}`}
-              className="text-decoration-none"
-            >
+            <Link to={`/shop/${book.book_id}`} className="text-decoration-none">
               <div className="bg-white rounded shadow-sm hover-shadow-lg transition overflow-hidden">
                 <div
                   className="d-flex justify-content-center align-items-center"

@@ -50,8 +50,6 @@ function Home() {
           <Header currentPage="home" />
           {/* ***** Header Area End ***** */}
           <MainBanner />
-          {/* something */}
-          {/* something */}
 
           {/* ***** Features Section Start ***** */}
           <Features />
