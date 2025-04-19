@@ -7,6 +7,7 @@ import supabase from "../backend/initSupabase";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isGoogle, setIsGoogle] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,9 +30,11 @@ const LoginPage = () => {
     e.preventDefault();
     alert("Chức năng quên mật khẩu chưa được triển khai.");
   };
-  const handleSignup = () => {
-    navigate("/signUp");
-  };
+  const handleGoogleSignIn=async ()=>{
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google"
+    })
+  }
   return (
     <div className="login-page">
       <div className="login-container">
@@ -62,10 +65,10 @@ const LoginPage = () => {
             />
           </div>
 
-          <button type="submit" className="login-button">
+          <button className="login-button" onClick={handleSubmit}>
             Đăng Nhập
           </button>
-          <button className="google-login-button">
+          <button className="google-login-button" onClick={async ()=>handleGoogleSignIn()}>
             <img
               className="google-logo"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"
