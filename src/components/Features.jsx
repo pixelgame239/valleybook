@@ -25,7 +25,7 @@ function Features() {
             <div className="item">
               <div className="image">
                 <img
-                  src="assets/images/featured-02.png"
+                  src="assets/images/quality-product.png"
                   alt="User More"
                   style={{ maxWidth: "44px" }}
                 />

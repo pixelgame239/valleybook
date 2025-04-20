@@ -24,8 +24,7 @@ const Signup = () => {
   const validateForm = () => {
     const errors = {};
     if (!formData.email) errors.email = "Bạn cần nhập đúng email";
-    if (!formData.phoneNumber)
-      errors.phoneNumber = "Vui lòng nhập đúng số điện thoại";
+
     if (!formData.name) errors.name = "Vui lòng nhập họ và tên của bạn";
     if (!formData.password)
       errors.password = "Mật khẩu không đủ điều kiện bảo mật";
@@ -39,18 +38,17 @@ const Signup = () => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
-     
     } else {
       setErrors(validationErrors);
     }
   };
 
-  const handleSignUp = async () =>{
+  const handleSignUp = async () => {
     const { data, error } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.confirmPassword,
-    })
-  }
+    });
+  };
   return (
     <div className="signup-container">
       <h2>Đăng ký</h2>
@@ -117,7 +115,7 @@ const Signup = () => {
           )}
         </div>
 
-        <button className="submit-button" onClick={async()=>handleSignUp()}>
+        <button className="submit-button" onClick={async () => handleSignUp()}>
           Đăng ký
         </button>
       </form>

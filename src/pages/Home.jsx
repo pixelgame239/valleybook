@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import IntroduceHomePage from "../components/IntroduceHomePage";
 import BestSellerCarousel from "../components/BestSellerCarousel";
 import CustomerSaying from "../components/CustomerSaying";
+import ChatBubble from "../components/ChatBubble";
 
 function Home() {
   const [loading, setLoading] = useState(true);
@@ -69,6 +70,8 @@ function Home() {
           {/* <IntroduceHomePage /> */}
           {/* ***** Footer Start ***** */}
           <Footer />
+          <ChatBubble />
+
           {/* ***** Footer End ***** */}
         </>
       )}
