@@ -40,46 +40,28 @@ function QualityProduct() {
               Tại Valley Book, chất lượng sản phẩm luôn là ưu tiên hàng đầu.
               Chúng tôi hiểu rằng, để mang đến những trải nghiệm đọc sách tốt
               nhất cho quý khách hàng, mỗi cuốn sách phải được chăm chút tỉ mỉ
-              từ khâu chọn lọc nội dung, thiết kế hình thức đến quá trình in ấn
               và đóng gói.
             </p>
             <p>
-              <strong>1. Nội dung được tuyển chọn kỹ lưỡng:</strong> Đội ngũ
-              biên tập viên giàu kinh nghiệm của chúng tôi luôn nỗ lực tìm kiếm
-              và lựa chọn những tác phẩm có giá trị nội dung cao, mang tính giáo
-              dục, giải trí và truyền cảm hứng. Chúng tôi hợp tác chặt chẽ với
-              các tác giả uy tín để đảm bảo mỗi trang sách đều chứa đựng thông
-              tin hữu ích và hấp dẫn.
+              <strong>1. Sách mới – nguyên seal:</strong> Mọi cuốn sách đều là
+              hàng mới, chưa qua sử dụng, được niêm phong (sealing) đảm bảo
+              nguyên vẹn.
             </p>
             <p>
-              <strong>2. Thiết kế sáng tạo và thẩm mỹ:</strong> Hình thức của
-              cuốn sách cũng quan trọng không kém nội dung. Chúng tôi chú trọng
-              đến việc thiết kế bìa sách độc đáo, bắt mắt, cùng với bố cục trang
-              sách khoa học, dễ đọc, mang lại cảm giác thoải mái cho người đọc
-              trong suốt quá trình thưởng thức.
+              <strong>2.  Cam kết bản quyền, xuất xứ rõ ràng:</strong> Tất cả
+              sách đều được nhập chính ngạch, có chứng nhận phân phối từ Nhà
+              xuất bản hoặc đơn vị phân phối uỷ quyền. Mọi đầu sách đều tuân thủ
+              luật Sở hữu trí tuệ, không sao chép, in lậu.
             </p>
+
             <p>
-              <strong>3. In ấn và đóng gói tiêu chuẩn cao:</strong> Valley Book
-              lựa chọn các nhà in uy tín với công nghệ in ấn hiện đại để đảm bảo
-              chất lượng hình ảnh sắc nét, màu sắc trung thực và độ bền cao của
-              từng trang sách. Quy trình đóng gói cẩn thận giúp bảo vệ sách khỏi
-              những tác động bên ngoài trong quá trình vận chuyển.
-            </p>
-            <p>
-              <strong>4. Kiểm soát chất lượng nghiêm ngặt:</strong> Chúng tôi áp
+              <strong>3. Kiểm soát chất lượng nghiêm ngặt:</strong> Chúng tôi áp
               dụng quy trình kiểm soát chất lượng nghiêm ngặt ở mọi giai đoạn,
-              từ khi bản thảo được duyệt đến khi sản phẩm hoàn thiện đến tay
-              khách hàng. Mọi sản phẩm đều phải trải qua các bước kiểm tra kỹ
-              lưỡng để đảm bảo không có lỗi về in ấn, đóng gói hay bất kỳ sai
-              sót nào khác.
+              từ khi nhập sách và đóng gói đến tay khách hàng. Mọi sản phẩm đều
+              phải trải qua các bước kiểm tra kỹ lưỡng để đảm bảo không có lỗi
+              từ nhà sản xuất, đóng gói hay bất kỳ sai sót nào khác.
             </p>
-            <p>
-              <strong>5. Phản hồi và cải tiến liên tục:</strong> Chúng tôi luôn
-              lắng nghe ý kiến phản hồi từ quý khách hàng để không ngừng cải
-              thiện và nâng cao chất lượng sản phẩm. Sự hài lòng của quý khách
-              là động lực to lớn để Valley Book ngày càng phát triển và mang đến
-              những cuốn sách chất lượng hơn nữa.
-            </p>
+
             <p>
               Với cam kết về chất lượng sản phẩm, Valley Book mong muốn trở
               thành người bạn đồng hành tin cậy trên hành trình khám phá tri

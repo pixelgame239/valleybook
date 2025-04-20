@@ -8,7 +8,7 @@ import MainBanner from "../components/MainBanner"; // Hero banner section
 import Features from "../components/Features"; // Features section (currently unused)
 import Trending from "../components/Trending"; // Trending games section
 import MostPlayed from "../components/MostPlayed"; // Most played games section
-import Categories from "../components/Categories"; // Game categories section
+import GenreCarousel from "../components/GenreCarousel"; // Game categories section
 import CTA from "../components/CTA"; // Call-to-action section
 import Footer from "../components/Footer"; // Page footer
 import Component from "../components/Book"; // Book component (temporary)
@@ -60,7 +60,7 @@ function Home() {
           {/* ***** Most Played Section End ***** */}
 
           {/* ***** Categories Section Start ***** */}
-          <Categories />
+          <GenreCarousel />
           {/* ***** Categories Section End ***** */}
           <CustomerSaying />
           {/* ***** CTA Section Start ***** */}

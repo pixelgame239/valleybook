@@ -25,9 +25,9 @@ function InnovationPage() {
             <div className="container">
               <div className="row">
                 <div className="col-lg-12">
-                  <h3>Sự sáng tạo và đổi mới</h3>
+                  <h3>VALLEY CHILL</h3>
                   <span className="breadcrumb">
-                    <a href="/">Trang chủ</a> &gt; Sự sáng tạo và đổi mới
+                    <a href="/">Trang chủ</a> &gt; VALLEY CHILL
                   </span>
                 </div>
               </div>
@@ -35,47 +35,74 @@ function InnovationPage() {
           </div>
 
           <div className="container quality-product-content my-5">
-            <h4 style={{ marginTop: "30px" }}>Thúc đẩy sáng tạo và đổi mới</h4>
-            <p>
-              Tại Valley Book, sự sáng tạo và đổi mới là yếu tố then chốt giúp
-              chúng tôi không ngừng phát triển và tạo nên giá trị khác biệt.
-              Chúng tôi tin rằng mỗi ý tưởng mới đều có thể mang lại trải nghiệm
-              tốt hơn cho khách hàng.
-            </p>
-            <p>
-              <strong>1. Khuyến khích tư duy sáng tạo:</strong> Mọi thành viên
-              trong đội ngũ Valley Book đều được khuyến khích đề xuất ý tưởng,
-              suy nghĩ vượt ra khỏi khuôn mẫu thông thường để tạo ra những giải
-              pháp đột phá.
-            </p>
-            <p>
-              <strong>2. Cải tiến quy trình liên tục:</strong> Chúng tôi luôn
-              xem xét và tối ưu hóa các quy trình vận hành, từ biên tập nội
-              dung, thiết kế, in ấn đến phân phối sản phẩm, nhằm nâng cao hiệu
-              quả và chất lượng.
-            </p>
-            <p>
-              <strong>3. Ứng dụng công nghệ mới:</strong> Valley Book tích cực
-              áp dụng các công nghệ hiện đại như trí tuệ nhân tạo, dữ liệu lớn
-              và các nền tảng số để nâng cao trải nghiệm người dùng và mở rộng
-              khả năng tiếp cận tri thức.
-            </p>
-            <p>
-              <strong>4. Hợp tác với các đối tác sáng tạo:</strong> Chúng tôi
-              không ngừng tìm kiếm cơ hội hợp tác với những cá nhân và tổ chức
-              sáng tạo trong và ngoài nước để cùng nhau tạo ra những sản phẩm
-              đột phá.
-            </p>
-            <p>
-              <strong>5. Tôn vinh sự đổi mới:</strong> Những đóng góp đổi mới,
-              sáng tạo luôn được ghi nhận và lan tỏa trong văn hóa doanh nghiệp,
-              tạo động lực để toàn thể nhân viên cùng nhau phát triển.
-            </p>
-            <p>
-              Với tinh thần đổi mới không ngừng, Valley Book cam kết mang đến
-              cho khách hàng những trải nghiệm ngày càng phong phú, sáng tạo và
-              đầy cảm hứng trong thế giới sách.
-            </p>
+            <div className="container my-5">
+              <div>
+                <h2 className="text-success fw-bold display-6 mb-3">
+                  🎁 Chính Sách Đặc Biệt: VALLEY CHILL
+                </h2>
+                <p className="fst-italic fs-5">
+                  "Một tách trà – Một trang sách – Một chút yêu thương"
+                </p>
+                <p className="fs-5">
+                  <strong>Valley Book</strong> tin rằng đọc sách không chỉ là
+                  tiếp nhận tri thức, mà còn là tận hưởng. Với mỗi đơn hàng từ{" "}
+                  <strong>2 cuốn sách trở lên</strong>, bạn sẽ nhận được một{" "}
+                  <strong>“gói cảm hứng nhỏ”</strong> – như một lời cảm ơn dịu
+                  dàng từ chúng tôi đến hành trình đọc sách của bạn.
+                </p>
+
+                <h4 className="text-success mt-4">🎁 Bạn sẽ nhận được gì?</h4>
+                <ul className="fs-5">
+                  <li>
+                    <strong>Gói trà thảo mộc/Trà túi lọc:</strong> Một tách trà
+                    nhẹ nhàng để bạn thưởng sách trong không gian thư giãn.
+                  </li>
+                  <li>
+                    <strong>Bookmark độc quyền:</strong> Thẻ đánh dấu sách in
+                    câu trích dẫn truyền cảm hứng, thay đổi theo từng tháng.
+                  </li>
+                  <li>
+                    <strong>Lời nhắn tay ngẫu nhiên:</strong> Một mẩu thư tay
+                    viết bằng bút mực, là câu chúc hoặc thông điệp nho nhỏ để
+                    khiến bạn mỉm cười.
+                  </li>
+                </ul>
+                <p className="text-muted fst-italic">
+                  📦 Những món quà này được gói kèm đơn hàng, hoàn toàn miễn
+                  phí.
+                </p>
+
+                <h4 className="text-success mt-4">📌 Điều kiện áp dụng</h4>
+                <ul className="fs-5">
+                  <li>
+                    Áp dụng cho đơn hàng từ <strong>2 cuốn sách trở lên</strong>
+                    .
+                  </li>
+                  <li>
+                    Không áp dụng đồng thời với các chương trình tặng quà khác.
+                  </li>
+                  <li>
+                    Nếu bạn muốn <em>gửi sách như quà tặng</em>, hãy để lại lời
+                    nhắn khi thanh toán để nhận thêm thiệp viết tay theo yêu
+                    cầu.
+                  </li>
+                </ul>
+
+                <h4 className="text-success mt-4">
+                  🤲 Vì sao Valley làm điều này?
+                </h4>
+                <p className="fs-5 mt-2">
+                  Chúng tôi không chỉ bán sách. Chúng tôi trao truyền cảm hứng.
+                  <br />
+                  <strong>Valley Chill</strong> là cách chúng tôi nói rằng:
+                  <br />
+                  <em>
+                    “Bạn không chỉ đang mua sách. Bạn đang mua khoảnh khắc dễ
+                    chịu dành riêng cho mình.”
+                  </em>
+                </p>
+              </div>
+            </div>
           </div>
 
           <Footer />

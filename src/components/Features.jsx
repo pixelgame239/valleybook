@@ -12,7 +12,7 @@ function Features() {
               <div className="item">
                 <div className="image">
                   <img
-                    src="assets/images/featured-01.png"
+                    src="assets/images/prestige-brand-logo.png"
                     alt="Thương hiệu uy tín"
                     style={{ maxWidth: "44px" }}
                   />
@@ -42,7 +42,7 @@ function Features() {
                   style={{ maxWidth: "44px" }}
                 />
               </div>
-              <h4>Sự sáng tạo và đổi mới</h4>
+              <h4>VALLEY CHILL</h4>
             </div>
           </Link>
         </div>
