@@ -74,7 +74,7 @@ function Header({ currentPage }) {
                     to="/cart"
                     className={currentPage === "cart" ? "active" : ""}
                   >
-                    Sự kiện
+                    Diễn
                   </Link>
                 </li>
                 <li>
@@ -86,32 +86,33 @@ function Header({ currentPage }) {
                   </Link>
                 </li>
                 <li>
-                <Link to="/cart" className="no-hover-bg">
-                        <button className="cart-button">
-                          <i className="fa fa-shopping-cart"></i>
-                        </button>
-                </Link>
+                  <Link to="/cart" className="no-hover-bg">
+                    <button className="cart-button">
+                      <i className="fa fa-shopping-cart"></i>
+                    </button>
+                  </Link>
                 </li>
                 <li>
-                {loggedIn ?   <button
-                        className={"profile-button"}
-                        onClick={handleSignOut}
-                      >
-                        <img
-                          src={accountLogo}
-                          alt="Profile"
-                          className="profile-avatar"
-                        />
-                      </button>
-                      :
-                      <Link
-                        to="/signIn"
-                        className={currentPage === "signIn" ? "active" : ""}
-                        style={{ textDecoration: "none", color: "white" }}
-                      >
-                        Đăng nhập
-                      </Link>
-                    }
+                  {loggedIn ? (
+                    <button
+                      className={"profile-button"}
+                      onClick={handleSignOut}
+                    >
+                      <img
+                        src={accountLogo}
+                        alt="Profile"
+                        className="profile-avatar"
+                      />
+                    </button>
+                  ) : (
+                    <Link
+                      to="/signIn"
+                      className={currentPage === "signIn" ? "active" : ""}
+                      style={{ textDecoration: "none", color: "white" }}
+                    >
+                      Đăng nhập
+                    </Link>
+                  )}
                 </li>
               </ul>
               <a className="menu-trigger">
