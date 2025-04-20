@@ -415,7 +415,7 @@ function ProductDetails() {
               {/* Thông tin khác */}
               <ul>
                 <li>
-                  <span>Thể loại:</span>
+                  <span style={{fontSize:"20px", color:"black"}}>Thể loại:</span>
                   {book.book_genres &&
                   Array.isArray(book.book_genres) &&
                   book.book_genres.length > 0 ? (
@@ -427,6 +427,8 @@ function ProductDetails() {
                   ) : (
                     <p className="book-genre">Chưa phân loại</p> // Hoặc thông báo khác
                   )}
+                  <br></br>
+                  <span style={{fontSize:"20px", color:"black"}}>Tác giả:</span> <p style={{display:"inline-block"}}> {book.authors.author_name}</p>
                 </li>
                 {/* Số lượng còn lại đã bị ẩn/xóa */}
               </ul>

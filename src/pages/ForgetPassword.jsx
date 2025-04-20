@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./ForgetPassword.css";
+import supabase from "../backend/initSupabase";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
@@ -11,14 +12,14 @@ const ForgetPassword = () => {
     return emailRegex.test(email);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !validateEmail(email)) {
       setError("Vui lòng nhập đúng định dạng email");
       setMessage("");
     } else {
       // Giả sử gửi yêu cầu thành công
-      setMessage("Liên kết đặt lại mật khẩu đã được gửi đến email của bạn");
+      await supabase.auth.resetPasswordForEmail(email);
       setError("");
     }
   };

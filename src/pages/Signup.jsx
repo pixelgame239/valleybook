@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../public/assets/css/signup.css";
+import supabase from "../backend/initSupabase";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -34,16 +35,22 @@ const Signup = () => {
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
-      console.log("Form submitted:", formData);
+     
     } else {
       setErrors(validationErrors);
     }
   };
 
+  const handleSignUp = async () =>{
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.confirmPassword,
+    })
+  }
   return (
     <div className="signup-container">
       <h2>Đăng ký</h2>
@@ -110,7 +117,7 @@ const Signup = () => {
           )}
         </div>
 
-        <button type="submit" className="submit-button">
+        <button className="submit-button" onClick={async()=>handleSignUp()}>
           Đăng ký
         </button>
       </form>
