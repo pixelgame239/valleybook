@@ -142,6 +142,7 @@
   transition: background-color 0.3s;
   text-decoration: none; /* Cho Link */
   display: inline-block; /* Cho Link */
+  text-align: center;
 }
 
 .orange-button:hover {

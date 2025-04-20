@@ -13,6 +13,7 @@ import NewBook from "./pages/NewBook";
 import Cart from "./pages/Cart";
 import { BookProvider } from "./backend/BookContext";
 import PrestigeBrand from "./pages/PrestigeBrand";
+import Checkout from "./pages/Checkout";
 import QualityProduct from "./pages/QualityProduct";
 import InnovationPage from "./pages/InnovationPage";
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/prestigeBrand" element={<PrestigeBrand />} />
           <Route path="/qualityProduct" element={<QualityProduct />} />
           <Route path="/innovationPage" element={<InnovationPage />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

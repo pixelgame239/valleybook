@@ -328,9 +328,12 @@ function Cart() {
                     <span>{finalTotalAmount.toLocaleString()}đ</span>
                   </div>
 
-                  <button className="orange-button checkout-button">
+                  <Link
+                    to="/checkout"
+                    className="orange-button checkout-button"
+                  >
                     Tiến hành thanh toán
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

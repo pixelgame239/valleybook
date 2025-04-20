@@ -1,0 +1,243 @@
+/* src/assets/css/Checkout.css */
+
+.checkout-section {
+  padding: 40px 0;
+}
+
+.checkout-block {
+  background-color: #f8f9fa;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border: 1px solid #eee;
+}
+
+.checkout-block h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* --- Form Styling --- */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group input[type="email"], /* Thêm nếu có email */
+.form-group textarea {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #0071f8; /* Màu theme */
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-group .error-input {
+  border-color: #dc3545; /* Màu đỏ cho lỗi */
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.8em;
+  margin-top: 3px;
+  display: block;
+}
+
+/* --- Radio Options Styling --- */
+.radio-option {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.radio-option:has(input[type="radio"]:checked) {
+  border-color: #0071f8;
+  background-color: #e6f2ff; /* Nền xanh nhạt khi chọn */
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 10px;
+  transform: translateY(1px); /* Căn chỉnh nhẹ */
+}
+
+.radio-option label {
+  font-weight: 500;
+  cursor: pointer;
+  width: calc(100% - 25px); /* Để label chiếm đủ không gian */
+  display: inline-flex; /* Canh icon và text */
+  align-items: center;
+  gap: 8px;
+}
+.radio-option label i {
+  color: #0071f8;
+  font-size: 1.1em;
+  width: 20px; /* Đảm bảo icon chiếm không gian */
+  text-align: center;
+}
+
+.radio-option label span {
+  /* Giá vận chuyển */
+  font-weight: normal;
+  color: #0071f8;
+  margin-left: 5px;
+}
+
+.radio-option label small {
+  /* Mô tả thời gian giao */
+  display: block;
+  font-weight: normal;
+  font-size: 0.85em;
+  color: #666;
+  margin-left: 28px; /* Căn lề với text chính */
+}
+
+.payment-info {
+  margin-top: 10px;
+  padding-left: 28px;
+  font-size: 0.9em;
+  color: #555;
+  border-left: 3px solid #eee;
+  margin-left: 5px;
+  padding-left: 10px;
+}
+.bank-info p {
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+.bank-info strong {
+  color: #333;
+}
+
+/* --- Order Summary Styling --- */
+.order-summary {
+  position: sticky; /* Giữ cố định khi cuộn */
+  top: 100px; /* Khoảng cách từ top khi sticky */
+}
+
+.order-items-list {
+  max-height: 300px; /* Giới hạn chiều cao, thêm scroll nếu nhiều sp */
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding-right: 5px; /* Khoảng đệm cho thanh scroll */
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+  border-bottom: 1px dashed #eee;
+}
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item-image {
+  width: 60px;
+  height: auto; /* Giữ tỷ lệ */
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.order-item-info {
+  flex-grow: 1;
+}
+
+.order-item-name {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.order-item-type {
+  font-size: 0.8em;
+  color: #777;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.order-item-price-qty {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 0;
+}
+
+.order-item-subtotal {
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 80px; /* Đảm bảo đủ rộng */
+  text-align: right;
+}
+
+.order-totals {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.totals-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #444;
+}
+.totals-row.discount span:last-child {
+  color: #28a745; /* Màu xanh cho giảm giá */
+}
+.totals-row.final-total {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 10px;
+}
+.totals-row.final-total span:last-child {
+  color: #ee626b; /* Màu theme cho tổng cuối */
+}
+
+.place-order-button {
+  width: 100%;
+  margin-top: 20px;
+  font-size: 16px;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .order-summary {
+    position: static; /* Bỏ sticky trên mobile */
+    margin-top: 30px;
+  }
+}
