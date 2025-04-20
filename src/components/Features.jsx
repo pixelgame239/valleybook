@@ -42,7 +42,7 @@ function Features() {
                   style={{ maxWidth: "44px" }}
                 />
               </div>
-              <h4>Sự sáng tạo và đổi mới</h4>
+              <h4>VALLEY CHILL</h4>
             </div>
           </Link>
         </div>
