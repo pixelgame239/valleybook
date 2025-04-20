@@ -38,6 +38,9 @@ export default function FilterSidebar() {
       setLoading(false);
     }
   };
+  const handleFilterPrice= async(price_range) =>{
+    
+  }
   const handleClearFilter=async ()=>{
     setLoading(true);
     setSelectedGenres([]);
@@ -80,23 +83,23 @@ export default function FilterSidebar() {
       <ol>
         <li className="genre-tile">
           <label className="label-title">
-            <input type="checkbox"></input>
+            <input type="checkbox" checked={selectedPrice.includes(1)}></input>
             Dưới 100.000đ
           </label>
         </li>
         <li className="genre-tile">
           <label className="label-title">
-            <input type="checkbox"></input>
+            <input type="checkbox" checked={selectedPrice.includes(2)}></input>
             Từ 100.000đ đến 150.000đ
           </label>
         </li>
-        <li className="genre-tile">
+        <li className="genre-tile" checked={selectedPrice.includes(3)}>
           <label className="label-title">
             <input type="checkbox"></input>
             Từ 150.000đ đến 200.000đ
           </label>
         </li>
-        <li className="genre-tile">
+        <li className="genre-tile" checked={selectedPrice.includes(4)}>
           <label className="label-title">
             <input type="checkbox"></input>
             Trên 200.000đ
