@@ -7,9 +7,11 @@ import { filterBook, getBookData, getNumsBook } from "../backend/getBookData";
 
 export default function FilterSidebar() {
   const [loading, setLoading] = useState(false);
-  const { genres, setBookList, setCurrentPage, setPageCount, bookList } = useContext(BookContext);
+  const { genres, setBookList, setCurrentPage, setPageCount, bookList, authors } = useContext(BookContext);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState([]);
+  const [showAllAuthors, setShowAllAuthors] =useState(false);
+  const initAuthors = showAllAuthors ? authors : authors.slice(0, 6);
   const handleGenreChange = async (genre_name) => {
     setLoading(true);
     let updatedGenres;
@@ -30,7 +32,7 @@ export default function FilterSidebar() {
        setLoading(false);
     }
     else{
-      const bookFilterData = await filterBook(updatedGenres, 1);
+      const bookFilterData = await filterBook(updatedGenres);
       if (bookFilterData) {
         setBookList(bookFilterData);
         setPageCount(getNumsBook(bookFilterData));
@@ -39,11 +41,13 @@ export default function FilterSidebar() {
     }
   };
   const handleFilterPrice= async(price_range) =>{
-    
+    setLoading(true);
+
   }
   const handleClearFilter=async ()=>{
     setLoading(true);
     setSelectedGenres([]);
+    setSelectedPrice([]);
     let bookData = await getBookData();
     if(bookData){
       setBookList(bookData);
@@ -79,6 +83,20 @@ export default function FilterSidebar() {
           )
         ))}
       </ul>
+      <p className="sort-title">Tác giả</p>
+        <ul>
+          {initAuthors.map((author=>(
+              <li className="genre-tile">
+                <label className="label-title">
+                <input type="checkbox"></input>
+                {author.author_name}
+                </label>
+              </li>
+          )))}
+        </ul>
+        <div style={{display:"flex", justifyContent:"center", backgroundColor:"aliceblue"}}>
+        <button style={{cursor:"pointer", border:"none" ,color: "royalblue", textAlign:"center", backgroundColor:"inherit"}} onClick={()=>setShowAllAuthors(!showAllAuthors)}>{showAllAuthors?"Ẩn bớt":"Xem thêm"}</button>
+        </div>
       <p className="sort-title">Giá</p>
       <ol>
         <li className="genre-tile">

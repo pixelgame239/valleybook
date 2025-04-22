@@ -9,9 +9,10 @@ export const BookProvider = ({ children }) => {
   const [genres, setGenres] = useState();
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [authors, setAuthors] = useState()
 
   return (
-    <BookContext.Provider value={{ bookList, genres, pageCount, currentPage, setCurrentPage, setPageCount, setBookList, setGenres }}>
+    <BookContext.Provider value={{ bookList, genres, pageCount, currentPage, authors, setAuthors, setCurrentPage, setPageCount, setBookList, setGenres }}>
       {children}
     </BookContext.Provider>
   );

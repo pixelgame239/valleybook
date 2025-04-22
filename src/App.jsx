@@ -3,7 +3,7 @@ import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Shop from "./pages/Shop";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import Signup from "./pages/Signup";
 import Policy from "./pages/Policy";
