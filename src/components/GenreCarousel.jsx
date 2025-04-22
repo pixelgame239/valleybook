@@ -90,7 +90,7 @@ function GenreCarousel() {
   };
 
   return (
-    <div className="my-5">
+    <div className="my-5 mx-5">
       <div className="w-100" style={{ maxWidth: "85%", margin: "0 auto" }}>
         <h3 className="fw-bold text-center mb-4">Thể loại nổi bật</h3>
       </div>

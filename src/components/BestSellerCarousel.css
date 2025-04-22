@@ -1,5 +1,31 @@
 .slick-arrow {
-  background-color: rgba(255, 255, 255, 0.7);
+  /* background-color: rgba(255, 255, 255, 0.7); */
   border-radius: 50%;
   padding: 5px;
+  background-color: blue;
+  width: 30px;
+  height: 30px;
+}
+
+.slick-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* force every slide to be exactly 220×350px */
+.slick-slide > .slide-item {
+  width: 250px !important;
+  height: 350px; /* match your container height */
+  padding: 0 8px; /* optional gutter */
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.slick-slide > .slide-item .book-title {
+  display: block;
+  max-width: 200px; /* your cap on how wide the text box can grow */
+  margin: 0 auto; /* ← center that 200px box in the 250px slide */
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-align: center; /* center the lines inside the box */
 }

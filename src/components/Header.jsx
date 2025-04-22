@@ -74,7 +74,7 @@ function Header({ currentPage }) {
                     to="/cart"
                     className={currentPage === "cart" ? "active" : ""}
                   >
-                    Diễn
+                    Diễn đàn
                   </Link>
                 </li>
                 <li>

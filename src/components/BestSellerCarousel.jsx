@@ -72,7 +72,7 @@ function BestSellerCarousel() {
   };
 
   return (
-    <div className="my-5">
+    <div className="my-5 mx-5">
       <div className="w-100" style={{ maxWidth: "85%", margin: "0 auto" }}>
         <HeadingHomepage title={"Bestseller"} />
       </div>
@@ -80,34 +80,41 @@ function BestSellerCarousel() {
       <Slider {...settings}>
         {books.map((book) => (
           <div key={book.book_id} className="p-2">
-            <Link
-              to={`/books/${book.book_id}`}
-              className="text-decoration-none"
-            >
-              <div className="bg-white rounded shadow-sm hover-shadow-lg transition overflow-hidden">
-                <div
-                  className="d-flex justify-content-center align-items-center"
-                  style={{ height: "350px" }}
-                >
-                  <img
-                    loading="lazy"
-                    src={book.url_image || "/placeholder.jpg"}
-                    alt={book.book_name}
-                    style={{
-                      objectFit: "cover",
-                      width: "200px",
-                      height: "300px",
-                      borderRadius: "5px",
-                    }}
-                  />
+            <div key={book.book_id} className="slide-item">
+              <Link
+                to={`/shop/${book.book_id}`}
+                className="text-decoration-none"
+              >
+                <div className="bg-white rounded shadow-sm hover-shadow-lg transition overflow-hidden">
+                  <div
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ height: "350px" }}
+                  >
+                    <img
+                      loading="lazy"
+                      src={book.url_image || "/placeholder.jpg"}
+                      alt={book.book_name}
+                      style={{
+                        objectFit: "cover",
+                        width: "200px",
+                        height: "300px",
+                        borderRadius: "5px",
+                      }}
+                    />
+                  </div>
+                  <div className="p-3">
+                    <h6
+                      className="book-title fw-semibold text-dark mb-0"
+                      style={{
+                        textAlign: "center", // căn giữa văn bản
+                      }}
+                    >
+                      {book.book_name}
+                    </h6>
+                  </div>
                 </div>
-                <div className="p-3">
-                  <h6 className="fw-semibold text-dark mb-0 text-truncate text-center">
-                    {book.book_name}
-                  </h6>
-                </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           </div>
         ))}
       </Slider>
