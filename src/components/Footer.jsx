@@ -474,6 +474,7 @@ export default function Footer() {
                     Chính sách đổi trả/hoàn tiền
                   </Link>
                 </li>
+
                 <li
                   className="li_menu"
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
@@ -493,6 +494,26 @@ export default function Footer() {
                   >
                     Chính sách vận chuyển
                   </a>
+                </li>
+                <li
+                  className="li_menu"
+                  style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
+                >
+                  <Link
+                    to="/policy#CSKH"
+                    title="Chính sách chăm sóc khách hàng"
+                    style={{
+                      boxSizing: "border-box",
+                      textDecoration: "none",
+                      backgroundColor: "transparent",
+                      color: "white",
+                      fontFamily: "'civil-regular', sans-serif",
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                    }}
+                  >
+                    Chăm sóc khách hàng
+                  </Link>
                 </li>
               </ul>
             </div>
