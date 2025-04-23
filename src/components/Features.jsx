@@ -37,9 +37,14 @@ function Features() {
             <div className="item">
               <div className="image">
                 <img
-                  src="assets/images/featured-03.png"
+                  src="assets/images/coffee.png"
                   alt="Reply Ready"
-                  style={{ maxWidth: "44px" }}
+                  style={{
+                    maxWidth: "44px",
+                    filter: "invert(100%) brightness(1000%)", // makes it appear white
+                    transform: "translateX(4px)",
+                    // transform: "translateY(-2px)" /* Move right */,
+                  }}
                 />
               </div>
               <h4>VALLEY CHILL</h4>
