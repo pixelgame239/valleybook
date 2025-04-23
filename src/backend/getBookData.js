@@ -2,7 +2,7 @@ import supabase from "./initSupabase";
 
 export async function getBookData() {
     // const { data, error } = await supabase.from("books").select().range(8*(pageNumber-1), pageNumber*8-1).order("created_at", {ascending:false});
-    const { data, error } = await supabase.from("books").select().order("created_at", {ascending:false});
+    const { data, error } = await supabase.from("books").select(`*, book_genres(genre_name), authors(author_name)`).order("created_at", {ascending:false});
     if(error){
         console.error("Unexpected error: ", error);
         return [];

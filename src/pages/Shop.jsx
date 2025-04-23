@@ -9,7 +9,7 @@ import { getBookData, getNumsBook } from "../backend/getBookData";
 import { getAuthors, getGenres } from "../backend/getGenres";
 
 function Shop() {
-  const { currentPage, setCurrentPage, bookList, genres, setBookList, setGenres, pageCount, setPageCount, setAuthors } = useContext(BookContext);
+  const { currentPage, setCurrentPage, bookList, fullBookList, setFullBookList, genres, setBookList, setGenres, pageCount, setPageCount, setAuthors } = useContext(BookContext);
   const [loading, setLoading] = useState(true);
   const handleChangingPage=async (pageNumber)=>{
     setLoading(true);
@@ -22,6 +22,7 @@ function Shop() {
           let genreData= await getGenres();
           let authorData = await getAuthors();
           if(bookData.length>0){
+            setFullBookList(bookData);
             setBookList(bookData);
             setPageCount(getNumsBook(bookData));
             setLoading(false);
