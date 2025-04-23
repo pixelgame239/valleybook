@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import bookLogo from "../../public/assets/images/bookLogo.png";
+import bookLogo from "/assets/images/bookLogo.png";
 
 export default function Footer() {
   return (
