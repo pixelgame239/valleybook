@@ -97,7 +97,7 @@
   /* Cú pháp box-shadow: offset-x | offset-y | blur-radius | spread-radius | color */
   /* Sử dụng rgba(0, 0, 0, alpha_value) cho shadow màu xám */
   /* alpha_value khoảng 0.2 đến 0.4 thường tạo shadow rõ trên nền trắng */
-  box-shadow: 0 0 15px rgba(1, 113, 248, 0.6); /* Shadow màu #0171F8, không lệch, blur 15px, opacity 60% */
+  box-shadow: 0 0 15px rgba(1, 113, 248, 0.4); /* Shadow màu #0171F8, không lệch, blur 15px, opacity 60% */
 
   /* Giữ hoặc điều chỉnh hiệu ứng di chuyển/scale nếu cần */
   transform: translateY(-4px); /* Giữ hiệu ứng nhấc lên 4px */
@@ -155,7 +155,7 @@
 .custom-prev-arrow:hover,
 .custom-next-arrow:hover {
   background-color: #0171f9 !important; /* Buộc màu này khi hover */
-  transition: none !important; /* Đảm bảo không có transition nào khác */
+  transform: translateY(-50%) rotate(360deg) !important;
 }
 
 /* --- Đảm bảo ẩn icon mặc định của slick (tạo bởi pseudo-elements) (giữ nguyên) --- */

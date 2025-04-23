@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #e0f7fa;
+  background-color: #e0f7fa; /* Giữ màu nền nhạt hoặc thay đổi nếu cần */
 }
 
 .login-page .login-container {
@@ -16,7 +16,7 @@
 }
 
 .login-page .login-form h2 {
-  color: #0277bd;
+  color: #0171f9; /* Đã đổi màu xanh dương sang #0171F9 */
 }
 
 .login-page .input-group {
@@ -28,53 +28,68 @@
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-  color: #0277bd;
+  color: #0171f9; /* Đã đổi màu xanh dương sang #0171F9 */
 }
 
 .login-page .input-group input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #90caf9;
+  /* Đổi màu border từ xanh nhạt sang #0171F9 hoặc một sắc thái của nó */
+  border: 1px solid #0171f9; /* Đổi màu border */
   border-radius: 5px;
+}
+
+.login-page .input-group input:focus {
+  /* Đổi màu border khi focus sang #0171F9 */
+  border-color: #0171f9 !important;
+  outline: none !important;
 }
 
 .login-page .login-button {
   width: 100%;
   padding: 10px;
-  background-color: #0277bd;
+  /* Đổi màu nền nút Đăng Nhập sang #0171F9 */
+  background-color: #0171f9;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
+
+.login-page .login-button:hover {
+  /* Đổi màu nền khi hover sang một sắc thái khác của #0171F9 */
+  background-color: #0056b3; /* Màu xanh đậm hơn #0171F9 */
+}
+
 .google-login-button {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px 20px;
-  background-color: #fefefe; 
-  color: rgb(22, 138, 255);
+  background-color: #fefefe;
+  /* Thay đổi màu chữ từ rgb(22, 138, 255) sang #0171F9 */
+  /* Lưu ý: Việc thay đổi màu chữ của nút Google có thể làm mất nhận diện thương hiệu */
+  color: #0171f9;
   font-size: 16px;
   font-weight: 500;
-  border: none;
+  border: none; /* Giữ border none hoặc thêm border xám nhạt */
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Thêm transition cho màu chữ */
   width: 100%;
   margin-top: 10px;
 }
 
 .google-login-button:hover {
-  background-color: #319cffe8; 
-  color: white;
+  /* Thay đổi màu nền khi hover, có thể giữ nền trắng hoặc xám nhạt */
+  background-color: #f0f0f0; /* Nền xám nhạt */
+  /* Thay đổi màu chữ khi hover */
+  color: #0171f9; /* Giữ nguyên màu chữ hoặc đổi sang màu khác */
 }
 
 .google-logo {
   width: 20px;
-  margin-right: 10px; 
-}
-.login-page .login-button:hover {
-  background-color: #01579b;
+  margin-right: 10px;
 }
 
 .login-page .extra-options {
@@ -83,12 +98,20 @@
   justify-content: space-around;
 }
 
-.login-page .forgot-password .sign-up {
-  color: #0277bd;
+/* Sửa selector và đổi màu chữ của liên kết Đăng ký và Quên mật khẩu */
+.login-page .extra-options a {
+  color: #0171f9; /* Đã đổi màu xanh dương sang #0171F9 */
   text-decoration: none;
   font-size: 14px;
 }
 
-.login-page .forgot-password:hover {
+/* Selector cho hover, áp dụng cho cả hai liên kết */
+.login-page .extra-options a:hover {
   text-decoration: underline;
+  /* Nếu muốn đổi màu khi hover, thêm thuộc tính color ở đây */
+  /* color: #0056b3; */
 }
+
+/* Loại bỏ selector bị sai */
+/* .login-page .forgot-password .sign-up { ... } */
+/* .login-page .forgot-password:hover { ... } */

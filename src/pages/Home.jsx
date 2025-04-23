@@ -18,6 +18,7 @@ import IntroduceHomePage from "../components/IntroduceHomePage";
 import BestSellerCarousel from "../components/BestSellerCarousel";
 import CustomerSaying from "../components/CustomerSaying";
 import ChatBubble from "../components/ChatBubble";
+import MyAudioPlayer from "../components/MyAudioPlayer";
 
 function Home() {
   const [loading, setLoading] = useState(true);
@@ -47,6 +48,7 @@ function Home() {
         <Preloader></Preloader>
       ) : (
         <>
+          <MyAudioPlayer />
           {/* ***** Header Area Start ***** */}
           <Header currentPage="home" />
           {/* ***** Header Area End ***** */}

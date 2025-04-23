@@ -30,16 +30,16 @@ const LoginPage = () => {
     e.preventDefault();
     alert("Chức năng quên mật khẩu chưa được triển khai.");
   };
-  const handleGoogleSignIn=async ()=>{
+  const handleGoogleSignIn = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google"
-    })
-  }
+      provider: "google",
+    });
+  };
   return (
     <div className="login-page">
       <div className="login-container">
         <form className="login-form" onSubmit={handleSubmit}>
-          <h2>Đăng Nhập</h2>
+          <h2 style={{ color: "#0171F9" }}>Đăng Nhập</h2>
 
           <div className="input-group">
             <label htmlFor="email">Email</label>
@@ -68,7 +68,10 @@ const LoginPage = () => {
           <button className="login-button" onClick={handleSubmit}>
             Đăng Nhập
           </button>
-          <button className="google-login-button" onClick={async ()=>handleGoogleSignIn()}>
+          <button
+            className="google-login-button"
+            onClick={async () => handleGoogleSignIn()}
+          >
             <img
               className="google-logo"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"

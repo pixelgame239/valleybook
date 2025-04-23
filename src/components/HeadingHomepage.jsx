@@ -34,7 +34,7 @@ export default function HeadingHomepage({ title }) {
         >
           {/* Đảm bảo thẻ a này không ảnh hưởng đến việc căn giữa text nếu nó có display khác block/inline-block */}
           <a
-            href="https://nhanam.vn/tac-gia"
+            href="#"
             title="Các tác giả"
             style={{
               boxSizing: "border-box",

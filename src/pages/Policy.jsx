@@ -262,7 +262,7 @@ function Policy() {
                 <strong>Email:</strong> cskh@valleybook.vn
               </li>
               <li>
-                <strong>Zalo CSKH:</strong> 0901 xxx xxx
+                <strong>Zalo CSKH:</strong> 0869003199
               </li>
               <li>
                 <strong>Fanpage Facebook:</strong> Valley Book – thung lũng của
@@ -289,7 +289,7 @@ Kênh liên hệ hỗ trợ:
 
 Email: cskh@valleybook.vn
 
-Zalo CSKH: 0901 xxx xxx
+Zalo CSKH: 0869003199
 
 Fanpage Facebook: Valley Book – Mở Cửa Tri Thức
 

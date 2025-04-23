@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import bookLogo from "../../public/assets/images/bookLogo.png";
+import bookLogo from "/assets/images/bookLogo.png";
 
 export default function Footer() {
   return (
@@ -297,8 +297,8 @@ export default function Footer() {
                   className="li_menu"
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
-                  <a
-                    href="https://nhanam.vn/gioi-thieu"
+                  <Link
+                    to="/contact" // Thay href bằng to và cập nhật đường dẫn
                     title="Về Valley Book"
                     style={{
                       boxSizing: "border-box",
@@ -311,7 +311,7 @@ export default function Footer() {
                     }}
                   >
                     Về Valley Book
-                  </a>
+                  </Link>
                 </li>
                 {/* <li
                   className="li_menu"

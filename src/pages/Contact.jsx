@@ -65,7 +65,8 @@ function Contact() {
                 </p>
                 <ul>
                   <li>
-                    <span>Địa chỉ</span> Nam Từ Liêm, Hà Nội
+                    <span>Địa chỉ</span> Toà nhà Đại học Công nghệ Đông Á, P.
+                    Trịnh Văn Bô, Xuân Phương, Nam Từ Liêm, Hà Nội
                   </li>
                   <li>
                     <span>Số điện thoại</span> 0869003199
