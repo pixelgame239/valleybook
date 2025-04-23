@@ -53,6 +53,7 @@ function CustomerSaying() {
                 nhỏ nhưng đầy ý nghĩa như trà thảo mộc và bookmark tạo thêm sự
                 ấm áp cho mỗi đơn hàng."
               </p>
+              {/* what is this */}
               <img
                 src="assets/images/tinikun.png"
                 alt=""
