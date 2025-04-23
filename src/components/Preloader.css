@@ -1,0 +1,24 @@
+/* Preloader Container Styles */
+.js-preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #5364e0; /* <-- Màu nền mới */
+  z-index: 9999; /* Đảm bảo nó nằm trên cùng */
+  display: flex; /* Sử dụng Flexbox để căn giữa */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+/* Style cho ảnh GIF */
+.book-gif {
+  /* Có thể thiết lập kích thước tối đa để ảnh không quá lớn */
+  max-width: 350px; /* Ví dụ: giới hạn chiều rộng */
+  max-height: 350px; /* Ví dụ: giới hạn chiều cao */
+  height: auto; /* Giữ tỷ lệ khung hình */
+  display: block; /* Đảm bảo ảnh là block element */
+  /* Nếu ảnh GIF có nền, bạn có thể không cần nền màu */
+  /* background-color: transparent; */
+}
