@@ -38,6 +38,8 @@ const Signup = () => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
+      // Gọi handleSignUp ở đây hoặc trong logic xử lý form thành công khác
+      handleSignUp();
     } else {
       setErrors(validationErrors);
     }
@@ -48,78 +50,101 @@ const Signup = () => {
       email: formData.email,
       password: formData.confirmPassword,
     });
+    // Xử lý kết quả đăng ký (data, error)
+    if (error) {
+      console.error("Lỗi đăng ký:", error.message);
+      // Cập nhật state lỗi để hiển thị cho người dùng
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        signupError: error.message,
+      }));
+    } else {
+      console.log("Đăng ký thành công:", data);
+      // Chuyển hướng người dùng hoặc hiển thị thông báo thành công
+    }
   };
+
   return (
-    <div className="signup-container">
-      <h2>Đăng ký</h2>
-      <form onSubmit={handleSubmit} className="signup-form">
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Vui lòng nhập email của bạn"
-          />
-          {errors.email && <p className="error">{errors.email}</p>}
-        </div>
+    <div className="center-container">
+      {" "}
+      {/* Thêm div bao bọc mới */}
+      <div className="signup-container">
+        <h2 style={{ color: "#0171F9" }}>Đăng ký</h2>
+        <form onSubmit={handleSubmit} className="signup-form">
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Vui lòng nhập email của bạn"
+            />
+            {errors.email && <p className="error">{errors.email}</p>}
+          </div>
 
-        <div className="form-group">
-          <label>Số điện thoại</label>
-          <input
-            type="text"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            placeholder="Vui lòng nhập số điện thoại"
-          />
-          {errors.phoneNumber && <p className="error">{errors.phoneNumber}</p>}
-        </div>
+          <div className="form-group">
+            <label>Số điện thoại</label>
+            <input
+              type="text"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              placeholder="Vui lòng nhập số điện thoại"
+            />
+            {errors.phoneNumber && (
+              <p className="error">{errors.phoneNumber}</p>
+            )}
+          </div>
 
-        <div className="form-group">
-          <label>Họ và Tên</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Vui lòng nhập họ và tên của bạn"
-          />
-          {errors.name && <p className="error">{errors.name}</p>}
-        </div>
+          <div className="form-group">
+            <label>Họ và Tên</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Vui lòng nhập họ và tên của bạn"
+            />
+            {errors.name && <p className="error">{errors.name}</p>}
+          </div>
 
-        <div className="form-group">
-          <label>Mật khẩu</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Nhập mật khẩu của bạn"
-          />
-          {errors.password && <p className="error">{errors.password}</p>}
-        </div>
+          <div className="form-group">
+            <label>Mật khẩu</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Nhập mật khẩu của bạn"
+            />
+            {errors.password && <p className="error">{errors.password}</p>}
+          </div>
 
-        <div className="form-group">
-          <label>Xác nhận mật khẩu</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            placeholder="Vui lòng xác nhận lại mật khẩu của bạn"
-          />
-          {errors.confirmPassword && (
-            <p className="error">{errors.confirmPassword}</p>
-          )}
-        </div>
+          <div className="form-group">
+            <label>Xác nhận mật khẩu</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Vui lòng xác nhận lại mật khẩu của bạn"
+            />
+            {errors.confirmPassword && (
+              <p className="error">{errors.confirmPassword}</p>
+            )}
+          </div>
 
-        <button className="submit-button" onClick={async () => handleSignUp()}>
-          Đăng ký
-        </button>
-      </form>
-    </div>
+          <button className="submit-button" type="submit">
+            {" "}
+            {/* Đổi type thành submit */}
+            Đăng ký
+          </button>
+          {/* Hiển thị lỗi từ Supabase nếu có */}
+          {errors.signupError && <p className="error">{errors.signupError}</p>}
+        </form>
+      </div>
+    </div> // Kết thúc div bao bọc mới
   );
 };
 

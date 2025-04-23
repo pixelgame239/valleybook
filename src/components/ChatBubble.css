@@ -1,0 +1,68 @@
+/* ... (các style hiện có cho .chat-window) ... */
+
+.chat-window {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out,
+    visibility 0.3s ease-out;
+}
+
+.chat-window.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ==== Style cho Tin nhắn pop-up ban đầu ==== */
+.initial-message-popup {
+  position: fixed;
+  bottom: 90px; /* Điều chỉnh vị trí so với icon */
+  right: 40px; /* Điều chỉnh vị trí so với icon */
+  background-color: #fff;
+  color: #333;
+  padding: 10px 15px;
+  border: 2px solid #0171f9;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 999; /* Nằm dưới cửa sổ chat chính nhưng trên các nội dung khác */
+  font-size: 16px;
+  cursor: pointer; /* Biến con trỏ thành pointer để gợi ý có thể click */
+
+  /* ==== Thêm Animation mờ dần (tùy chọn) ==== */
+  opacity: 0;
+  animation: fadeInMessage 0.5s ease-out forwards; /* Hiệu ứng mờ dần khi xuất hiện */
+}
+
+@keyframes fadeInMessage {
+  from {
+    opacity: 0;
+    transform: translateY(10px); /* Bắt đầu hơi dịch xuống */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Đến vị trí cuối cùng */
+  }
+}
+
+/* Style cho nút đóng tin nhắn ban đầu */
+.initial-message-close-button {
+  margin-left: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ========================================= */

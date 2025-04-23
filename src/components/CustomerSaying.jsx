@@ -67,7 +67,7 @@ function CustomerSaying() {
                 }}
               />
               <p style={{ marginTop: "60px", fontSize: "1.3rem" }}>
-                Anh Dương Nguyễn Duy Thanh "Tikikun" <br />
+                Anh Dương Nguyễn Duy Thanh "Tinikun" <br />
                 Doanh nhân, nhà sáng lập "Thằng Bán Sách" và "Tiệm Cây Có Tâm"​
               </p>
             </div>
