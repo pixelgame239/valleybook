@@ -24,6 +24,19 @@
   /* display: none !important; */
 }
 
+/* .slide-item::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: red;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+  padding: 30px;
+} */
+
 /* force every slide to be exactly 220×350px - Giữ nguyên */
 .slick-slide > .slide-item {
   width: 250px !important;
@@ -39,6 +52,7 @@
   /* background-color: rgba(1, 113, 249, 0.05); /* Màu #0171F9 với độ trong suốt 5% */
   border-radius: 8px; /* Bo tròn góc cho container slide item */
   overflow: hidden; /* Đảm bảo nội dung và border/shadow không tràn ra ngoài */
+  position: relative;
 }
 
 .slick-slide > .slide-item .book-title {

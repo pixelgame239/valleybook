@@ -1,53 +1,50 @@
-import React, { useState, useEffect, useRef } from "react"; // Import useRef
-import "./ChatBubble.css"; // Import file CSS
+// src/components/ChatBubble.js
+import React, { useState, useEffect, useRef } from "react";
+import ChatWindow from "./ChatWindow"; // Import ChatWindow component
+import "./ChatBubble.css"; // Import file CSS (giữ nguyên)
 
 export default function ChatBubble() {
   const [open, setOpen] = useState(false);
   const [showInitialMessage, setShowInitialMessage] = useState(false);
+  // Không cần state messages, newMessageText, anonymousUserId ở đây nữa
 
-  const chatWindowRef = useRef(null); // Tạo ref cho cửa sổ chat
-  const chatBubbleRef = useRef(null); // Tạo ref cho icon bong bóng
+  const chatWindowRef = useRef(null);
+  const chatBubbleRef = useRef(null);
 
-  // Hiển thị tin nhắn ban đầu sau một vài giây khi component được mount
+  // ---- Logic hiển thị/ẩn tin nhắn ban đầu và cửa sổ chat ----
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowInitialMessage(true);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, []);
 
-  // Ẩn tin nhắn ban đầu khi cửa sổ chat chính mở
   useEffect(() => {
+    // Ẩn tin nhắn ban đầu khi cửa sổ chat chính mở
     if (open) {
       setShowInitialMessage(false);
     }
   }, [open]);
 
-  // Xử lý logic đóng pop-up khi click ra ngoài
   useEffect(() => {
     function handleClickOutside(event) {
-      // Kiểm tra nếu click không nằm trong cửa sổ chat VÀ không nằm trong icon bong bóng
       if (
         chatWindowRef.current &&
         !chatWindowRef.current.contains(event.target) &&
         chatBubbleRef.current &&
         !chatBubbleRef.current.contains(event.target)
       ) {
-        setOpen(false); // Đóng pop-up
+        setOpen(false);
       }
     }
-
-    // Chỉ thêm event listener khi pop-up đang mở
     if (open) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
-    // Cleanup function: gỡ bỏ event listener khi component unmount hoặc pop-up đóng
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [open, chatWindowRef, chatBubbleRef]); // Chạy lại effect khi open state hoặc refs thay đổi
+  }, [open, chatWindowRef, chatBubbleRef]);
+  // ---- Kết thúc logic hiển thị/ẩn ----
 
   const bubbleStyle = {
     position: "fixed",
@@ -68,7 +65,6 @@ export default function ChatBubble() {
     transform: open ? "rotate(360deg)" : "rotate(0deg)",
   };
 
-  // Xử lý đóng tin nhắn ban đầu (nếu người dùng click vào nó)
   const handleCloseInitialMessage = () => {
     setShowInitialMessage(false);
   };
@@ -76,21 +72,20 @@ export default function ChatBubble() {
   return (
     <>
       {/* Cửa sổ chat chính - Thêm ref */}
+      {/* Thay thế nội dung cũ bằng ChatWindow component */}
       <div className={`chat-window ${open ? "open" : ""}`} ref={chatWindowRef}>
         <div style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
           <strong>Hỗ trợ trực tuyến</strong>
+          {/* Nút đóng cửa sổ chat */}
+          <span
+            style={{ float: "right", cursor: "pointer", fontSize: "1.2em" }}
+            onClick={() => setOpen(false)}
+          >
+            ×
+          </span>
         </div>
-        <div style={{ flex: 1, padding: "10px", overflowY: "auto" }}>
-          {/* Nội dung chat hoặc tích hợp chat widget */}
-          <p>Chào bạn! Chúng tôi có thể giúp gì hôm nay?</p>
-        </div>
-        <div style={{ padding: "10px", borderTop: "1px solid #ddd" }}>
-          <input
-            type="text"
-            placeholder="Nhập tin nhắn..."
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-          />
-        </div>
+        {/* Sử dụng ChatWindow component */}
+        <ChatWindow isOpen={open} />
       </div>
 
       {/* Tin nhắn pop-up ban đầu */}
