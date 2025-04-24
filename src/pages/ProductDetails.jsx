@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom"; // Thêm Link
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { getSingleBookData } from "../backend/getBookData"; // Giả sử hàm này lấy đủ dữ liệu rating hoặc bạn sẽ cập nhật nó
+
 // import { getReviews } from "../backend/getReviews"; // Giả sử bạn có hàm này để lấy reviews
 import Preloader from "../components/Preloader";
 import StarRating from "../components/StarRating"; // Import component StarRating
@@ -34,34 +35,6 @@ const mapBookType = (typeCode) => {
   }
 };
 
-// --- Dữ liệu đánh giá mẫu (Xóa khi có dữ liệu thật) ---
-const sampleReviews = [
-  {
-    id: 1,
-    user: "Nguyễn Văn A",
-    rating: 5,
-    comment: "Sách rất hay và ý nghĩa, nội dung sâu sắc, đáng đọc!",
-    date: "2025-04-10",
-  },
-  {
-    id: 2,
-    user: "Trần Thị B",
-    rating: 4,
-    comment:
-      "Nội dung tốt, trình bày rõ ràng. Tuy nhiên, bìa sách hơi mỏng manh.",
-    date: "2025-04-12",
-  },
-  {
-    id: 3,
-    user: "Lê Văn C",
-    rating: 5,
-    comment:
-      "Tuyệt vời! Giao hàng nhanh chóng, sách được đóng gói cẩn thận, chất lượng in ấn tốt.",
-    date: "2025-04-14",
-  },
-];
-// --- Hết dữ liệu mẫu ---
-
 function ProductDetails() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
@@ -73,19 +46,26 @@ function ProductDetails() {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const DESCRIPTION_MAX_LENGTH = 250; // Giới hạn ký tự mô tả
 
-  // --- State và dữ liệu mẫu cho rating (Sẽ thay bằng dữ liệu thật) ---
-  const [averageRating, setAverageRating] = useState(4.3); // Ví dụ
-  const [ratingCount, setRatingCount] = useState(125); // Ví dụ
-  const [ratingBreakdown, setRatingBreakdown] = useState({
-    // Ví dụ
-    5: 80,
-    4: 25,
-    3: 10,
-    2: 5,
-    1: 5,
+  const [reviews, setReviews] = useState([]); // Khởi tạo là mảng rỗng
+  // --- State cho dữ liệu rating tính toán ---
+  const [totalRatingCount, setTotalRatingCount] = useState(0);
+  const [calculatedAverageRating, setCalculatedAverageRating] = useState(0);
+  const [calculatedRatingBreakdown, setCalculatedRatingBreakdown] = useState({
+    5: 0,
+    4: 0,
+    3: 0,
+    2: 0,
+    1: 0,
   });
-  const [reviews, setReviews] = useState(sampleReviews); // Dùng sample data
-  // --- Hết state và dữ liệu mẫu ---
+  // --- Hết State rating tính toán ---
+
+  // --- State mới cho Form Đánh giá ---
+  const [showReviewForm, setShowReviewForm] = useState(false); // State để ẩn/hiện form
+  const [userRating, setUserRating] = useState(0); // Điểm sao người dùng chọn
+  const [hoverRating, setHoverRating] = useState(0); // Điểm sao khi hover
+  const [reviewComment, setReviewComment] = useState(""); // Nội dung bình luận
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false); // State loading khi gửi
+  // --- Hết State mới ---
 
   useEffect(() => {
     window.scrollTo(0, 0); // Cuộn lên đầu trang khi component mount hoặc id thay đổi
@@ -96,7 +76,44 @@ function ProductDetails() {
         let bookData = await getSingleBookData(id);
         if (bookData) {
           setBook(bookData);
+          console.log(bookData);
+          // Lấy reviews từ bookData (đã làm ở bước trước)
+          const currentReviews =
+            bookData.reviews && Array.isArray(bookData.reviews)
+              ? bookData.reviews
+              : [];
+          setReviews(currentReviews);
 
+          // --- TÍNH TOÁN RATING TỪ currentReviews ---
+          const count = currentReviews.length;
+          setTotalRatingCount(count); // Cập nhật tổng số đánh giá
+
+          if (count > 0) {
+            // Tính tổng điểm
+            const sum = currentReviews.reduce(
+              (acc, review) => acc + (review.rating || 0),
+              0
+            );
+            // Tính trung bình và cập nhật state
+            const avg = sum / count;
+            setCalculatedAverageRating(avg);
+
+            // Tính breakdown
+            const breakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+            currentReviews.forEach((review) => {
+              const rating = review.rating;
+              if (rating >= 1 && rating <= 5) {
+                breakdown[rating]++;
+              }
+            });
+            setCalculatedRatingBreakdown(breakdown); // Cập nhật breakdown
+          } else {
+            // Reset nếu không có đánh giá
+            setCalculatedAverageRating(0);
+            setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
+          }
+          // --- HẾT PHẦN TÍNH TOÁN ---
+          // --- Hết phần lấy reviews ---
           // --- Cập nhật state rating bằng dữ liệu thật ---
           // (Bỏ comment và chỉnh sửa khi có dữ liệu)
           // setAverageRating(bookData.average_rating || 0);
@@ -122,10 +139,20 @@ function ProductDetails() {
         } else {
           console.error("Book not found!");
           setBook(null); // Đảm bảo book là null nếu không tìm thấy
+          setReviews([]);
+          // Reset cả rating tính toán
+          setTotalRatingCount(0);
+          setCalculatedAverageRating(0);
+          setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
         }
       } catch (error) {
         console.error("Error fetching book details:", error);
         setBook(null);
+        setReviews([]);
+        // Reset cả rating tính toán
+        setTotalRatingCount(0);
+        setCalculatedAverageRating(0);
+        setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
       } finally {
         setLoading(false);
       }
@@ -222,9 +249,94 @@ function ProductDetails() {
 
   // Tính tỷ lệ phần trăm cho breakdown
   const calculateRatingPercentage = (starCount) => {
-    if (!ratingBreakdown || ratingCount === 0) return 0;
-    return ((ratingBreakdown[starCount] || 0) / ratingCount) * 100;
+    // SỬ DỤNG STATE MỚI
+    if (!calculatedRatingBreakdown || totalRatingCount === 0) return 0;
+    return (
+      ((calculatedRatingBreakdown[starCount] || 0) / totalRatingCount) * 100
+    );
   };
+
+  // --- Hàm xử lý Form Đánh giá ---
+  const handleWriteReviewClick = () => {
+    // TODO: Kiểm tra xem người dùng đã đăng nhập chưa
+    // if (!isUserLoggedIn) { navigate('/signIn'); return; }
+    setShowReviewForm(true); // Hiển thị form
+  };
+
+  const handleCancelReview = () => {
+    setShowReviewForm(false); // Ẩn form
+    setUserRating(0); // Reset sao
+    setHoverRating(0);
+    setReviewComment(""); // Reset comment
+  };
+
+  const handleStarClick = (ratingValue) => {
+    setUserRating(ratingValue);
+  };
+
+  const handleStarHover = (ratingValue) => {
+    setHoverRating(ratingValue);
+  };
+
+  const handleStarLeave = () => {
+    setHoverRating(0);
+  };
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    if (userRating === 0) {
+      alert("Vui lòng chọn số sao đánh giá.");
+      return;
+    }
+    if (!reviewComment.trim()) {
+      alert("Vui lòng nhập nội dung đánh giá.");
+      return;
+    }
+    setIsSubmittingReview(true);
+    console.log("Submitting review:", {
+      rating: userRating,
+      comment: reviewComment,
+    });
+
+    // --- TODO: Gọi API để gửi đánh giá lên backend ---
+    try {
+      // const reviewData = {
+      //     bookId: id,
+      //     rating: userRating,
+      //     comment: reviewComment,
+      //     // Thêm userId nếu cần
+      // };
+      // await submitReview(reviewData); // Gọi hàm API của bạn
+
+      // --- Giả lập thành công ---
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      alert("Gửi đánh giá thành công!");
+
+      // Cập nhật lại danh sách reviews (lý tưởng nhất là fetch lại)
+      // const updatedReviews = await getReviews(id);
+      // setReviews(updatedReviews);
+      // Hoặc thêm review mới vào đầu danh sách (tạm thời)
+      const newReview = {
+        id: Date.now(),
+        user: "Bạn",
+        rating: userRating,
+        comment: reviewComment,
+        date: new Date().toISOString(),
+      };
+      setReviews([newReview, ...reviews]);
+
+      // TODO: Cập nhật lại averageRating, ratingCount, ratingBreakdown (lý tưởng là fetch lại book data)
+
+      handleCancelReview(); // Đóng form và reset
+    } catch (error) {
+      console.error("Lỗi gửi đánh giá:", error);
+      alert("Đã có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại.");
+    } finally {
+      setIsSubmittingReview(false);
+    }
+    // --- Hết phần gọi API ---
+  };
+  // --- Hết Hàm xử lý Form Đánh giá ---
 
   // --- Render ---
   if (loading) {
@@ -415,7 +527,9 @@ function ProductDetails() {
               {/* Thông tin khác */}
               <ul>
                 <li>
-                  <span style={{fontSize:"20px", color:"black"}}>Thể loại:</span>
+                  <span style={{ fontSize: "20px", color: "black" }}>
+                    Thể loại:
+                  </span>
                   {book.book_genres &&
                   Array.isArray(book.book_genres) &&
                   book.book_genres.length > 0 ? (
@@ -428,7 +542,13 @@ function ProductDetails() {
                     <p className="book-genre">Chưa phân loại</p> // Hoặc thông báo khác
                   )}
                   <br></br>
-                  <span style={{fontSize:"20px", color:"black"}}>Tác giả:</span> <p style={{display:"inline-block"}}> {book.authors.author_name}</p>
+                  <span style={{ fontSize: "20px", color: "black" }}>
+                    Tác giả:
+                  </span>{" "}
+                  <p style={{ display: "inline-block" }}>
+                    {" "}
+                    {book.authors.author_name}
+                  </p>
                 </li>
                 {/* Số lượng còn lại đã bị ẩn/xóa */}
               </ul>
@@ -443,20 +563,24 @@ function ProductDetails() {
       <div className="product-ratings-reviews section">
         <div className="container">
           <h3 className="section-title">Đánh giá sản phẩm</h3>
-          {ratingCount > 0 ? ( // Chỉ hiển thị nếu có đánh giá
+          {/* SỬ DỤNG totalRatingCount ĐỂ KIỂM TRA */}
+          {totalRatingCount > 0 ? (
             <div className="row">
               {/* Cột Tóm tắt Rating */}
               <div className="col-lg-5 col-md-6">
                 <div className="rating-summary">
                   <div className="average-rating">
                     <span className="average-score">
-                      {averageRating.toFixed(1)}
+                      {/* SỬ DỤNG calculatedAverageRating */}
+                      {calculatedAverageRating.toFixed(1)}
                     </span>
                     <span className="average-stars">
-                      <StarRating rating={averageRating} />
+                      {/* SỬ DỤNG calculatedAverageRating */}
+                      <StarRating rating={calculatedAverageRating} />
                     </span>
                     <span className="total-ratings">
-                      ({ratingCount} đánh giá)
+                      {/* SỬ DỤNG totalRatingCount */}({totalRatingCount} đánh
+                      giá)
                     </span>
                   </div>
                   <div className="rating-breakdown">
@@ -468,12 +592,13 @@ function ProductDetails() {
                         <div className="progress-bar-container">
                           <div
                             className="progress-bar"
+                            // Hàm calculateRatingPercentage đã được cập nhật để dùng state mới
                             style={{
                               width: `${calculateRatingPercentage(stars)}%`,
                             }}
                             title={`${calculateRatingPercentage(stars).toFixed(
                               0
-                            )}%`} // Thêm title để xem % khi hover
+                            )}%`}
                           ></div>
                         </div>
                         <span className="star-percentage">
@@ -482,12 +607,75 @@ function ProductDetails() {
                       </div>
                     ))}
                   </div>
-                  <button
-                    onClick={handleWriteReview}
-                    className="orange-button write-review-button"
-                  >
-                    <i className="fas fa-pencil-alt"></i> Viết đánh giá của bạn
-                  </button>
+                  {/* ... (Phần form viết đánh giá giữ nguyên) ... */}
+                  {!showReviewForm ? (
+                    <button
+                      onClick={handleWriteReviewClick}
+                      className="orange-button write-review-button"
+                    >
+                      <i className="fas fa-pencil-alt"></i> Viết đánh giá của
+                      bạn
+                    </button>
+                  ) : (
+                    // --- Form Nhập Đánh Giá ---
+                    <form className="review-form" onSubmit={handleReviewSubmit}>
+                      <h5>Đánh giá của bạn</h5>
+                      {/* Chọn sao */}
+                      <div className="form-group star-input-group">
+                        <label>Chọn số sao *</label>
+                        <div className="stars">
+                          {[1, 2, 3, 4, 5].map((starValue) => (
+                            <i
+                              key={starValue}
+                              className={`fa-star ${
+                                (hoverRating || userRating) >= starValue
+                                  ? "fas"
+                                  : "far" // fas = solid, far = regular/empty
+                              }`}
+                              onClick={() => handleStarClick(starValue)}
+                              onMouseEnter={() => handleStarHover(starValue)}
+                              onMouseLeave={handleStarLeave}
+                            ></i>
+                          ))}
+                          <span className="selected-rating-text">
+                            {userRating > 0 ? `(${userRating}/5 sao)` : ""}
+                          </span>
+                        </div>
+                      </div>
+                      {/* Nhập bình luận */}
+                      <div className="form-group">
+                        <label htmlFor="reviewComment">Viết bình luận *</label>
+                        <textarea
+                          id="reviewComment"
+                          rows="4"
+                          placeholder="Chia sẻ cảm nhận của bạn về sản phẩm..."
+                          value={reviewComment}
+                          onChange={(e) => setReviewComment(e.target.value)}
+                          required
+                        ></textarea>
+                      </div>
+                      {/* Nút Submit/Cancel */}
+                      <div className="form-actions">
+                        <button
+                          type="submit"
+                          className="orange-button submit-review-button"
+                          disabled={isSubmittingReview}
+                        >
+                          {isSubmittingReview ? "Đang gửi..." : "Gửi đánh giá"}
+                        </button>
+                        <button
+                          type="button"
+                          className="cancel-review-button"
+                          onClick={handleCancelReview}
+                          disabled={isSubmittingReview}
+                        >
+                          Hủy
+                        </button>
+                      </div>
+                    </form>
+                    // --- Hết Form ---
+                  )}
+                  {/* --- Hết Nút viết đánh giá và Form --- */}
                 </div>
               </div>
 
@@ -495,48 +683,64 @@ function ProductDetails() {
               <div className="col-lg-7 col-md-6">
                 <div className="reviews-list">
                   <h4 className="reviews-list-title">Đánh giá nổi bật</h4>
+                  {/* SỬ DỤNG STATE `reviews` THAY VÌ BIẾN CŨ */}
                   {reviews && reviews.length > 0 ? (
                     reviews.slice(0, 3).map(
                       (
-                        review // Hiển thị tối đa 3 review
+                        review,
+                        index // Sử dụng index làm key nếu không có id duy nhất
                       ) => (
-                        <div className="review-item" key={review.id}>
+                        // Thay đổi key thành một giá trị duy nhất nếu có, ví dụ review.user_id nếu nó là duy nhất cho mỗi review trong sách này
+                        // Hoặc kết hợp book_id và user_id: key={`<span class="math-inline">\{book\.book\_id\}\-</span>{review.user_id}`}
+                        // Tạm thời dùng index nếu không chắc chắn về tính duy nhất
+                        <div className="review-item" key={index}>
                           <div className="review-header">
-                            <span className="reviewer-name">{review.user}</span>
+                            {/* Hiển thị User ID hoặc một placeholder */}
+                            <span className="reviewer-name">
+                              Người dùng #{review.user_id}
+                            </span>
                             <span className="review-stars">
+                              {/* Sử dụng rating từ dữ liệu thật */}
                               <StarRating rating={review.rating} />
                             </span>
                           </div>
+                          {/* Sử dụng comment từ dữ liệu thật */}
                           <p className="review-comment">{review.comment}</p>
-                          <span className="review-date">
-                            {new Date(review.date).toLocaleDateString("vi-VN")}
-                          </span>
+                          {/* Dữ liệu JSON không có ngày, bạn có thể bỏ dòng này hoặc hiển thị thông tin khác */}
+                          {/* <span className="review-date">...</span> */}
                         </div>
                       )
                     )
                   ) : (
                     <p>Chưa có đánh giá nào.</p>
                   )}
+                  {/* Kiểm tra state `reviews` */}
                   {reviews &&
                     reviews.length > 3 && ( // Nút xem thêm nếu có nhiều hơn 3 reviews
                       <button
                         className="read-more-button"
                         style={{ marginTop: "15px" }}
+                        // TODO: Thêm logic xử lý cho nút này (ví dụ: hiển thị tất cả reviews)
+                        onClick={() =>
+                          alert(
+                            "Chức năng xem tất cả đánh giá đang được phát triển!"
+                          )
+                        }
                       >
                         Xem tất cả đánh giá
                       </button>
-                      // TODO: Thêm logic xử lý cho nút này
                     )}
                 </div>
               </div>
             </div>
           ) : (
-            // Thông báo khi chưa có đánh giá
+            // Thông báo khi chưa có đánh giá (sử dụng totalRatingCount)
             <div className="row">
               <div className="col-12 text-center">
                 <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                {/* ... Nút viết đánh giá đầu tiên ... */}
                 <button
-                  onClick={handleWriteReview}
+                  onClick={handleWriteReviewClick} // Sử dụng hàm mở form mới
                   className="orange-button write-review-button"
                   style={{ marginTop: "10px", width: "auto" }}
                 >

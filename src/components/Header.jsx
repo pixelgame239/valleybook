@@ -70,10 +70,7 @@ function Header({ currentPage }) {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/cart"
-                    className={currentPage === "cart" ? "active" : ""}
-                  >
+                  <Link to="/#" className={currentPage === "#" ? "active" : ""}>
                     Diễn đàn
                   </Link>
                 </li>
