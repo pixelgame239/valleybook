@@ -16,6 +16,7 @@ import PrestigeBrand from "./pages/PrestigeBrand";
 import Checkout from "./pages/Checkout";
 import QualityProduct from "./pages/QualityProduct";
 import InnovationPage from "./pages/InnovationPage";
+import AdminApp from "./AdminApp.jsx"; // Điều chỉnh đường dẫn nếu cần
 function App() {
   return (
     <AuthProvider>
@@ -42,6 +43,14 @@ function App() {
           <Route path="/qualityProduct" element={<QualityProduct />} />
           <Route path="/innovationPage" element={<InnovationPage />} />
           <Route path="/checkout" element={<Checkout />} />
+          {/* THÊM ROUTE CHO ADMIN PANEL */}
+          <Route
+            path="/admin/*" // <-- ĐẢM BẢO ĐƯỜNG DẪN CHÍNH XÁC
+            element={
+              // Tạm thời không bọc ProtectedAdminRoute để dễ test
+              <AdminApp />
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
