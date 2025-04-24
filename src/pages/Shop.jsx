@@ -6,10 +6,10 @@ import FilterSidebar from "../components/FilterSidebar";
 import GridBook from "../components/GridBook";
 import { BookContext } from "../backend/BookContext";
 import { getBookData, getNumsBook } from "../backend/getBookData";
-import { getGenres } from "../backend/getGenres";
+import { getAuthors, getGenres } from "../backend/getGenres";
 
 function Shop() {
-  const { currentPage, setCurrentPage, bookList, genres, setBookList, setGenres, pageCount, setPageCount } = useContext(BookContext);
+  const { currentPage, setCurrentPage, bookList, fullBookList, setFullBookList, genres, setBookList, setGenres, pageCount, setPageCount, setAuthors } = useContext(BookContext);
   const [loading, setLoading] = useState(true);
   const handleChangingPage=async (pageNumber)=>{
     setLoading(true);
@@ -20,7 +20,9 @@ function Shop() {
       const fetchShop = async () =>{
           let bookData= await getBookData();
           let genreData= await getGenres();
+          let authorData = await getAuthors();
           if(bookData.length>0){
+            setFullBookList(bookData);
             setBookList(bookData);
             setPageCount(getNumsBook(bookData));
             setLoading(false);
@@ -31,6 +33,9 @@ function Shop() {
                 setLoading(false);
             }
             setCurrentPage(1);
+          if(authorData){
+            setAuthors(authorData);
+          }
       };
       fetchShop();
     }, []);

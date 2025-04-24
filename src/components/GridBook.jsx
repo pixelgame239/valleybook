@@ -4,6 +4,9 @@ import "../../public/assets/css/gridBook.css";
 import Preloader from "./Preloader";
 import DiscountTag from "./DiscountTag";
 import { BookContext } from "../backend/BookContext";
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
 
 export default function GridBook() {
   const {bookList, currentPage} = useContext(BookContext);
@@ -17,18 +20,16 @@ export default function GridBook() {
     const totalRating= book.reviews.reduce((
       prevRate, curRate)=>prevRate+curRate.rating,0);
     const avgRating = (totalRating/(book.reviews.length)).toFixed(1);
-    let displayInStar = "";
-    for(let i=1;i<=5;i++){
-      if(avgRating-i>=0.8){
-        displayInStar+="★";
+    let displayInStar = [];
+    for (let i = 0; i < 5; i++) {
+      if (avgRating - i >= 0.8) {
+        displayInStar.push(<StarIcon key={i} style={{ color: "#E6C336" }} />);
+      } else if (avgRating - i >= 0.3) {
+        displayInStar.push(<StarHalfIcon icon="fa-solid fa-star-half-stroke" style={{color: "#E6C336",}} />);
+      } else {
+        displayInStar.push(<StarBorderIcon icon="fa-regular fa-star" style={{color: "#E6C336",}} />);
       }
-      else if(avgRating-i<=0.5&&avgRating-i>=0){
-        displayInStar+="⯪";
-      }
-      else{
-        displayInStar+="☆";
-      }
-  }
+    }
   return { avgRating, displayInStar };
 }
   // useEffect(() => {
@@ -65,7 +66,7 @@ export default function GridBook() {
             <h5 className="book-title">{book.book_name}</h5>
             <p className="book-type">Sách giấy</p>
             {(!(book.reviews)||(book.reviews.length===0))?<p className="book-rating-empty">Chưa có đánh giá</p>:
-            <p><span style={{fontSize:"18px", fontWeight:"bold"}}>{calculateAvgRating(book).avgRating}</span><span className="book-rating">{calculateAvgRating(book).displayInStar}</span><span className="book-rating-count">{`(${book.reviews.length})`}</span></p>}
+            <p>{<span style={{fontSize:"18px", fontWeight:"bold"}}>{calculateAvgRating(book).avgRating}</span>}<span className="book-rating">{calculateAvgRating(book).displayInStar}</span><span className="book-rating-count">{`(${book.reviews.length})`}</span></p>}
             <div className="book-price">
               {book.discount?<span className="old-price">
                 {book.price.toLocaleString()}đ

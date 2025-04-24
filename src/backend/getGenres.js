@@ -8,3 +8,11 @@ export async function getGenres() {
     }
     return data;
 }
+export async function getAuthors() {
+    const { data, error } = await supabase.from("authors").select();
+    if(error){
+        console.error("Unexpected error: ", error);
+        return [];
+    }
+    return data;
+}
