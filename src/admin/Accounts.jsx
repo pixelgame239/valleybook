@@ -65,6 +65,7 @@ export const AccountCreate = (props) => (
       {/* Form đơn giản */}
       {/* Trường khóa chính (username) cần được nhập khi tạo mới và là bắt buộc */}
       <TextInput source="username" required />{" "}
+      <TextInput source="password" required />{" "}
       {/* required làm trường bắt buộc */}
       {/* Các input cho các trường khi tạo mới */}
       <TextInput source="email" required type="email" label="Email" />{" "}

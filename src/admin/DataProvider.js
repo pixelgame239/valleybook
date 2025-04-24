@@ -15,7 +15,10 @@ const dataProvider = supabaseDataProvider({
   apiKey: supabaseKey,
   // Bạn có thể truyền instance client đã tạo nếu muốn, hoặc để provider tự tạo
   supabaseClient: supabase,
-  primaryKeys: new Map([["accounts", ["username"]]]),
+  primaryKeys: new Map([
+    ["accounts", ["username"]],
+    ["books", ["book_id"]],
+  ]),
   // Các cấu hình khác nếu cần, ví dụ:
   // defaultPagination: { page: 1, perPage: 25 },
   // defaultSort: { field: 'id', order: 'DESC' },
