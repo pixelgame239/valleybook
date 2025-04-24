@@ -89,7 +89,7 @@ function InnovationPage() {
                 </ul>
 
                 <h4 className="text-success mt-4">
-                  🤲 Vì sao Valley làm điều này?
+                  🤲 Vì sao Valley Book làm điều này?
                 </h4>
                 <p className="fs-5 mt-2">
                   Chúng tôi không chỉ bán sách. Chúng tôi trao truyền cảm hứng.
