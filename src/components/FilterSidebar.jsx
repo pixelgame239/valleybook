@@ -5,7 +5,7 @@ import Preloader from "./Preloader";
 import { BookContext } from "../backend/BookContext";
 import { filterBook, getBookData, getNumsBook } from "../backend/getBookData";
 
-export default function FilterSidebar() {
+export default function FilterSidebar({ navGenre, navAuth }) {
   const [loading, setLoading] = useState(false);
   const { genres, setBookList, setCurrentPage, setPageCount, bookList, fullBookList, authors } = useContext(BookContext);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -124,7 +124,20 @@ export default function FilterSidebar() {
     setLoading(false);
   }
   
-  //  useEffect(() => {
+   useEffect(() => {
+    const initPage = async() => {
+      setLoading(true);
+        await getBookData();
+        if(navGenre){
+          handleGenreChange(navGenre,null,null);
+          setLoading(false);
+        }
+        if(navAuth){
+          handleGenreChange(null, null, navAuth);
+          setLoading(false);
+      }
+    }
+    initPage();
   //     const fetchGenres = async () =>{
   //       let genreData= await getGenres();
   //       if(genreData){
@@ -133,7 +146,7 @@ export default function FilterSidebar() {
   //       }
   //     };
   //     fetchGenres();
-  //   }, []);
+    }, []);
   return (
     <>
     {loading?<Preloader></Preloader>:

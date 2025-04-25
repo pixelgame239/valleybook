@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom"; // Thêm Link
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { getSingleBookData } from "../backend/getBookData"; // Giả sử hàm này lấy đủ dữ liệu rating hoặc bạn sẽ cập nhật nó
+import { useNavigate } from "react-router-dom";
 
 // import { getReviews } from "../backend/getReviews"; // Giả sử bạn có hàm này để lấy reviews
 import Preloader from "../components/Preloader";
@@ -34,8 +35,8 @@ const mapBookType = (typeCode) => {
       return "Không xác định";
   }
 };
-
 function ProductDetails() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -539,7 +540,7 @@ function ProductDetails() {
                   Array.isArray(book.book_genres) &&
                   book.book_genres.length > 0 ? (
                     book.book_genres.map((singleGenre, index) => (
-                      <p key={index} className="book-genre">
+                      <p key={index} className="book-genre" onClick={()=>navigate("/shop", {state:{genre: singleGenre.genre_name, author_name:null}})}>
                         {singleGenre?.genre_name || "N/A"}
                       </p>
                     ))
@@ -618,8 +619,7 @@ function ProductDetails() {
                       onClick={handleWriteReviewClick}
                       className="orange-button write-review-button"
                     >
-                      <i className="fas fa-pencil-alt"></i> Viết đánh giá của
-                      bạn
+                      <i className="fas fa-pencil-alt"></i> Viết đánh giá của bạn
                     </button>
                   ) : (
                     // --- Form Nhập Đánh Giá ---
@@ -711,17 +711,7 @@ function ProductDetails() {
                           <span className="reviewer-name">
                             {/* --- BẮT ĐẦU LOGIC HIỂN THỊ TÊN --- */}
                             {/* Ưu tiên 1: Kiểm tra cờ is_anonymous từ backend (nếu có) */}
-                            {review.is_anonymous
-                              ? "Người dùng ẩn danh"
-                              : // Ưu tiên 2: Kiểm tra giá trị 'user' đã đặt khi gửi form (cho review mới)
-                              review.user === "Người dùng ẩn danh"
-                              ? "Người dùng ẩn danh"
-                              : // Ưu tiên 3: Hiển thị user ID (nếu không ẩn danh và không có tên cụ thể)
-                              review.user_id
-                              ? `Người dùng #${review.user_id}`
-                              : // Mặc định nếu không có thông tin gì khác
-                                "Người dùng"}
-                            {/* --- KẾT THÚC LOGIC HIỂN THỊ TÊN --- */}
+                           {review.username}
                           </span>
                           <span className="review-stars">
                             <StarRating rating={review.rating} />

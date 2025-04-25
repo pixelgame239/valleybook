@@ -7,8 +7,11 @@ import GridBook from "../components/GridBook";
 import { BookContext } from "../backend/BookContext";
 import { getBookData, getNumsBook } from "../backend/getBookData";
 import { getAuthors, getGenres } from "../backend/getGenres";
+import { useLocation } from "react-router-dom";
 
 function Shop() {
+  const location = useLocation();
+  const { genre, author_name } = location.state || {};
   const { currentPage, setCurrentPage, bookList, fullBookList, setFullBookList, genres, setBookList, setGenres, pageCount, setPageCount, setAuthors } = useContext(BookContext);
   const [loading, setLoading] = useState(true);
   const handleChangingPage=async (pageNumber)=>{
@@ -25,19 +28,19 @@ function Shop() {
             setFullBookList(bookData);
             setBookList(bookData);
             setPageCount(getNumsBook(bookData));
-            setLoading(false);
           }
             if(genreData){
                 setGenres(genreData);
                 console.log(genres);
-                setLoading(false);
             }
             setCurrentPage(1);
           if(authorData){
             setAuthors(authorData);
           }
+          setLoading(false);
+          console.log("Run on Shop")
       };
-      fetchShop();
+        fetchShop();
     }, []);
     const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
   return (
@@ -62,7 +65,7 @@ function Shop() {
           <div className="row">
             {/* Sidebar Filter: 1/3 width */}
             <div className="col-lg-3">
-              <FilterSidebar />
+              <FilterSidebar navGenre={genre} navAuth={author_name}></FilterSidebar>
             </div>
 
             {/* Shop Items: 2/3 width */}

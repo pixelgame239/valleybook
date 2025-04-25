@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { supabase } from "../backend/initSupabase"; // Đảm bảo đường dẫn đúng
 import ChatMessage from "./ChatMessage"; // Tái sử dụng component hiển thị tin nhắn
-import { v4 as uuidv4 } from "uuid"; // Cần cài đặt uuid: npm install uuid
 
 function AdminChatArea({ selectedUserId }) {
   const [messages, setMessages] = useState([]);
