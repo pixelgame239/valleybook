@@ -33,6 +33,7 @@ function AdminChatArea({ selectedUserId }) {
       // Hoặc (người gửi là selectedUser VÀ người nhận bắt đầu bằng 'admin')
       // Hoặc (người gửi bắt đầu bằng 'admin' VÀ người nhận là selectedUser)
       // Sắp xếp tin nhắn theo thời gian tăng dần (tin nhắn cũ ở trên)
+      // Giả định rằng ID/username của admin trong DB bắt đầu bằng 'admin'
       const { data, error } = await supabase
         .from("messages")
         .select("*")
@@ -135,9 +136,9 @@ function AdminChatArea({ selectedUserId }) {
     // Tạo đối tượng tin nhắn để chèn vào bảng 'messages'
     const messageToInsert = {
       username: currentAdminUserId, // Người gửi là admin hiện tại
-      receiver_id: selectedUserId, // Người nhận là người dùng đang chat
+      receiver_id: selectedUserId, // Người nhận là người dùng đang chat cùng
       text: newMessageText.trim(), // Nội dung tin nhắn (đã loại bỏ khoảng trắng đầu/cuối)
-      // Supabase sẽ tự động điền 'created_at' và 'message_id' (nếu được cấu hình)
+      // created_at và message_id (nếu là UUID/Serial) sẽ được tự động thêm bởi Supabase/DB
     };
 
     // Chèn tin nhắn mới vào bảng 'messages'
