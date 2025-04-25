@@ -65,6 +65,7 @@ function ProductDetails() {
   const [hoverRating, setHoverRating] = useState(0); // Điểm sao khi hover
   const [reviewComment, setReviewComment] = useState(""); // Nội dung bình luận
   const [isSubmittingReview, setIsSubmittingReview] = useState(false); // State loading khi gửi
+  const [isAnonymous, setIsAnonymous] = useState(false); // <-- THÊM STATE NÀY
   // --- Hết State mới ---
 
   useEffect(() => {
@@ -268,6 +269,7 @@ function ProductDetails() {
     setUserRating(0); // Reset sao
     setHoverRating(0);
     setReviewComment(""); // Reset comment
+    setIsAnonymous(false);
   };
 
   const handleStarClick = (ratingValue) => {
@@ -292,10 +294,12 @@ function ProductDetails() {
       alert("Vui lòng nhập nội dung đánh giá.");
       return;
     }
+
     setIsSubmittingReview(true);
     console.log("Submitting review:", {
       rating: userRating,
       comment: reviewComment,
+      anonymous: isAnonymous, // Log thêm trạng thái ẩn danh
     });
 
     // --- TODO: Gọi API để gửi đánh giá lên backend ---
@@ -317,14 +321,15 @@ function ProductDetails() {
       // setReviews(updatedReviews);
       // Hoặc thêm review mới vào đầu danh sách (tạm thời)
       const newReview = {
-        id: Date.now(),
-        user: "Bạn",
+        id: Date.now(), // Hoặc ID từ backend
+        // Thay đổi user dựa trên isAnonymous
+        user: isAnonymous ? "Người dùng ẩn danh" : "Bạn", // <-- THAY ĐỔI Ở ĐÂY
         rating: userRating,
         comment: reviewComment,
         date: new Date().toISOString(),
+        // Có thể thêm trường is_anonymous: isAnonymous nếu backend cần
       };
       setReviews([newReview, ...reviews]);
-
       // TODO: Cập nhật lại averageRating, ratingCount, ratingBreakdown (lý tưởng là fetch lại book data)
 
       handleCancelReview(); // Đóng form và reset
@@ -654,6 +659,20 @@ function ProductDetails() {
                           required
                         ></textarea>
                       </div>
+
+                      {/* --- THÊM CHECKBOX ẨN DANH --- */}
+                      <div className="form-group anonymous-checkbox-group">
+                        <input
+                          type="checkbox"
+                          id="anonymousReview"
+                          checked={isAnonymous}
+                          onChange={(e) => setIsAnonymous(e.target.checked)}
+                        />
+                        <label htmlFor="anonymousReview">
+                          Gửi đánh giá ẩn danh
+                        </label>
+                      </div>
+                      {/* --- HẾT CHECKBOX ẨN DANH --- */}
                       {/* Nút Submit/Cancel */}
                       <div className="form-actions">
                         <button
@@ -683,34 +702,40 @@ function ProductDetails() {
               <div className="col-lg-7 col-md-6">
                 <div className="reviews-list">
                   <h4 className="reviews-list-title">Đánh giá nổi bật</h4>
-                  {/* SỬ DỤNG STATE `reviews` THAY VÌ BIẾN CŨ */}
                   {reviews && reviews.length > 0 ? (
-                    reviews.slice(0, 3).map(
-                      (
-                        review,
-                        index // Sử dụng index làm key nếu không có id duy nhất
-                      ) => (
-                        // Thay đổi key thành một giá trị duy nhất nếu có, ví dụ review.user_id nếu nó là duy nhất cho mỗi review trong sách này
-                        // Hoặc kết hợp book_id và user_id: key={`<span class="math-inline">\{book\.book\_id\}\-</span>{review.user_id}`}
-                        // Tạm thời dùng index nếu không chắc chắn về tính duy nhất
-                        <div className="review-item" key={index}>
-                          <div className="review-header">
-                            {/* Hiển thị User ID hoặc một placeholder */}
-                            <span className="reviewer-name">
-                              Người dùng #{review.user_id}
-                            </span>
-                            <span className="review-stars">
-                              {/* Sử dụng rating từ dữ liệu thật */}
-                              <StarRating rating={review.rating} />
-                            </span>
-                          </div>
-                          {/* Sử dụng comment từ dữ liệu thật */}
-                          <p className="review-comment">{review.comment}</p>
-                          {/* Dữ liệu JSON không có ngày, bạn có thể bỏ dòng này hoặc hiển thị thông tin khác */}
-                          {/* <span className="review-date">...</span> */}
+                    reviews.slice(0, 3).map((review, index) => (
+                      <div className="review-item" key={review.id || index}>
+                        {" "}
+                        {/* Ưu tiên review.id nếu có */}
+                        <div className="review-header">
+                          <span className="reviewer-name">
+                            {/* --- BẮT ĐẦU LOGIC HIỂN THỊ TÊN --- */}
+                            {/* Ưu tiên 1: Kiểm tra cờ is_anonymous từ backend (nếu có) */}
+                            {review.is_anonymous
+                              ? "Người dùng ẩn danh"
+                              : // Ưu tiên 2: Kiểm tra giá trị 'user' đã đặt khi gửi form (cho review mới)
+                              review.user === "Người dùng ẩn danh"
+                              ? "Người dùng ẩn danh"
+                              : // Ưu tiên 3: Hiển thị user ID (nếu không ẩn danh và không có tên cụ thể)
+                              review.user_id
+                              ? `Người dùng #${review.user_id}`
+                              : // Mặc định nếu không có thông tin gì khác
+                                "Người dùng"}
+                            {/* --- KẾT THÚC LOGIC HIỂN THỊ TÊN --- */}
+                          </span>
+                          <span className="review-stars">
+                            <StarRating rating={review.rating} />
+                          </span>
                         </div>
-                      )
-                    )
+                        <p className="review-comment">{review.comment}</p>
+                        {/* Hiển thị ngày nếu có */}
+                        {review.date && (
+                          <span className="review-date">
+                            {new Date(review.date).toLocaleDateString("vi-VN")}
+                          </span>
+                        )}
+                      </div>
+                    ))
                   ) : (
                     <p>Chưa có đánh giá nào.</p>
                   )}

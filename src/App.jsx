@@ -17,6 +17,7 @@ import Checkout from "./pages/Checkout";
 import QualityProduct from "./pages/QualityProduct";
 import InnovationPage from "./pages/InnovationPage";
 import AdminApp from "./AdminApp.jsx"; // Điều chỉnh đường dẫn nếu cần
+import AdminChatScreen from "./pages/AdminChatScreen.jsx"; // Điều chỉnh đường dẫn nếu cần
 function App() {
   return (
     <AuthProvider>
@@ -43,6 +44,8 @@ function App() {
           <Route path="/qualityProduct" element={<QualityProduct />} />
           <Route path="/innovationPage" element={<InnovationPage />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/adminChat" element={<AdminChatScreen />} />
+
           {/* THÊM ROUTE CHO ADMIN PANEL */}
           <Route
             path="/admin/*" // <-- ĐẢM BẢO ĐƯỜNG DẪN CHÍNH XÁC
