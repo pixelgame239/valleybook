@@ -9,6 +9,26 @@ export async function getBookData() {
     }
     return data;
 }
+
+export async function getBestSellerBooks() {
+    const { data, error } = await supabase
+    .from('books')
+    .select('book_id, url_image, book_name, reviews')
+    .order('reviews', { ascending: false, foreignTable: null }) 
+
+  if (error) {
+    console.error('Error fetching books:', error)
+    return []
+  }
+
+  const sorted = data
+    .filter(book => Array.isArray(book.reviews))
+    .sort((a, b) => b.reviews.length - a.reviews.length)
+    .slice(0, 8)
+
+  return sorted;
+
+}
 export async function getSingleBookData(book_id){
     const { data, error } = await supabase.from("books").select(`*, book_genres(genre_name), authors(author_name)`).eq("book_id", book_id).single();
     if(error){

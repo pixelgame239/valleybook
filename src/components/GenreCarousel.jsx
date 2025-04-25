@@ -73,7 +73,7 @@ function GenreCarousel() {
     autoplaySpeed: 3000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    slidesToScroll: 1,
+    slidesToScroll: 4,
     responsive: [
       {
         breakpoint: 1024,
