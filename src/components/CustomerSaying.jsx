@@ -36,10 +36,10 @@ function CustomerSaying() {
                   float: "left",
                 }}
               />
-              <p style={{ marginTop: "60px", fontSize: "1.3rem" }}>
+              <p style={{ marginTop: "60px", fontSize: "1.3rem", color:"#0171F9", fontWeight:"bold" }}>
                 Ông Hoàng Nam Tiến
                 <br />
-                Chủ tịch FPT software
+                Chủ tịch FPT Software
               </p>
             </div>
             <div className="flexColumn">
@@ -66,9 +66,9 @@ function CustomerSaying() {
                   float: "left",
                 }}
               />
-              <p style={{ marginTop: "60px", fontSize: "1.3rem" }}>
+              <p style={{ marginTop: "60px", fontSize: "1rem", color:"#0171F9", fontWeight:"bold" }}>
                 Anh Dương Nguyễn Duy Thanh "Tinikun" <br />
-                Doanh nhân, nhà sáng lập "Thằng Bán Sách" và "Tiệm Cây Có Tâm"​
+                Nhà sáng lập "Thằng Bán Sách" <br />và "Tiệm Cây Có Tâm"​
               </p>
             </div>
           </div>

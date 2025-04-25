@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HeadingHomepage from "./HeadingHomepage";
-import { getBookData } from "../backend/getBookData";
+import { getBestSellerBooks } from "../backend/getBookData";
 import "./BestSellerCarousel.css";
 
 function BestSellerCarousel() {
@@ -12,7 +12,7 @@ function BestSellerCarousel() {
 
   useEffect(() => {
     async function fetchBooks() {
-      const data = await getBookData(1);
+      const data = await getBestSellerBooks();
       setBooks(data);
     }
     fetchBooks();
@@ -46,7 +46,7 @@ function BestSellerCarousel() {
   };
 
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
@@ -54,7 +54,7 @@ function BestSellerCarousel() {
     autoplaySpeed: 3000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    slidesToScroll: 1,
+    slidesToScroll: 4,
     responsive: [
       {
         breakpoint: 1024,
