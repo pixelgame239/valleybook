@@ -9,7 +9,7 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
 
   // ---- Logic tải tin nhắn và lắng nghe tin nhắn mới ----
   useEffect(() => {
-    // Hàm tải tin nhắn ban đầu
+    // Hàm tải người dùng ban đầu
     const fetchUsers = async () => {
       setLoading(true);
       setError(null);
