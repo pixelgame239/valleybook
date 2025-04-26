@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 function Shop() {
   const location = useLocation();
   const { genre, author_name } = location.state || {};
-  const { currentPage, setCurrentPage, bookList, fullBookList, setFullBookList, genres, setBookList, setGenres, pageCount, setPageCount, setAuthors } = useContext(BookContext);
+  const { currentPage, setCurrentPage, bookList, fullBookList, authors, setFullBookList, genres, setBookList, setGenres, pageCount, setPageCount, setAuthors } = useContext(BookContext);
   const [loading, setLoading] = useState(true);
   const handleChangingPage=async (pageNumber)=>{
     setLoading(true);
@@ -21,6 +21,8 @@ function Shop() {
   }
     useEffect(() => {
       const fetchShop = async () =>{
+        setLoading(true);
+        try{
           let bookData= await getBookData();
           let genreData= await getGenres();
           let authorData = await getAuthors();
@@ -31,21 +33,34 @@ function Shop() {
           }
             if(genreData){
                 setGenres(genreData);
-                console.log(genres);
             }
             setCurrentPage(1);
           if(authorData){
             setAuthors(authorData);
           }
+        }
+        catch(error){
+          console.log(error);
+        }
+        finally{
           setLoading(false);
-          console.log("Run on Shop")
+          console.log("Run on Shop");
+          console.log(bookList);
+        }
       };
         fetchShop();
     }, []);
     const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
+    if (
+      !bookList || bookList.length === 0 ||
+      !genres || genres.length === 0 ||
+      !authors || authors.length === 0
+    ) {
+      return <Preloader />;
+    }
+    
   return (
     <div>
-      {loading?<Preloader></Preloader> :<>
       <Header currentPage="shop" />
       <div className="page-heading header-text">
         <div className="container">
@@ -109,8 +124,6 @@ function Shop() {
         </div>
       </div>
       <Footer />
-      </>
-}
       {/* <Preloader /> */}
 
       {/* <div id="js-preloader" className="js-preloader">

@@ -551,8 +551,7 @@ function ProductDetails() {
                   <span style={{ fontSize: "20px", color: "black" }}>
                     Tác giả:
                   </span>{" "}
-                  <p style={{ display: "inline-block" }}>
-                    {" "}
+                  <p className="book-genre" onClick={()=>navigate("/shop", {state:{genre:null, author_name: book.authors.author_name}})}>
                     {book.authors.author_name}
                   </p>
                 </li>

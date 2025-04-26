@@ -12,7 +12,16 @@ export default function FilterSidebar({ navGenre, navAuth }) {
   const [selectedPrice, setSelectedPrice] = useState([]);
   const [selectedAuthor, setSelectedAuthor] = useState([]);
   const [showAllAuthors, setShowAllAuthors] =useState(false);
-  const initAuthors = showAllAuthors ? authors : authors.slice(0, 6);
+  const initAuthors = showAllAuthors
+  ? authors
+  : authors
+      .slice() // shallow copy
+      .sort((a, b) => {
+        const aSelected = selectedAuthor.includes(a.author_name);
+        const bSelected = selectedAuthor.includes(b.author_name);
+        return aSelected === bSelected ? 0 : aSelected ? -1 : 1;
+      })
+      .slice(0, 6); // take the top 6 after sorting
 
   const handleGenreChange = (genre_name, priceRange, author_name) => {
     setLoading(true);
@@ -125,16 +134,14 @@ export default function FilterSidebar({ navGenre, navAuth }) {
   }
   
    useEffect(() => {
-    const initPage = async() => {
-      setLoading(true);
-        await getBookData();
+    const initPage = async()=> {
         if(navGenre){
+          await getBookData();
           handleGenreChange(navGenre,null,null);
-          setLoading(false);
         }
         if(navAuth){
+          await getBookData();
           handleGenreChange(null, null, navAuth);
-          setLoading(false);
       }
     }
     initPage();
