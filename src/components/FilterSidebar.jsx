@@ -5,14 +5,23 @@ import Preloader from "./Preloader";
 import { BookContext } from "../backend/BookContext";
 import { filterBook, getBookData, getNumsBook } from "../backend/getBookData";
 
-export default function FilterSidebar() {
+export default function FilterSidebar({ navGenre, navAuth }) {
   const [loading, setLoading] = useState(false);
   const { genres, setBookList, setCurrentPage, setPageCount, bookList, fullBookList, authors } = useContext(BookContext);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState([]);
   const [selectedAuthor, setSelectedAuthor] = useState([]);
   const [showAllAuthors, setShowAllAuthors] =useState(false);
-  const initAuthors = showAllAuthors ? authors : authors.slice(0, 6);
+  const initAuthors = showAllAuthors
+  ? authors
+  : authors
+      .slice() // shallow copy
+      .sort((a, b) => {
+        const aSelected = selectedAuthor.includes(a.author_name);
+        const bSelected = selectedAuthor.includes(b.author_name);
+        return aSelected === bSelected ? 0 : aSelected ? -1 : 1;
+      })
+      .slice(0, 6); // take the top 6 after sorting
 
   const handleGenreChange = (genre_name, priceRange, author_name) => {
     setLoading(true);
@@ -124,7 +133,18 @@ export default function FilterSidebar() {
     setLoading(false);
   }
   
-  //  useEffect(() => {
+   useEffect(() => {
+    const initPage = async()=> {
+        if(navGenre){
+          await getBookData();
+          handleGenreChange(navGenre,null,null);
+        }
+        if(navAuth){
+          await getBookData();
+          handleGenreChange(null, null, navAuth);
+      }
+    }
+    initPage();
   //     const fetchGenres = async () =>{
   //       let genreData= await getGenres();
   //       if(genreData){
@@ -133,7 +153,7 @@ export default function FilterSidebar() {
   //       }
   //     };
   //     fetchGenres();
-  //   }, []);
+    }, []);
   return (
     <>
     {loading?<Preloader></Preloader>:

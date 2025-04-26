@@ -8,9 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        setLoggedIn(true);
-      } else if (event === 'SIGNED_OUT') {
+      if (event === 'SIGNED_OUT') {
         setLoggedIn(false);
       }
     });

@@ -7,9 +7,12 @@ import GridBook from "../components/GridBook";
 import { BookContext } from "../backend/BookContext";
 import { getBookData, getNumsBook } from "../backend/getBookData";
 import { getAuthors, getGenres } from "../backend/getGenres";
+import { useLocation } from "react-router-dom";
 
 function Shop() {
-  const { currentPage, setCurrentPage, bookList, fullBookList, setFullBookList, genres, setBookList, setGenres, pageCount, setPageCount, setAuthors } = useContext(BookContext);
+  const location = useLocation();
+  const { genre, author_name } = location.state || {};
+  const { currentPage, setCurrentPage, bookList, fullBookList, authors, setFullBookList, genres, setBookList, setGenres, pageCount, setPageCount, setAuthors } = useContext(BookContext);
   const [loading, setLoading] = useState(true);
   const handleChangingPage=async (pageNumber)=>{
     setLoading(true);
@@ -18,6 +21,8 @@ function Shop() {
   }
     useEffect(() => {
       const fetchShop = async () =>{
+        setLoading(true);
+        try{
           let bookData= await getBookData();
           let genreData= await getGenres();
           let authorData = await getAuthors();
@@ -25,24 +30,37 @@ function Shop() {
             setFullBookList(bookData);
             setBookList(bookData);
             setPageCount(getNumsBook(bookData));
-            setLoading(false);
           }
             if(genreData){
                 setGenres(genreData);
-                console.log(genres);
-                setLoading(false);
             }
             setCurrentPage(1);
           if(authorData){
             setAuthors(authorData);
           }
+        }
+        catch(error){
+          console.log(error);
+        }
+        finally{
+          setLoading(false);
+          console.log("Run on Shop");
+          console.log(bookList);
+        }
       };
-      fetchShop();
+        fetchShop();
     }, []);
     const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
+    if (
+      !bookList || bookList.length === 0 ||
+      !genres || genres.length === 0 ||
+      !authors || authors.length === 0
+    ) {
+      return <Preloader />;
+    }
+    
   return (
     <div>
-      {loading?<Preloader></Preloader> :<>
       <Header currentPage="shop" />
       <div className="page-heading header-text">
         <div className="container">
@@ -62,7 +80,7 @@ function Shop() {
           <div className="row">
             {/* Sidebar Filter: 1/3 width */}
             <div className="col-lg-3">
-              <FilterSidebar />
+              <FilterSidebar navGenre={genre} navAuth={author_name}></FilterSidebar>
             </div>
 
             {/* Shop Items: 2/3 width */}
@@ -106,8 +124,6 @@ function Shop() {
         </div>
       </div>
       <Footer />
-      </>
-}
       {/* <Preloader /> */}
 
       {/* <div id="js-preloader" className="js-preloader">
