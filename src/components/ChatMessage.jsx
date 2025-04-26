@@ -3,9 +3,9 @@ import React from "react";
 
 // Component để hiển thị một tin nhắn
 function ChatMessage({ message, isSentByCurrentUser }) {
-  console.log(
-    `ChatMessage ID: ${message.message_id}, Prop received: ${isSentByCurrentUser}`
-  );
+  // console.log(
+  //   `ChatMessage ID: ${message.message_id}, Prop received: ${isSentByCurrentUser}`
+  // );
 
   return (
     <div

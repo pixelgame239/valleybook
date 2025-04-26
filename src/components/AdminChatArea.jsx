@@ -1,4 +1,3 @@
-// src/components/AdminChatArea.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { supabase } from "../backend/initSupabase";
 import ChatMessage from "./ChatMessage";
@@ -11,6 +10,16 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
 
   const channelRef = useRef(null);
   const messagesEndRef = useRef(null);
+
+  // Log props and state changes
+  useEffect(() => {
+    console.log("Current state:", {
+      selectedUserId,
+      currentAdminUserId,
+      newMessageText,
+      loading,
+    });
+  }, [selectedUserId, currentAdminUserId, newMessageText, loading]);
 
   useEffect(() => {
     if (!selectedUserId) {
@@ -49,6 +58,7 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
     };
 
     const handleNewMessage = (payload) => {
+      console.log("New message received:", payload.new);
       const newMessage = payload.new;
 
       const isMessageFromSelectedUserToAdmin =
@@ -106,19 +116,42 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
   }, [messages]);
 
   const handleSendMessage = async () => {
-    if (newMessageText.trim() === "" || !selectedUserId || !currentAdminUserId)
+    console.log("handleSendMessage called", {
+      selectedUserId,
+      currentAdminUserId,
+      newMessageText,
+      loading,
+    });
+
+    if (
+      newMessageText.trim() === "" ||
+      !selectedUserId ||
+      !currentAdminUserId
+    ) {
+      console.log("Validation failed:", {
+        newMessageText,
+        selectedUserId,
+        currentAdminUserId,
+      });
+      setError("Vui lòng nhập tin nhắn và chọn người dùng.");
       return;
+    }
 
     if (newMessageText.length > 1000) {
       setError("Tin nhắn quá dài (tối đa 1000 ký tự).");
       return;
     }
 
+    console.log("Sending message with:", {
+      currentAdminUserId: currentAdminUserId,
+      selectedUserId,
+      text: newMessageText.trim(),
+    });
+
     const messageToInsert = {
       username: currentAdminUserId,
       receiver_id: selectedUserId,
       text: newMessageText.trim(),
-      created_at: new Date().toISOString(),
     };
 
     try {
@@ -129,16 +162,16 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
         .single();
 
       if (error) throw error;
-      setMessages((prevMessages) => [...prevMessages, data]);
       setNewMessageText("");
       setError(null);
     } catch (error) {
-      console.error("Error sending message:", error.message);
-      setError("Lỗi khi gửi tin nhắn.");
+      console.error("Error sending message:", error);
+      setError(`Lỗi khi gửi tin nhắn: ${error.message}`);
     }
   };
 
   const handleKeyPress = (event) => {
+    console.log("Key down:", event.key);
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       handleSendMessage();
@@ -222,7 +255,7 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
           }}
           value={newMessageText}
           onChange={(e) => setNewMessageText(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress} // Changed to onKeyDown
           disabled={!selectedUserId || loading}
           rows={1}
         />
@@ -230,7 +263,11 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
           onClick={handleSendMessage}
           style={{
             padding: "8px 15px",
-            backgroundColor: "selected0.2s ease",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
           }}
           disabled={!selectedUserId || newMessageText.trim() === "" || loading}
         >
