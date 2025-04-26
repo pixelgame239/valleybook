@@ -41,8 +41,8 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
           .from("messages")
           .select("*")
           .or(
-            `username.eq.${selectedUserId},receiver_id.ilike.admin%,` +
-              `username.ilike.admin%,receiver_id.eq.${selectedUserId}`
+            `and(username.eq.${selectedUserId},receiver_id.ilike.admin%),` +
+              `and(username.ilike.admin%,receiver_id.eq.${selectedUserId})`
           )
           .order("created_at", { ascending: true });
 
