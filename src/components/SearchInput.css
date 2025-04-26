@@ -18,6 +18,7 @@
 }
 
 .search-input-field {
+  margin-top: 45px;
   top: 10px;
   margin-left: 40px; /* Move input field more to the right */
   padding: 8px 12px;
@@ -51,4 +52,160 @@
 .search-icon {
   width: 20px;
   height: 20px;
+}
+
+/* Container bao gồm input và popup */
+
+.search-input-container {
+  position: relative;
+  /* max-width có thể giữ nguyên hoặc bỏ đi nếu pop-up có width cố định lớn hơn */
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1001;
+}
+/* Điều chỉnh lại lớp gốc nếu cần */
+.search-input {
+  position: relative; /* Cần thiết để định vị icon */
+  display: flex;
+  align-items: center;
+  /* Xóa các thuộc tính z-index, top, margin-top ở đây nếu đã đặt ở container */
+}
+
+.search-input-field {
+  /* Giữ các style cũ, đảm bảo padding-right đủ cho icon */
+  padding-right: 40px; /* Khoảng trống cho icon */
+  /* Thêm style để input đẹp hơn khi có popup */
+  border-bottom-left-radius: 0; /* Bo góc dưới khi popup hiện */
+  border-bottom-right-radius: 0;
+}
+
+/* Wrapper cho icon để dễ định vị hơn */
+.search-icon-wrapper {
+  margin-top: 23px;
+  position: absolute;
+  right: 5px; /* Điều chỉnh vị trí icon */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* Cho phép click xuyên qua icon vào input */
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- Styles cho Pop-up kết quả --- */
+.search-results-popup {
+  position: absolute;
+  top: 100%;
+  /* Điều chỉnh left để căn giữa hoặc theo ý muốn */
+  /* Ví dụ: Nếu input là 300px và popup là 450px,
+     left = (300 - 450) / 2 = -75px so với lề trái của input container
+     Nhưng vì input có margin-left: 40px, nên tính toán sẽ phức tạp hơn.
+     Cách đơn giản hơn là đặt width và xem nó hiển thị thế nào rồi chỉnh left/right
+  */
+  left: 0; /* Bắt đầu từ lề trái của container */
+  width: 450px; /* <-- Đặt độ rộng cố định mong muốn */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+
+  /* Có thể cần điều chỉnh lại right nếu bạn dùng left và width */
+  right: auto; /* Ghi đè right: 0 nếu có */
+}
+
+.search-results-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-result-item {
+  border-bottom: 1px solid #eee;
+}
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+/* Style cho thẻ Link bên trong li */
+.search-result-item a {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.search-result-item a:hover {
+  background-color: #f5f5f5; /* Màu nền khi hover */
+}
+
+.result-book-image {
+  width: 50px;
+  height: auto; /* Giữ tỷ lệ */
+  max-height: 75px; /* Giới hạn chiều cao ảnh */
+  margin-right: 12px;
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+  border: 1px solid #eee; /* Viền nhẹ cho ảnh */
+}
+
+.result-book-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Chiếm phần không gian còn lại */
+  overflow: hidden; /* Tránh tràn text */
+}
+
+.result-book-name {
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap; /* Không xuống dòng */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Hiển thị ... nếu quá dài */
+  margin-bottom: 2px;
+}
+
+.result-book-author {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.result-book-price {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ee626b; /* Màu giá */
+  margin-bottom: 4px;
+}
+
+.result-book-price .original-price {
+  font-size: 12px;
+  color: #aaa;
+  text-decoration: line-through;
+  margin-left: 8px;
+  font-weight: normal;
+}
+
+.result-book-rating {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Style cho thông báo loading và không có kết quả */
+.loading-indicator,
+.no-results {
+  padding: 15px 12px;
+  text-align: center;
+  color: #777;
+  font-style: italic;
 }
