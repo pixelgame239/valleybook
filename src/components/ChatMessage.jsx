@@ -11,7 +11,7 @@ function ChatMessage({ message, isSentByCurrentUser }) {
     <div
       style={{
         marginBottom: "10px",
-        textAlign: isSentByCurrentUser ? "right" : "left", // Căn lề dựa vào người gửi
+        textAlign: message.username.startsWith("admin") ? "left" : "right", // Căn lề dựa vào người gửi
       }}
     >
       <span

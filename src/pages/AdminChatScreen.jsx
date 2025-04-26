@@ -21,7 +21,7 @@ export default function AdminChatScreen() {
         if (error) throw error;
         if (user) {
           console.log("Authenticated user:", user);
-          setCurrentAdminUserId(user.id); // Or user.email, depending on your setup
+          setCurrentAdminUserId(user.email); // Or user.email, depending on your setup
         } else {
           setError("Vui lòng đăng nhập với tài khoản admin.");
         }

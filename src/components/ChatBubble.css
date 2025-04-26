@@ -13,7 +13,6 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
-
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
