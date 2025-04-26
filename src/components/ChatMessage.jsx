@@ -1,17 +1,27 @@
 // src/components/ChatMessage.js
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 // Component để hiển thị một tin nhắn
 function ChatMessage({ message, isSentByCurrentUser }) {
-  console.log(
-    `ChatMessage ID: ${message.message_id}, Prop received: ${isSentByCurrentUser}`
-  );
+  const location = useLocation();
+  const isAdminChat = location.pathname === "/adminChat";
+
+  const isAdmin = message.username && message.username.startsWith("admin");
+
+  const getTextAlign = () => {
+    if (isAdminChat) {
+      return isAdmin ? "right" : "left";
+    } else {
+      return isAdmin ? "left" : "right";
+    }
+  };
 
   return (
     <div
       style={{
         marginBottom: "10px",
-        textAlign: isSentByCurrentUser ? "right" : "left", // Căn lề dựa vào người gửi
+        textAlign: getTextAlign(),
       }}
     >
       <span
@@ -28,11 +38,11 @@ function ChatMessage({ message, isSentByCurrentUser }) {
         {message.text}
       </span>
       <div style={{ fontSize: "0.7em", color: "#888", marginTop: "2px" }}>
-        {/* Hiển thị "Bạn" hoặc "Admin" */}
-        {message.username && message.username.startsWith("admin")
+        {isAdmin
           ? "Admin"
-          : "Bạn"}
-        {/* Tùy chọn hiển thị thời gian: {new Date(message.created_at).toLocaleTimeString()} */}
+          : isAdminChat
+          ? "Khách hàng" // 👉 Nếu ở adminChat thì ghi "Khách hàng"
+          : "Bạn"}{" "}
       </div>
     </div>
   );

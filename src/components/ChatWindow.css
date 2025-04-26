@@ -1,0 +1,65 @@
+/* Mặc định ẩn hẳn */
+.chat-window {
+  position: fixed;
+  bottom: 100px; /* nâng lên trên bubble */
+  right: 20px;
+  width: 360px;
+  max-height: 500px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  display: none; /* Ẩn khi không có class open */
+  flex-direction: column;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+/* Khi open: hiện và xoay animation nếu có */
+.chat-window.open {
+  display: flex; /* Hiện khung chat */
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Nếu bạn dùng class closed (không bắt buộc) */
+.chat-window.closed {
+  display: none; /* hoặc transform: translateY(20px); opacity: 0; */
+}
+
+/* Nội dung message list */
+.messages-list {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+/* Input dưới cùng */
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.chat-info {
+  background-color: #0171f9;
+  color: #fff;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 0px;
+}
+
+.chat-input input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+}
+.chat-input input:focus {
+  /* Ví dụ đổi background hoặc shadow, nhưng không set flex */
+  background-color: #f9f9f9;
+  border: none;
+}
+.chat-input button {
+  padding: 0 16px;
+  border: none;
+  cursor: pointer;
+}
