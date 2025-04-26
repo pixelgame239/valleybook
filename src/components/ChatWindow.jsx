@@ -138,6 +138,10 @@ function ChatWindow({ isOpen }) {
 
   return (
     <div className={`chat-window ${isOpen ? "open" : "closed"}`}>
+      {/* Thông báo header */}
+      <div className="chat-info" role="status" aria-live="polite">
+        Chúng tôi sẽ trả lời trong thời gian sớm nhất
+      </div>
       {loading && <p>Đang tải tin nhắn...</p>}
       {error && <p className="error">{error}</p>}
       <div className="messages-list">
@@ -146,10 +150,11 @@ function ChatWindow({ isOpen }) {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className="chat-input">
+      <div className="chat-input" style={{ border: "2px solid #0171F9" }}>
         <input
           type="text"
           value={newMessageText}
+          style={{ border: "none", outline: "none" }}
           onChange={(e) => setNewMessageText(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSendMessage();

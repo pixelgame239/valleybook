@@ -16,7 +16,8 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
       const { data, error } = await supabase
         .from("messages")
         .select("username")
-        .not("username", "like", "admin%");
+        .not("username", "ilike", "admin%")
+        .eq("receiver_id", "admin1@valleybook.com");
 
       if (error) {
         console.error("Error fetching users:", error.message);
