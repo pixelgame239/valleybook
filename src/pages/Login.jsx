@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./loginpage.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import supabase from "../backend/initSupabase";
+import { AuthContext } from "../components/AuthContext";
 
 const LoginPage = () => {
+  const { setLoggedIn } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isGoogle, setIsGoogle] = useState(false);
@@ -23,6 +25,7 @@ const LoginPage = () => {
       alert("Sai tài khoản hoặc mật khẩu");
     } else {
       navigate("/");
+      setLoggedIn(true);
     }
   };
 
@@ -34,6 +37,9 @@ const LoginPage = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
     });
+    if(!error){
+      navigate("/");
+    }
   };
   return (
     <div className="login-page">
