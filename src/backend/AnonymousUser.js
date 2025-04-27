@@ -2,14 +2,12 @@
 
 const ANONYMOUS_USER_ID_STORAGE_KEY = "anonymousUserId";
 
+let anonymousUserIdCounter = 1;
 export function getAnonymousUserId() {
   let userId = localStorage.getItem(ANONYMOUS_USER_ID_STORAGE_KEY);
   if (!userId) {
-    // Tạo ID mới nếu chưa có
-    userId = `anonymous_${Date.now()}_${Math.random()
-      .toString(36)
-      .substr(2, 9)}`;
-    setAnonymousUserId(userId); // Lưu ngay sau khi tạo
+    userId = `anonymous_${anonymousUserIdCounter++}`;
+    setAnonymousUserId(userId); // Lưu ngay sau khi tao
   }
   return userId;
 }

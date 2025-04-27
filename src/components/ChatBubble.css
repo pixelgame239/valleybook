@@ -20,6 +20,32 @@
     visibility 0.3s ease-out;
 }
 
+.chat-bubble-container {
+  position: relative;
+  display: inline-block;
+}
+
+.unread-bubble {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7em;
+  font-weight: bold;
+}
+
+.chat-bubble-container.has-unread {
+  background-color: #ffebee !important;
+  box-shadow: 0 0 0 2px #ffcdd2;
+}
+
 .chat-window.open {
   margin-top: 30px;
   opacity: 1;

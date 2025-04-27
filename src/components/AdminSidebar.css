@@ -22,11 +22,21 @@
   border-bottom: 1px solid #eee;
 }
 .admin-sidebar__item--active {
-  background-color: #e9e9e9;
+  background-color: #d0d0d0;
   font-weight: bold;
+  border-radius: 10px;
 }
 .admin-sidebar__loading,
 .admin-sidebar__error,
 .admin-sidebar__empty {
   padding: 10px;
+}
+
+.unread-badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  margin-left: 8px;
 }

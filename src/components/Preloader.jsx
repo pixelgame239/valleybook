@@ -6,7 +6,7 @@ import "./Preloader.css";
 // Ví dụ: import bookFlippingGif from './duong-dan/toi/anh/book-flipping.gif';
 // Thay thế dòng dưới đây bằng dòng import thực tế của bạn,
 // hoặc sử dụng trực tiếp đường dẫn public nếu ảnh nằm trong thư mục public
-const bookFlippingGif = "assets/images/preloader.gif"; // <--- Thay thế '/path/to/your/book-flipping.gif' bằng đường dẫn thực tế của tệp GIF
+const bookFlippingGif = "/assets/images/preloader.gif"; // <--- Thay thế '/path/to/your/book-flipping.gif' bằng đường dẫn thực tế của tệp GIF
 
 function Preloader() {
   return (

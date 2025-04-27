@@ -194,15 +194,16 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
       <div
         style={{
           padding: "10px",
+          paddingBottom: "15px",
           borderBottom: "1px solid #ddd",
           flexShrink: 0,
         }}
       >
-        <strong>
+        <h3>
           {selectedUserId
             ? `Chat với: ${selectedUserId}`
             : "Chọn người dùng để chat"}
-        </strong>
+        </h3>
       </div>
       <div
         style={{
