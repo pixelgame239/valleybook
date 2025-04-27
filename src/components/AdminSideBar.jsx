@@ -16,15 +16,26 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
       const { data, error } = await supabase
         .from("messages")
         .select("username")
-        .not("username", "ilike", "admin%")
-        .eq("receiver_id", "admin1@valleybook.com");
+        .or(
+          `receiver_id.eq.admin1@valleybook.com,username.eq.admin1@valleybook.com`
+        )
+        .order("created_at", { ascending: false });
+      console.log("data ===", data);
 
       if (error) {
         console.error("Error fetching users:", error.message);
         setError("Lỗi khi tải danh sách người dùng.");
         setUsers([]);
       } else {
-        const uniqueUsers = [...new Set(data.map((item) => item.username))];
+        const sortedData = [...data].sort((a, b) => {
+          if (a.username === "admin1@valleybook.com") return -1;
+          if (b.username === "admin1@valleybook.com") return 1;
+          return 0; // Keep original order for others
+        });
+
+        const uniqueUsers = [
+          ...new Set(sortedData.map((item) => item.username)),
+        ];
         const filteredUsers = uniqueUsers.filter(
           (username) => username && username.trim() !== ""
         );

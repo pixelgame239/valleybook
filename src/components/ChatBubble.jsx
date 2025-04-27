@@ -2,8 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import ChatWindow from "./ChatWindow"; // Import ChatWindow component
 import "./ChatBubble.css"; // Import file CSS (giữ nguyên)
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
+import { Link } from "react-router-dom";
 
 export default function ChatBubble() {
+  const { userData } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [showInitialMessage, setShowInitialMessage] = useState(false);
   // Không cần state messages, newMessageText, anonymousUserId ở đây nữa
@@ -68,6 +72,14 @@ export default function ChatBubble() {
   const handleCloseInitialMessage = () => {
     setShowInitialMessage(false);
   };
+
+  if (userData?.email?.startsWith("admin")) {
+    return (
+      <Link to="/adminChat" style={{ textDecoration: "none" }}>
+        <div style={bubbleStyle}>admin chat</div>
+      </Link>
+    );
+  }
 
   return (
     <>

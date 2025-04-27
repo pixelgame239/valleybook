@@ -7,7 +7,7 @@ function ChatMessage({ message, isSentByCurrentUser }) {
   const location = useLocation();
   const isAdminChat = location.pathname === "/adminChat";
 
-  const isAdmin = message.username && message.username.startsWith("admin");
+  const isAdmin = message?.username?.startsWith("admin");
 
   const getTextAlign = () => {
     if (isAdminChat) {
@@ -29,8 +29,8 @@ function ChatMessage({ message, isSentByCurrentUser }) {
           display: "inline-block",
           padding: "8px 12px",
           borderRadius: "15px",
-          backgroundColor: isSentByCurrentUser ? "#007bff" : "#e9e9eb", // Màu sắc dựa vào người gửi
-          color: isSentByCurrentUser ? "#fff" : "#000",
+          backgroundColor: getTextAlign() === "right" ? "#007bff" : "#e9e9eb",
+          color: getTextAlign() === "right" ? "#fff" : "#000",
           maxWidth: "80%",
           wordBreak: "break-word",
         }}
