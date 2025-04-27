@@ -5,15 +5,82 @@ import "./ChatBubble.css"; // Import file CSS (giữ nguyên)
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { Link } from "react-router-dom";
+import { supabase } from "../backend/initSupabase";
+import { getAnonymousUserId } from "../backend/AnonymousUser";
 
 export default function ChatBubble() {
   const { userData } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [showInitialMessage, setShowInitialMessage] = useState(false);
+  const [unreadCount, setUnreadCounts] = useState(0);
+
   // Không cần state messages, newMessageText, anonymousUserId ở đây nữa
 
   const chatWindowRef = useRef(null);
   const chatBubbleRef = useRef(null);
+
+  useEffect(() => {
+    const userId = getAnonymousUserId();
+    setAnonymousUserId(userId);
+    console.log("Anonymous User ID:", userId);
+  }, []);
+
+  // Add useEffect for subscription
+  useEffect(() => {
+    // Initial fetch of unread messages
+    const fetchUnreadCount = async () => {
+      console.log("Fetching unread messages for:", userId);
+
+      try {
+        const { data, count, error } = await supabase
+          .from("messages")
+          .select("*", { count: "exact" })
+          .eq("receiver_id", userId)
+          .eq("read", false);
+
+        console.log("Query results:", {
+          data: data,
+          count: count,
+          error: error,
+        });
+
+        if (error) {
+          console.error("Error fetching unread count:", error);
+        } else {
+          console.log("Final unread count:", count || 0);
+        }
+
+        setUnreadCount(count || 0);
+      } catch (err) {
+        console.error("Exception in fetchUnreadCount:", err);
+      }
+    };
+
+    fetchUnreadCount();
+
+    // Realtime subscription
+    const subscription = supabase
+      .channel("user-unread-messages")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "messages",
+          filter: `receiver_id=eq.${userId}`,
+        },
+        (payload) => {
+          if (payload.eventType === "INSERT" && !payload.new.read) {
+            setUnreadCount((prev) => prev + 1);
+          } else if (payload.eventType === "UPDATE" && payload.new.read) {
+            setUnreadCount((prev) => Math.max(prev - 1, 0));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => supabase.removeChannel(subscription);
+  }, [userId]);
 
   // ---- Logic hiển thị/ẩn tin nhắn ban đầu và cửa sổ chat ----
   useEffect(() => {
@@ -113,11 +180,21 @@ export default function ChatBubble() {
 
       {/* Icon bong bóng chat - Thêm ref */}
       <div
-        style={bubbleStyle}
+        style={{
+          ...bubbleStyle,
+          backgroundColor:
+            unreadCount > 0 ? "#f00c2e" : bubbleStyle.backgroundColor,
+        }}
         onClick={() => setOpen(!open)}
         ref={chatBubbleRef}
+        className={`chat-bubble-container ${
+          unreadCount > 0 ? "has-unread" : ""
+        }`}
       >
         {open ? "×" : "💬"}
+        {unreadCount > 0 && (
+          <span className="unread-bubble">{unreadCount}</span>
+        )}
       </div>
     </>
   );

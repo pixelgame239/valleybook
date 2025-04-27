@@ -7,6 +7,7 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [unreadCounts, setUnreadCounts] = useState({});
 
   // Load users and subscribe to new messages
   useEffect(() => {
@@ -21,6 +22,20 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
         )
         .order("created_at", { ascending: false });
       console.log("data ===", data);
+
+      // Add to your existing fetchUsers function
+      const { data: unreadData } = await supabase
+        .from("messages")
+        .select("username")
+        .eq("receiver_id", "admin1@valleybook.com")
+        .eq("read", false);
+
+      // Manually count messages per user
+      const countsMap = unreadData.reduce((acc, item) => {
+        acc[item.username] = (acc[item.username] || 0) + 1;
+        return acc;
+      }, {});
+      setUnreadCounts(countsMap);
 
       if (error) {
         console.error("Error fetching users:", error.message);
@@ -44,7 +59,41 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
       setLoading(false);
     };
 
+    const subscription = supabase
+      .channel("unread-messages")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "messages",
+          filter: "receiver_id=eq.admin1@valleybook.com",
+        },
+        (payload) => {
+          // Update counts when messages change
+          if (payload.eventType === "INSERT" && !payload.new.read) {
+            setUnreadCounts((prev) => ({
+              ...prev,
+              [payload.new.username]: (prev[payload.new.username] || 0) + 1,
+            }));
+          } else if (payload.eventType === "UPDATE" && payload.new.read) {
+            setUnreadCounts((prev) => ({
+              ...prev,
+              [payload.new.username]: Math.max(
+                (prev[payload.new.username] || 0) - 1,
+                0
+              ),
+            }));
+          }
+        }
+      )
+      .subscribe();
+
     fetchUsers();
+
+    return () => {
+      if (subscription) supabase.removeChannel(subscription);
+    };
 
     const channel = supabase
       .channel("admin_users_channel")
@@ -88,12 +137,34 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
           {users.map((user) => (
             <li
               key={user}
-              className={`admin-sidebar__item $
-                selectedUserId === user ? 'admin-sidebar__item--active' : ''
-              `}
-              onClick={() => onSelectUser(user)}
+              className={`admin-sidebar__item ${
+                selectedUserId === user ? "admin-sidebar__item--active" : ""
+              }`}
+              onClick={async () => {
+                console.log("User clicked:", user);
+                console.log("Current selectedUserId:", selectedUserId);
+                console.log("Comparison result:", selectedUserId === user);
+                onSelectUser(user);
+                const { data, error } = await supabase
+                  .from("messages")
+                  .update({ read: true })
+                  .eq("username", user);
+                if (error)
+                  console.error("Error marking messages as read:", error);
+                console.log("Marked messages as read:", data);
+              }}
             >
               {user}
+              {unreadCounts[user] > 0 && (
+                <span className="unread-badge">{unreadCounts[user] || 0}</span>
+              )}
+              {selectedUserId === user &&
+                console.log(
+                  "Applied className:",
+                  `admin-sidebar__item ${
+                    selectedUserId === user ? "admin-sidebar__item--active" : ""
+                  }`
+                )}
             </li>
           ))}
         </ul>
