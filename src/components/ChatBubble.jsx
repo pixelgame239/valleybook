@@ -13,6 +13,7 @@ export default function ChatBubble() {
   const [open, setOpen] = useState(false);
   const [showInitialMessage, setShowInitialMessage] = useState(false);
   const [unreadCount, setUnreadCounts] = useState(0);
+  const [anonymousUserId, setAnonymousUserId] = useState(null);
 
   // Không cần state messages, newMessageText, anonymousUserId ở đây nữa
 
@@ -29,13 +30,13 @@ export default function ChatBubble() {
   useEffect(() => {
     // Initial fetch of unread messages
     const fetchUnreadCount = async () => {
-      console.log("Fetching unread messages for:", userId);
+      console.log("Fetching unread messages for:", anonymousUserId);
 
       try {
         const { data, count, error } = await supabase
           .from("messages")
           .select("*", { count: "exact" })
-          .eq("receiver_id", userId)
+          .eq("receiver_id", anonymousUserId)
           .eq("read", false);
 
         console.log("Query results:", {
@@ -50,7 +51,7 @@ export default function ChatBubble() {
           console.log("Final unread count:", count || 0);
         }
 
-        setUnreadCount(count || 0);
+        setUnreadCounts(count || 0);
       } catch (err) {
         console.error("Exception in fetchUnreadCount:", err);
       }
@@ -67,20 +68,20 @@ export default function ChatBubble() {
           event: "*",
           schema: "public",
           table: "messages",
-          filter: `receiver_id=eq.${userId}`,
+          filter: `receiver_id=eq.${anonymousUserId}`,
         },
         (payload) => {
           if (payload.eventType === "INSERT" && !payload.new.read) {
-            setUnreadCount((prev) => prev + 1);
+            setUnreadCounts((prev) => prev + 1);
           } else if (payload.eventType === "UPDATE" && payload.new.read) {
-            setUnreadCount((prev) => Math.max(prev - 1, 0));
+            setUnreadCounts((prev) => Math.max(prev - 1, 0));
           }
         }
       )
       .subscribe();
 
     return () => supabase.removeChannel(subscription);
-  }, [userId]);
+  }, [anonymousUserId]);
 
   // ---- Logic hiển thị/ẩn tin nhắn ban đầu và cửa sổ chat ----
   useEffect(() => {
@@ -124,7 +125,7 @@ export default function ChatBubble() {
     width: "60px",
     height: "60px",
     borderRadius: "50%",
-    backgroundColor: "#007bff",
+    backgroundColor: "#007bff", // Always use blue background
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -138,6 +139,26 @@ export default function ChatBubble() {
 
   const handleCloseInitialMessage = () => {
     setShowInitialMessage(false);
+  };
+
+  const markAdminMessagesAsRead = async () => {
+    console.log("marking admin message as read ====");
+
+    try {
+      const { error } = await supabase
+        .from("messages")
+        .update({ read: true })
+        .eq("receiver_id", anonymousUserId)
+        .eq("read", false);
+
+      if (!error) {
+        setUnreadCounts(0);
+      }
+    } catch (err) {
+      console.error("Error marking messages as read:", err);
+    }
+
+    setOpen(!open);
   };
 
   if (userData?.email?.startsWith("admin")) {
@@ -185,7 +206,7 @@ export default function ChatBubble() {
           backgroundColor:
             unreadCount > 0 ? "#f00c2e" : bubbleStyle.backgroundColor,
         }}
-        onClick={() => setOpen(!open)}
+        onClick={markAdminMessagesAsRead}
         ref={chatBubbleRef}
         className={`chat-bubble-container ${
           unreadCount > 0 ? "has-unread" : ""
