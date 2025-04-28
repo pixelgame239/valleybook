@@ -29,8 +29,8 @@ function ChatMessage({ message, isSentByCurrentUser }) {
           display: "inline-block",
           padding: "8px 12px",
           borderRadius: "15px",
-          backgroundColor: getTextAlign() === "right" ? "#007bff" : "#e9e9eb",
-          color: getTextAlign() === "right" ? "#fff" : "#000",
+          backgroundColor: getTextAlign() === "right" ? "#007bff" : "#303030",
+          color: "#fff",
           maxWidth: "80%",
           wordBreak: "break-word",
         }}
