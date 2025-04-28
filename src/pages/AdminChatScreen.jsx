@@ -43,7 +43,6 @@ export default function AdminChatScreen() {
 
   const sidebarContainerStyle = {
     width: "300px",
-    borderRight: "1px solid #ddd",
     overflowY: "auto",
   };
 

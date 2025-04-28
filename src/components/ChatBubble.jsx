@@ -119,6 +119,7 @@ export default function ChatBubble() {
   // ---- Kết thúc logic hiển thị/ẩn ----
 
   const bubbleStyle = {
+    textAlign: "center",
     position: "fixed",
     bottom: "20px",
     right: "20px",

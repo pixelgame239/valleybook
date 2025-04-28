@@ -185,6 +185,7 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
   return (
     <div
       style={{
+        backgroundColor: "#242526",
         flex: 1,
         display: "flex",
         flexDirection: "column",
@@ -199,7 +200,7 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
           flexShrink: 0,
         }}
       >
-        <h3>
+        <h3 style={{ color: "white" }}>
           {selectedUserId
             ? `Chat với: ${selectedUserId}`
             : "Chọn người dùng để chat"}
@@ -217,10 +218,12 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
         {loading && <p>Đang tải tin nhắn...</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
         {!selectedUserId && (
-          <p>Vui lòng chọn một người dùng từ danh sách bên trái.</p>
+          <p style={{ color: "white" }}>
+            Vui lòng chọn một người dùng từ danh sách bên trái.
+          </p>
         )}
         {selectedUserId && !loading && messages.length === 0 && (
-          <p>Chưa có tin nhắn nào.</p>
+          <p style={{ color: "white" }}>Chưa có tin nhắn nào.</p>
         )}
         {messages.map((msg) => (
           <ChatMessage
@@ -234,7 +237,6 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
       <div
         style={{
           padding: "10px",
-          borderTop: "1px solid #ddd",
           display: "flex",
           alignItems: "center",
           flexShrink: 0,
@@ -245,14 +247,15 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
             selectedUserId ? "Nhập tin nhắn..." : "Chọn người dùng để nhập..."
           }
           style={{
+            color: "white",
+            backgroundColor: "#333334",
             flex: 1,
             padding: "8px",
             boxSizing: "border-box",
             marginRight: "10px",
             minHeight: "40px",
             resize: "none",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
+            borderRadius: "24px",
           }}
           value={newMessageText}
           onChange={(e) => setNewMessageText(e.target.value)}
