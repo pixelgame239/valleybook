@@ -118,7 +118,7 @@ export default function ChatBubble() {
 
   const bubbleStyle = {
     textAlign: "center",
-    position: "fixed",
+    position: "relative",
     bottom: "20px",
     right: "20px",
     width: "60px",
@@ -162,20 +162,25 @@ export default function ChatBubble() {
 
   if (userData?.email?.startsWith("admin")) {
     return (
-      <Link to="/adminChat" style={{ textDecoration: "none" }}>
-        <div style={bubbleStyle}>admin chat</div>
-      </Link>
+      <div style={{ position: "fixed", bottom: "20px", right: "20px" }}>
+        <div className="chat-bubble-container">
+          <Link to="/adminChat" style={{ textDecoration: "none" }}>
+            <div style={bubbleStyle}>
+              admin chat
+              {unreadCount > 0 && <div className="unread-dot"></div>}
+            </div>
+          </Link>
+        </div>
+      </div>
     );
   }
 
   return (
-    <>
-      {/* Cửa sổ chat chính - Thêm ref */}
-      {/* Thay thế nội dung cũ bằng ChatWindow component */}
+    <div style={{ position: "fixed", bottom: "20px", right: "20px" }}>
+      {/* Chat window */}
       <div className={`chat-window ${open ? "open" : ""}`} ref={chatWindowRef}>
         <div style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
           <strong>Hỗ trợ trực tuyến</strong>
-          {/* Nút đóng cửa sổ chat */}
           <span
             style={{ float: "right", cursor: "pointer", fontSize: "1.2em" }}
             onClick={() => setOpen(false)}
@@ -183,11 +188,10 @@ export default function ChatBubble() {
             ×
           </span>
         </div>
-        {/* Sử dụng ChatWindow component */}
         <ChatWindow isOpen={open} />
       </div>
 
-      {/* Tin nhắn pop-up ban đầu */}
+      {/* Initial message popup */}
       {showInitialMessage && !open && (
         <div
           className="initial-message-popup"
@@ -198,24 +202,26 @@ export default function ChatBubble() {
         </div>
       )}
 
-      {/* Icon bong bóng chat - Thêm ref */}
-      <div
-        style={{
-          ...bubbleStyle,
-          backgroundColor:
-            unreadCount > 0 ? "#f00c2e" : bubbleStyle.backgroundColor,
-        }}
-        onClick={markAdminMessagesAsRead}
-        ref={chatBubbleRef}
-        className={`chat-bubble-container ${
-          unreadCount > 0 ? "has-unread" : ""
-        }`}
-      >
-        {open ? "×" : "💬"}
-        {unreadCount > 0 && (
-          <span className="unread-bubble">{unreadCount}</span>
-        )}
+      {/* Chat bubble */}
+      <div className="chat-bubble-container">
+        <div
+          style={{
+            ...bubbleStyle,
+            backgroundColor:
+              unreadCount > 0 ? "#f00c2e" : bubbleStyle.backgroundColor,
+          }}
+          onClick={markAdminMessagesAsRead}
+          ref={chatBubbleRef}
+        >
+          {open ? "×" : "💬"}
+          {unreadCount > 0 && (
+            <>
+              <span className="unread-bubble">{unreadCount}</span>
+              <div className="unread-dot"></div>
+            </>
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 }

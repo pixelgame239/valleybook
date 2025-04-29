@@ -43,7 +43,8 @@ function ChatWindow({ isOpen }) {
         .from("messages")
         .select("*")
         .or(
-          `username.eq.${anonymousUserId},receiver_id.ilike.admin%,username.ilike.admin%,receiver_id.eq.${anonymousUserId}`
+          `and(username.eq.${anonymousUserId},receiver_id.ilike.admin%),` +
+            `and(username.ilike.admin%,receiver_id.eq.${anonymousUserId})`
         )
         .order("created_at", { ascending: true });
 

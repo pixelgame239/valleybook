@@ -1,15 +1,27 @@
 // src/components/AdminSidebar.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { supabase } from "../backend/initSupabase";
 import "./AdminSidebar.css";
 
-function AdminSidebar({ onSelectUser, selectedUserId }) {
+function AdminSidebar({ onSelectUser = () => {}, selectedUserId }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [unreadCounts, setUnreadCounts] = useState({});
 
-  // Load users and subscribe to new messages
+  // Helper function to sort users
+  const sortUsersByUnread = (userList, unreadCountsMap) => {
+    return [...userList].sort((a, b) => {
+      const aUnread = unreadCountsMap[a] || 0;
+      const bUnread = unreadCountsMap[b] || 0;
+
+      if (aUnread > 0 && bUnread === 0) return -1;
+      if (aUnread === 0 && bUnread > 0) return 1;
+      return 0;
+    });
+  };
+
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
@@ -42,19 +54,14 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
         setError("Lỗi khi tải danh sách người dùng.");
         setUsers([]);
       } else {
-        const sortedData = [...data].sort((a, b) => {
-          if (a.username === "admin1@valleybook.com") return -1;
-          if (b.username === "admin1@valleybook.com") return 1;
-          return 0; // Keep original order for others
-        });
-
-        const uniqueUsers = [
-          ...new Set(sortedData.map((item) => item.username)),
-        ];
+        const uniqueUsers = [...new Set(data.map((item) => item.username))];
         const filteredUsers = uniqueUsers.filter(
           (username) => username && username.trim() !== ""
         );
-        setUsers(filteredUsers);
+
+        // Sort users with unread messages to top
+        const sortedUsers = sortUsersByUnread(filteredUsers, countsMap);
+        setUsers(sortedUsers);
       }
       setLoading(false);
     };
@@ -71,26 +78,35 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
           filter: "receiver_id=eq.admin1@valleybook.com",
         },
         (payload) => {
-          // Update counts when messages change
           if (payload.eventType === "INSERT" && !payload.new.read) {
-            setUnreadCounts((prev) => ({
-              ...prev,
-              [payload.new.username]: (prev[payload.new.username] || 0) + 1,
-            }));
+            setUnreadCounts((prev) => {
+              const newCounts = {
+                ...prev,
+                [payload.new.username]: (prev[payload.new.username] || 0) + 1,
+              };
+              // Re-sort users when unread count changes
+              setUsers((prevUsers) => sortUsersByUnread(prevUsers, newCounts));
+              return newCounts;
+            });
           } else if (payload.eventType === "UPDATE" && payload.new.read) {
-            setUnreadCounts((prev) => ({
-              ...prev,
-              [payload.new.username]: Math.max(
-                (prev[payload.new.username] || 0) - 1,
-                0
-              ),
-            }));
+            setUnreadCounts((prev) => {
+              const newCounts = {
+                ...prev,
+                [payload.new.username]: Math.max(
+                  (prev[payload.new.username] || 0) - 1,
+                  0
+                ),
+              };
+              // Re-sort users when unread count changes
+              setUsers((prevUsers) => sortUsersByUnread(prevUsers, newCounts));
+              return newCounts;
+            });
           }
         }
       )
       .subscribe();
 
-    // Subscription mới cho new users
+    // Subscription for new users
     const newUsersSubscription = supabase
       .channel("new-users")
       .on(
@@ -102,15 +118,11 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
         },
         (payload) => {
           const newUser = payload.new.username;
-          // Chỉ thêm user mới nếu không phải admin và chưa có trong danh sách
-          if (
-            newUser &&
-            newUser.trim() !== "" &&
-            !newUser.includes("admin") // Bỏ qua các admin messages
-          ) {
+          if (newUser && newUser.trim() !== "" && !newUser.includes("admin")) {
             setUsers((prevUsers) => {
               if (!prevUsers.includes(newUser)) {
-                return [...prevUsers, newUser];
+                const updatedUsers = [...prevUsers, newUser];
+                return sortUsersByUnread(updatedUsers, unreadCounts);
               }
               return prevUsers;
             });
@@ -184,5 +196,17 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
     </div>
   );
 }
+
+// Add prop validation
+AdminSidebar.propTypes = {
+  onSelectUser: PropTypes.func,
+  selectedUserId: PropTypes.string,
+};
+
+// Add default props
+AdminSidebar.defaultProps = {
+  onSelectUser: () => {},
+  selectedUserId: "",
+};
 
 export default AdminSidebar;
