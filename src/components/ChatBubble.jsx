@@ -15,8 +15,6 @@ export default function ChatBubble() {
   const [unreadCount, setUnreadCounts] = useState(0);
   const [anonymousUserId, setAnonymousUserId] = useState(null);
 
-  // Không cần state messages, newMessageText, anonymousUserId ở đây nữa
-
   const chatWindowRef = useRef(null);
   const chatBubbleRef = useRef(null);
 

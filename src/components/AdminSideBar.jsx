@@ -154,10 +154,16 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
                 console.log("Marked messages as read:", data);
               }}
             >
-              {user}
               {unreadCounts[user] > 0 && (
-                <span className="unread-badge">{unreadCounts[user] || 0}</span>
+                <span
+                  className="unread-badge"
+                  style={{ marginRight: "5px", marginLeft: "0px" }}
+                >
+                  {unreadCounts[user] || 0}
+                </span>
               )}
+              {user}
+
               {selectedUserId === user &&
                 console.log(
                   "Applied className:",
