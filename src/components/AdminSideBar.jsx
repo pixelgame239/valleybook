@@ -1,7 +1,7 @@
 // src/components/AdminSidebar.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { supabase } from "../backend/initSupabase";
-import "./AdminSidebar.css"; // Import CSS for styling
+import "./AdminSidebar.css";
 
 function AdminSidebar({ onSelectUser, selectedUserId }) {
   const [users, setUsers] = useState([]);
@@ -59,7 +59,8 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
       setLoading(false);
     };
 
-    const subscription = supabase
+    // Subscription cho unread messages
+    const unreadSubscription = supabase
       .channel("unread-messages")
       .on(
         "postgres_changes",
@@ -89,36 +90,41 @@ function AdminSidebar({ onSelectUser, selectedUserId }) {
       )
       .subscribe();
 
-    fetchUsers();
-
-    return () => {
-      if (subscription) supabase.removeChannel(subscription);
-    };
-
-    const channel = supabase
-      .channel("admin_users_channel")
+    // Subscription mới cho new users
+    const newUsersSubscription = supabase
+      .channel("new-users")
       .on(
         "postgres_changes",
         {
           event: "INSERT",
           schema: "public",
           table: "messages",
-          filter: "username=neq.admin%",
         },
         (payload) => {
           const newUser = payload.new.username;
-          setUsers((prev) => {
-            if (newUser && newUser.trim() !== "" && !prev.includes(newUser)) {
-              return [...prev, newUser];
-            }
-            return prev;
-          });
+          // Chỉ thêm user mới nếu không phải admin và chưa có trong danh sách
+          if (
+            newUser &&
+            newUser.trim() !== "" &&
+            !newUser.includes("admin") // Bỏ qua các admin messages
+          ) {
+            setUsers((prevUsers) => {
+              if (!prevUsers.includes(newUser)) {
+                return [...prevUsers, newUser];
+              }
+              return prevUsers;
+            });
+          }
         }
       )
       .subscribe();
 
+    fetchUsers();
+
+    // Cleanup subscriptions
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(unreadSubscription);
+      supabase.removeChannel(newUsersSubscription);
     };
   }, []);
 
