@@ -176,7 +176,7 @@ export default function ChatBubble() {
   }
 
   return (
-    <div style={{ position: "fixed", bottom: "20px", right: "20px" }}>
+    <div style={{ position: "fixed", bottom: "-10px", right: "0px" }}>
       {/* Chat window */}
       <div className={`chat-window ${open ? "open" : ""}`} ref={chatWindowRef}>
         <div style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>

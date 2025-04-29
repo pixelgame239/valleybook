@@ -151,7 +151,10 @@ function ChatWindow({ isOpen }) {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className="chat-input" style={{ border: "2px solid #0171F9" }}>
+      <div
+        className="chat-input"
+        // style={{ border: "2px solid #0171F9", borderRadius: "20px" }}
+      >
         <input
           type="text"
           value={newMessageText}
