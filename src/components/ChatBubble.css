@@ -20,6 +20,34 @@
     visibility 0.3s ease-out;
 }
 
+.unread-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  z-index: 1001; /* Make sure it appears above the bubble */
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 5px rgba(255, 0, 0, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+  }
+}
+
 .chat-bubble-container {
   position: relative;
   display: inline-block;
@@ -29,7 +57,7 @@
   position: absolute;
   top: -8px;
   right: -8px;
-  background-color: red;
+  /* background-color: red; */
   color: white;
   border-radius: 50%;
   width: 20px;

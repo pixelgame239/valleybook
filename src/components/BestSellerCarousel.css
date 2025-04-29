@@ -89,7 +89,7 @@
   position: absolute; /* Định vị tuyệt đối so với container cha có position: relative */
   top: 50%; /* Căn giữa theo chiều dọc */
   transform: translateY(-50%); /* Dịch chuyển ngược lên để căn giữa hoàn hảo */
-  z-index: 1; /* Đảm bảo hiển thị trên các phần tử khác */
+  z-index: 0; /* Đảm bảo hiển thị trên các phần tử khác */
 
   font-size: 0; /* Ẩn nội dung văn bản bên trong */
   line-height: 0;

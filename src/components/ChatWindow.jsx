@@ -43,7 +43,8 @@ function ChatWindow({ isOpen }) {
         .from("messages")
         .select("*")
         .or(
-          `username.eq.${anonymousUserId},receiver_id.ilike.admin%,username.ilike.admin%,receiver_id.eq.${anonymousUserId}`
+          `and(username.eq.${anonymousUserId},receiver_id.ilike.admin%),` +
+            `and(username.ilike.admin%,receiver_id.eq.${anonymousUserId})`
         )
         .order("created_at", { ascending: true });
 
@@ -150,7 +151,10 @@ function ChatWindow({ isOpen }) {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className="chat-input" style={{ border: "2px solid #0171F9" }}>
+      <div
+        className="chat-input"
+        // style={{ border: "2px solid #0171F9", borderRadius: "20px" }}
+      >
         <input
           type="text"
           value={newMessageText}

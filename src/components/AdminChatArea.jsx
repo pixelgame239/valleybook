@@ -246,6 +246,21 @@ function AdminChatArea({ selectedUserId, currentAdminUserId }) {
           placeholder={
             selectedUserId ? "Nhập tin nhắn..." : "Chọn người dùng để nhập..."
           }
+          onClick={async () => {
+            if (!selectedUserId) return; // Only proceed if a user is selected
+
+            // Update messages to read when clicking the textarea
+            const { error } = await supabase
+              .from("messages")
+              .update({ read: true })
+              .eq("username", selectedUserId)
+              .eq("receiver_id", "admin1@valleybook.com")
+              .eq("read", false);
+
+            if (error) {
+              console.error("Error marking messages as read:", error);
+            }
+          }}
           style={{
             color: "white",
             backgroundColor: "#333334",

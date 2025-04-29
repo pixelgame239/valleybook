@@ -37,7 +37,7 @@ function BestSellerCarousel() {
     return (
       <div
         className={`${className} custom-prev-arrow`}
-        style={{ ...style, display: "block", left: 0, zIndex: 1 }}
+        style={{ ...style, display: "block", left: 0, zIndex: 0 }}
         onClick={onClick}
       >
         <i className="fa fa-angle-left fa-2x" />
