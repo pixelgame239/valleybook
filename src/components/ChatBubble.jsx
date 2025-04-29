@@ -207,8 +207,6 @@ export default function ChatBubble() {
         <div
           style={{
             ...bubbleStyle,
-            backgroundColor:
-              unreadCount > 0 ? "#f00c2e" : bubbleStyle.backgroundColor,
           }}
           onClick={markAdminMessagesAsRead}
           ref={chatBubbleRef}
