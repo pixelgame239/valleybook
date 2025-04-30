@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
           setLoggedIn(false);
           setUserdata(null);
         }
-
       }
     );
 
