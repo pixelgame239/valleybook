@@ -13,6 +13,9 @@ function AdminSidebar({ onSelectUser = () => {}, selectedUserId }) {
   // Helper function to sort users
   const sortUsersByUnread = (userList, unreadCountsMap) => {
     return [...userList].sort((a, b) => {
+      // Always put admin1@valleybook.com at the top
+      if (a === "admin1@valleybook.com") return -1;
+      if (b === "admin1@valleybook.com") return 1;
       const aUnread = unreadCountsMap[a] || 0;
       const bUnread = unreadCountsMap[b] || 0;
 

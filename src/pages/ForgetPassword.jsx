@@ -25,25 +25,26 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="signup-container">
-      <h2>Quên mật khẩu</h2>
-      {message && <p className="success-message">{message}</p>}
-      <form onSubmit={handleSubmit} className="signup-form">
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Nhập email của bạn"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          {error && <div className="error">{error}</div>}
-        </div>
-        <button type="submit" className="submit-button">
-          Gửi liên kết đặt lại
-        </button>
-      </form>
+    <div className="page-container">
+      <div className="signup-container">
+        <h2>Quên mật khẩu</h2>
+        {message && <p className="success-message">{message}</p>}
+        <form onSubmit={handleSubmit} className="signup-form">
+          <div className="form-group">
+            <label style={{ color: "#0171F9" }}>Email</label>
+            <input
+              type="email"
+              placeholder="Nhập email của bạn"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {error && <div className="error">{error}</div>}
+          </div>
+          <button type="submit" className="submit-button">
+            Gửi liên kết đặt lại
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Shop from "./pages/Shop";
-import { BrowserRouter, Routes, Route, } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import Signup from "./pages/Signup";
 import Policy from "./pages/Policy";
@@ -18,6 +18,7 @@ import QualityProduct from "./pages/QualityProduct";
 import InnovationPage from "./pages/InnovationPage";
 import AdminApp from "./AdminApp.jsx"; // Điều chỉnh đường dẫn nếu cần
 import AdminChatScreen from "./pages/AdminChatScreen.jsx"; // Điều chỉnh đường dẫn nếu cần
+import SetNewPassword from "./pages/SetNewPassword.jsx"; // Điều chỉnh đường dẫn nếu cần
 function App() {
   return (
     <AuthProvider>
@@ -45,6 +46,7 @@ function App() {
           <Route path="/innovationPage" element={<InnovationPage />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/adminChat" element={<AdminChatScreen />} />
+          <Route path="/setNewPassword" element={<SetNewPassword />} />
 
           {/* THÊM ROUTE CHO ADMIN PANEL */}
           <Route
