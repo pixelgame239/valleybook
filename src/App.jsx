@@ -19,6 +19,10 @@ import InnovationPage from "./pages/InnovationPage";
 import AdminApp from "./AdminApp.jsx"; // Điều chỉnh đường dẫn nếu cần
 import AdminChatScreen from "./pages/AdminChatScreen.jsx"; // Điều chỉnh đường dẫn nếu cần
 import SetNewPassword from "./pages/SetNewPassword.jsx"; // Điều chỉnh đường dẫn nếu cần
+import ForumPage from "./pages/ForumPage.jsx";
+import { ForumProvider } from "./backend/ForumContext.jsx";
+import ForumDetailPage from "./pages/ForumDetailPage.jsx";
+
 function App() {
   return (
     <AuthProvider>
@@ -47,6 +51,8 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/adminChat" element={<AdminChatScreen />} />
           <Route path="/setNewPassword" element={<SetNewPassword />} />
+          <Route path="/forum" element={<ForumProvider><ForumPage></ForumPage></ForumProvider>}></Route>
+          <Route path="/forum/:id" element={<ForumDetailPage></ForumDetailPage>}></Route>
 
           {/* THÊM ROUTE CHO ADMIN PANEL */}
           <Route
