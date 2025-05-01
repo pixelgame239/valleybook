@@ -21,7 +21,7 @@ function Header({ currentPage }) {
   };
 
   const toggleDropdown = () => {
-    setShowDropdown((prev) => !prev);
+    setShowDropdown((prev) =>prev= !prev);
   };
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
@@ -70,7 +70,7 @@ function Header({ currentPage }) {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/#" className={currentPage === "#" ? "active" : ""}>
+                  <Link to="/forum" className={currentPage === "forum" ? "active" : ""}>
                     Diễn đàn
                   </Link>
                 </li>
@@ -89,28 +89,30 @@ function Header({ currentPage }) {
                     </button>
                   </Link>
                 </li>
-                <li>
-                  {loggedIn ? (
-                    <button
-                      className={"profile-button"}
-                      onClick={handleSignOut}
-                    >
-                      <img
-                        src={accountLogo}
-                        alt="Profile"
-                        className="profile-avatar"
-                      />
-                    </button>
-                  ) : (
-                    <Link
-                      to="/signIn"
-                      className={currentPage === "signIn" ? "active" : ""}
-                      style={{ textDecoration: "none", color: "white" }}
-                    >
-                      Đăng nhập
-                    </Link>
-                  )}
-                </li>
+                <li className="profile-container">
+                    {loggedIn ? (
+                      <>
+                        <button className="profile-button" onClick={toggleDropdown}>
+                          <img src={accountLogo} alt="Profile" className="profile-avatar" />
+                        </button>
+                        {showDropdown && (
+                          <div className="dropdown-menu">
+                            <ul>
+                              <li onClick={handleSignOut}>Đăng xuất</li>
+                            </ul>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <Link
+                        to="/signIn"
+                        className={currentPage === "signIn" ? "active" : ""}
+                        style={{ textDecoration: "none", color: "white" }}
+                      >
+                        Đăng nhập
+                      </Link>
+                    )}
+                  </li>
               </ul>
               <a className="menu-trigger">
                 <span>Menu</span>

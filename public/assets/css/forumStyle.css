@@ -1,0 +1,289 @@
+.forum-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+/* Sidebar stays as before */
+.sidebar-container {
+    flex: 1;
+}
+
+.sidebar-container ul {
+    border: 2px solid rgb(12, 133, 254);
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.sidebar-container li {
+    font-size: 23px;
+    padding: 15px;
+    transition: all 0.2s linear;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sidebar-container li:first-child {
+    border-top-right-radius: 28px;
+}
+
+.sidebar-container li:last-child {
+    border-bottom-right-radius: 28px;
+}
+
+.sidebar-container li.active-content {
+    background-color: rgb(35, 144, 254);
+    color: white;
+}  
+
+.sidebar-container li:hover {
+    background-color: rgb(12, 133, 254);
+    color: white;
+}
+
+/* Main content container uses flex to fill remaining space.
+   Note: no fixed width is applied here. */
+.content-container {
+    flex: 5;
+    margin-left: 20px;
+    margin-right: 20px;
+    box-sizing: border-box;
+}
+
+/*
+   Optional inner wrapper:
+   If you notice that elements inside content-container are too wide on large screens,
+   wrap them in a container (here .content-inner) that allows full width in small screens
+   but constrains the maximum width overall.
+*/
+.content-inner {
+    width: 100%;
+    max-width: 1200px;  /* Adjust this value as needed */
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.forum-create-area {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.forum-write-area {
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+    border: none;
+    font-size: 16px;
+    padding: 10px;
+    outline: none;
+    border-radius: 10px;
+    background-color: #f0f2f5;
+    margin-bottom: 10px;
+}
+
+.forum-posting-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-input {
+    font-size: 14px;
+}
+
+.post-button {
+    background-color: white;
+    color: rgb(12, 133, 254);
+    padding: 8px 20px;
+    border: 1px solid rgb(12, 133, 254);
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.post-button:not(:disabled):hover {
+    background-color: rgb(12, 133, 254);
+    color: white;
+}
+.post-button:disabled {
+    background-color: #ccc; /* A disabled shade for the background */
+    border-color: #ccc;    /* Change the border to a similar shade */
+    color: #777;           /* A neutral text color */
+    cursor: not-allowed;   /* Change the cursor to indicate it's disabled */
+}
+
+
+.image-preview {
+    margin-top: 15px;
+    position: relative;
+    width: fit-content;
+}
+
+.image-preview img {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    height: 150px;
+    width: auto;
+}
+
+.upload-button {
+    border-radius: 30px;
+    border: 1px outset rgb(12, 133, 254);
+    color: rgb(12, 133, 254);
+    padding: 10px;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.upload-button:hover {
+    color: white;
+    background-color: rgb(12, 133, 254);
+}
+
+.image-remove {
+    color: red;
+    position: absolute;
+    top: -15px;
+    right: -20px;
+    border: none;
+    background-color: transparent;
+}
+
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(6px); /* blur effect */
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+}
+
+.search-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    top: 30px;
+}
+
+.search-forum-input {
+    width: 100%;
+    font-size: 20px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.close-search {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.admin-post {
+    height: 300px;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.forum-title {
+    color: rgb(12, 133, 254);
+    font-weight: bold;
+    font-size: 35px;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.forum-post {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+    border: 1px inset grey;
+    box-shadow: 0 3px 10px rgba(102, 102, 102, 0.816);
+    border-radius: 30px;
+    margin: 20px auto; 
+    cursor: pointer;
+}
+
+.post-content {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-topic {    
+    flex: 3;
+    color: rgb(12, 133, 254);
+    font-weight: bold;
+    font-size: 30px;
+    padding: 15px;
+    overflow: hidden;
+    white-space: normal; 
+    line-height: 0.96;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.post-username {
+    flex: 1;
+    color: rgb(53, 72, 83);
+    font-style: italic;
+    font-size: 16px;
+    padding: 15px;
+}
+
+.post-attribute {
+    flex: 1;
+    position: relative;
+}
+.post-date-created{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: rgb(53, 72, 83);
+    font-style: italic;
+    font-size: 16px;
+    padding: 15px;
+}
+.post-emotion{
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+  .post-like {
+    font-weight: bold;
+    font-size: 20px;
+    color: green;
+  }
+  
+  .post-dislike {
+    font-weight: bold;
+    font-size: 20px;
+    color: red;
+  }
+  
