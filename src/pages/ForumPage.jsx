@@ -9,32 +9,51 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../components/AuthContext";
 import AdminPost from "../components/AdminPost";
-import { postForumTopic } from "../backend/forumData";
+import { getExplorePost, getHomePost, postForumTopic } from "../backend/forumData";
 import supabase from "../backend/initSupabase";
 import Preloader from "../components/Preloader";
 import { ForumContext } from "../backend/ForumContext";
 import { getAdminPost } from "../backend/forumData";
+import UserPost from "../components/UserPost";
 
 const ForumPage = () =>{
-    const { setAdminPost } = useContext(ForumContext);
+    const { setAdminPost, setExplorePost, setHomePost, setSearchPost, explorePost, adminPost } = useContext(ForumContext);
     const [imageUpload, setImageUpload] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [forumContent, setForumContent] = useState("Explore");
     const [showSearch, setShowSearch] = useState(false);
+    const [searchString, setSearchString] = useState("");
     const { loggedIn } = useContext(AuthContext);
     const [postTopic, setPostTopic] = useState("");
     const [loading, setLoading] = useState(false);
+    const { userInfo } = useContext(AuthContext);
     useEffect(() => {
-        const initAdminPost = async() =>{
+        const fetchUserPost = async()=>{
             setLoading(true);
+            const tempPost = await getExplorePost();
             const adminData = await getAdminPost();
+            if(tempPost.length>0){
+                setExplorePost(tempPost);
+                setSearchPost(tempPost);
+            }
             if(adminData.length>0){
                 setAdminPost(adminData);
-                setLoading(false);
             }
+            if(loggedIn){
+                const tempHPost = await getHomePost(userInfo.email);
+                if(tempHPost.length>0){
+                    setHomePost(tempHPost);
+                }
+            }
+            setLoading(false);
         }
-        initAdminPost();
+        fetchUserPost();
     }, []);
+    useEffect(()=>{
+        const allPost = [...adminPost,...explorePost];
+        const tempSearch = allPost.filter((sPost)=>sPost.topic.toLowerCase().includes(searchString.toLowerCase()));
+        setSearchPost(tempSearch);
+    }, [searchString]);
     const handleTextChange = (e) => {
         setPostTopic(e.target.value);
       };
@@ -42,11 +61,14 @@ const ForumPage = () =>{
             setLoading(true);
         try {
         // Ensure you pass all relevant data, such as postTopic text.
-        await postForumTopic(postTopic, "admin1@valleybook.com", imageUpload);
+        await postForumTopic(postTopic, userInfo.email, imageUpload);
         } catch (err) {
         console.error("Error posting topic:", err);
         } finally {
         setLoading(false);
+        setImageUpload(null);
+        setPreviewImage(null);
+        setPostTopic("");
         }
     }
     return(
@@ -65,24 +87,40 @@ const ForumPage = () =>{
                     </div>
                 </div>
             </div>
-            
-            <div className="forum-container">
-                {loggedIn ? (
-                    <div className="sidebar-container">
+            {loggedIn ? (
+                <div className="sidebar-container">
                         <ul>
-                            <li className={forumContent==="Explore" ? "active-content" : ""} onClick={() => setForumContent("Explore")}>
+                            <li className={forumContent==="Explore" ? "active-content" : ""} onClick={() => {
+                                setShowSearch(false);
+                                setForumContent("Explore")}}>
                                 <ExploreIcon /> Khám phá
                             </li>
-                            <li className={forumContent==="Home" ? "active-content" : ""} onClick={() => setForumContent("Home")}>
+                            <li className={forumContent==="Home" ? "active-content" : ""} onClick={() => {
+                                setShowSearch(false);
+                                setForumContent("Home")}}>
                                 <HomeIcon /> Bài viết của tôi
                             </li>
-                            <li className={forumContent==="Search" ? "active-content" : ""} onClick={() => setShowSearch(true)}>
-                                <SearchIcon /> Tìm kiếm
+                            <li className={forumContent==="Search" ? "active-content" : ""} onClick={() => {
+                                setShowSearch(true);
+                                setForumContent("Search");}}>
+                            <SearchIcon /> Tìm kiếm
                             </li>
                         </ul>
                     </div>
                 ) : null}
-                
+            {showSearch && (
+                <div className="search-container">
+                    <input
+                        type="text"
+                        autoFocus
+                        placeholder="Tìm kiếm bài viết...."
+                        className="search-forum-input"
+                        value={searchString}
+                        onChange={(e)=>setSearchString(e.target.value)}
+                    />
+                </div>
+            )}
+            <div className="forum-container">                
                 <div className="content-container">
                     <div className="content-inner">
                         {forumContent==="Explore"?<AdminPost />:null}
@@ -123,23 +161,10 @@ const ForumPage = () =>{
                                 )}
                             </div>
                         ) : null}
+                        <UserPost forumType={forumContent}></UserPost>
                     </div>
                 </div>
             </div>
-            
-            {showSearch && (
-                <div className="search-overlay">
-                    <input
-                        type="text"
-                        autoFocus
-                        placeholder="Tìm kiếm..."
-                        className="search-forum-input"
-                    />
-                    <button className="close-search" onClick={() => setShowSearch(false)}>
-                        <CancelRoundedIcon />
-                    </button>
-                </div>
-            )}
 
             <Footer />
             </>}
