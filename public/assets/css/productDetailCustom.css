@@ -408,3 +408,57 @@
   border-radius: 3px;
   background-color: rgba(48, 143, 231, 0.479);
 }
+
+/* --- Add to Cart Pop-up --- */
+.add-to-cart-popup {
+  position: fixed; /* Định vị tuyệt đối so với viewport */
+  top: 50%; /* Cách top 50% */
+  left: 50%; /* Cách left 50% */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Dịch chuyển ngược lại 50% kích thước của chính nó để căn giữa */
+  background-color: #446894ef; /* Nền đen mờ */
+
+  padding: 20px 30px; /* Padding bên trong */
+  border-radius: 8px; /* Bo góc */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+  z-index: 1000; /* Đảm bảo nổi lên trên các thành phần khác */
+  text-align: center; /* Căn giữa text */
+  min-width: 250px; /* Chiều rộng tối thiểu */
+  max-width: 80%; /* Chiều rộng tối đa */
+  opacity: 1; /* Độ mờ ban đầu */
+  transition: opacity 0.3s ease-in-out; /* Hiệu ứng mờ dần khi ẩn (nếu cần) */
+  pointer-events: none; /* Không chặn click vào các phần tử bên dưới */
+}
+
+/* (Tùy chọn) Thêm hiệu ứng animation vào/ra */
+.add-to-cart-popup {
+  animation: fadeInOut 1.5s ease-in-out forwards; /* Áp dụng animation */
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  } /* Bắt đầu ẩn và hơi dịch lên */
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  } /* Hiện ra ở giữa */
+  85% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  } /* Giữ nguyên */
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  } /* Mờ dần và dịch lên */
+}
+
+.add-to-cart-popup p {
+  margin: 0; /* Bỏ margin mặc định của thẻ p */
+  font-size: 16px; /* Cỡ chữ */
+  line-height: 1.4; /* Chiều cao dòng */
+  color: white;
+}

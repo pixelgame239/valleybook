@@ -10,6 +10,7 @@ import Preloader from "../components/Preloader";
 import StarRating from "../components/StarRating"; // Import component StarRating
 import "../../public/assets/css/productDetail.css"; // CSS gốc
 import "../../public/assets/css/productDetailCustom.css"; // CSS tùy chỉnh đã thêm
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 // --- Helper Functions for Cart ---
 const getCartItemsFromStorage = () => {
@@ -41,14 +42,17 @@ function ProductDetails() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const [addedMessage, setAddedMessage] = useState("");
+  // --- BỎ DÒNG NÀY --- const [addedMessage, setAddedMessage] = useState("");
+  // +++ THÊM STATE CHO POP-UP +++
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(""); // State để lưu nội dung thông báo
+
   const [selectedType, setSelectedType] = useState("paper");
   const [currentPrice, setCurrentPrice] = useState(0);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-  const DESCRIPTION_MAX_LENGTH = 250; // Giới hạn ký tự mô tả
+  const DESCRIPTION_MAX_LENGTH = 250;
 
-  const [reviews, setReviews] = useState([]); // Khởi tạo là mảng rỗng
-  // --- State cho dữ liệu rating tính toán ---
+  const [reviews, setReviews] = useState([]);
   const [totalRatingCount, setTotalRatingCount] = useState(0);
   const [calculatedAverageRating, setCalculatedAverageRating] = useState(0);
   const [calculatedRatingBreakdown, setCalculatedRatingBreakdown] = useState({
@@ -58,49 +62,39 @@ function ProductDetails() {
     2: 0,
     1: 0,
   });
-  // --- Hết State rating tính toán ---
 
-  // --- State mới cho Form Đánh giá ---
-  const [showReviewForm, setShowReviewForm] = useState(false); // State để ẩn/hiện form
-  const [userRating, setUserRating] = useState(0); // Điểm sao người dùng chọn
-  const [hoverRating, setHoverRating] = useState(0); // Điểm sao khi hover
-  const [reviewComment, setReviewComment] = useState(""); // Nội dung bình luận
-  const [isSubmittingReview, setIsSubmittingReview] = useState(false); // State loading khi gửi
-  const [isAnonymous, setIsAnonymous] = useState(false); // <-- THÊM STATE NÀY
-  // --- Hết State mới ---
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [isAnonymous, setIsAnonymous] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Cuộn lên đầu trang khi component mount hoặc id thay đổi
+    window.scrollTo(0, 0);
     const fetchBookDetail = async () => {
       setLoading(true);
       try {
-        // TODO: Đảm bảo getSingleBookData trả về cả thông tin rating
         let bookData = await getSingleBookData(id);
         if (bookData) {
           setBook(bookData);
-          console.log(bookData);
-          // Lấy reviews từ bookData (đã làm ở bước trước)
           const currentReviews =
             bookData.reviews && Array.isArray(bookData.reviews)
               ? bookData.reviews
               : [];
           setReviews(currentReviews);
 
-          // --- TÍNH TOÁN RATING TỪ currentReviews ---
           const count = currentReviews.length;
-          setTotalRatingCount(count); // Cập nhật tổng số đánh giá
+          setTotalRatingCount(count);
 
           if (count > 0) {
-            // Tính tổng điểm
             const sum = currentReviews.reduce(
               (acc, review) => acc + (review.rating || 0),
               0
             );
-            // Tính trung bình và cập nhật state
             const avg = sum / count;
             setCalculatedAverageRating(avg);
 
-            // Tính breakdown
             const breakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
             currentReviews.forEach((review) => {
               const rating = review.rating;
@@ -108,41 +102,20 @@ function ProductDetails() {
                 breakdown[rating]++;
               }
             });
-            setCalculatedRatingBreakdown(breakdown); // Cập nhật breakdown
+            setCalculatedRatingBreakdown(breakdown);
           } else {
-            // Reset nếu không có đánh giá
             setCalculatedAverageRating(0);
             setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
           }
-          // --- HẾT PHẦN TÍNH TOÁN ---
-          // --- Hết phần lấy reviews ---
-          // --- Cập nhật state rating bằng dữ liệu thật ---
-          // (Bỏ comment và chỉnh sửa khi có dữ liệu)
-          // setAverageRating(bookData.average_rating || 0);
-          // setRatingCount(bookData.rating_count || 0);
-          // setRatingBreakdown(bookData.rating_breakdown || { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
-          // --- Hết cập nhật state rating ---
 
-          // --- Fetch reviews ---
-          // (Bỏ comment khi có hàm getReviews)
-          // try {
-          //   const fetchedReviews = await getReviews(id); // Gọi hàm lấy reviews
-          //   setReviews(fetchedReviews);
-          // } catch (reviewError) {
-          //   console.error("Error fetching reviews:", reviewError);
-          //   setReviews([]); // Đặt reviews thành mảng rỗng nếu lỗi
-          // }
-          // --- Hết Fetch reviews ---
-
-          // Tính giá ban đầu (ưu tiên sách giấy)
           const priceAfterDiscount =
             bookData.price - (bookData.price * (bookData.discount || 0)) / 100;
           setCurrentPrice(priceAfterDiscount);
+          setSelectedType("paper"); // Mặc định chọn sách giấy khi tải lại
         } else {
           console.error("Book not found!");
-          setBook(null); // Đảm bảo book là null nếu không tìm thấy
+          setBook(null);
           setReviews([]);
-          // Reset cả rating tính toán
           setTotalRatingCount(0);
           setCalculatedAverageRating(0);
           setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
@@ -151,7 +124,6 @@ function ProductDetails() {
         console.error("Error fetching book details:", error);
         setBook(null);
         setReviews([]);
-        // Reset cả rating tính toán
         setTotalRatingCount(0);
         setCalculatedAverageRating(0);
         setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
@@ -160,28 +132,23 @@ function ProductDetails() {
       }
     };
     fetchBookDetail();
-  }, [id]); // Thêm id vào dependency array
+  }, [id]);
 
-  // Xử lý chọn loại sách và cập nhật giá (Cần logic giá thật)
   const handleTypeChange = (type) => {
     setSelectedType(type);
     if (book) {
       let price = book.price; // Giá gốc (giả sử là sách giấy)
-      // --- TODO: Lấy giá đúng cho ebook và audio ---
       if (type === "ebook") {
-        // price = book.ebook_price || book.price * 0.8; // Lấy giá ebook nếu có, nếu không thì giảm 20%
-        price = book.price * 0.8; // Tạm thời giảm 20%
+        price = book.price * 0.8;
       } else if (type === "audio") {
-        // price = book.audio_price || book.price * 0.85; // Lấy giá sách nói nếu có, nếu không thì giảm 15%
-        price = book.price * 0.85; // Tạm thời giảm 15%
+        price = book.price * 0.85;
       }
-      // --- Hết phần TODO giá ---
-      const priceAfterDiscount = price - (price * (book.discount || 0)) / 100; // Áp dụng discount chung (nếu có)
+      const priceAfterDiscount = price - (price * (book.discount || 0)) / 100;
       setCurrentPrice(priceAfterDiscount);
     }
   };
 
-  // Xử lý thêm vào giỏ hàng
+  // --- CẬP NHẬT HÀM NÀY ---
   const handleAddToCart = () => {
     if (!book) return;
     const cartItems = getCartItemsFromStorage();
@@ -193,33 +160,46 @@ function ProductDetails() {
       cartItems[existingItemIndex].quantity += quantity;
     } else {
       const newItem = {
-        book_id: book.book_id, // Chỉ lưu những gì cần thiết cho giỏ hàng
+        book_id: book.book_id,
         book_name: book.book_name,
         url_image: book.url_image,
         quantity: quantity,
         type: selectedType,
-        price_at_cart: currentPrice, // Giá đã chọn
-        original_price: book.price, // Lưu giá gốc để hiển thị nếu cần
-        discount_at_cart: book.discount || 0, // Lưu % discount gốc
+        price_at_cart: currentPrice,
+        original_price: book.price,
+        discount_at_cart: book.discount || 0,
       };
       cartItems.push(newItem);
     }
     saveCartItemsToStorage(cartItems);
-    setAddedMessage(
-      `Đã thêm ${quantity} "${book.book_name}" (${mapBookType(
-        selectedType
-      )}) vào giỏ hàng!`
-    );
-    setTimeout(() => setAddedMessage(""), 3000);
+
+    // +++ HIỂN THỊ POP-UP +++
+    const message = `Đã thêm ${quantity} "${book.book_name}" (${mapBookType(
+      selectedType
+    )}) vào giỏ hàng!`;
+    setPopupMessage(message); // Cập nhật nội dung thông báo
+    setShowPopup(true); // Hiển thị pop-up
+
+    // Tự động ẩn pop-up sau 3 giây
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 1500); // 3000ms = 3 giây
+
+    // --- BỎ CÁC DÒNG NÀY ---
+    // alert(
+    //   `Đã thêm ${quantity} "${book.book_name}" (${mapBookType(
+    //     selectedType
+    //   )}) vào giỏ hàng!`
+    // );
+    // setAddedMessage(`Đã thêm ${quantity} "${book.book_name}" (${mapBookType(selectedType)}) vào giỏ hàng!`);
+    // setTimeout(() => setAddedMessage(""), 3000);
   };
 
-  // Xử lý thay đổi số lượng
   const handleQuantityChange = (event) => {
     const value = parseInt(event.target.value, 10);
     setQuantity(isNaN(value) || value < 1 ? 1 : value);
   };
 
-  // Xử lý nút đọc/nghe thử
   const handleReadTrial = () => {
     alert("Chức năng Đọc thử đang được phát triển!");
   };
@@ -227,12 +207,10 @@ function ProductDetails() {
     alert("Chức năng Nghe thử đang được phát triển!");
   };
 
-  // Xử lý nút xem thêm/thu gọn mô tả
   const toggleDescription = () => {
     setIsDescriptionExpanded(!isDescriptionExpanded);
   };
 
-  // Lấy nội dung mô tả
   const getDescriptionContent = () => {
     if (!book?.description) return "Chưa có mô tả cho sản phẩm này.";
     if (
@@ -244,32 +222,26 @@ function ProductDetails() {
     return `${book.description.substring(0, DESCRIPTION_MAX_LENGTH)}...`;
   };
 
-  // Xử lý nút viết đánh giá
   const handleWriteReview = () => {
     alert("Chức năng viết đánh giá đang được phát triển!");
   };
 
-  // Tính tỷ lệ phần trăm cho breakdown
   const calculateRatingPercentage = (starCount) => {
-    // SỬ DỤNG STATE MỚI
     if (!calculatedRatingBreakdown || totalRatingCount === 0) return 0;
     return (
       ((calculatedRatingBreakdown[starCount] || 0) / totalRatingCount) * 100
     );
   };
 
-  // --- Hàm xử lý Form Đánh giá ---
   const handleWriteReviewClick = () => {
-    // TODO: Kiểm tra xem người dùng đã đăng nhập chưa
-    // if (!isUserLoggedIn) { navigate('/signIn'); return; }
-    setShowReviewForm(true); // Hiển thị form
+    setShowReviewForm(true);
   };
 
   const handleCancelReview = () => {
-    setShowReviewForm(false); // Ẩn form
-    setUserRating(0); // Reset sao
+    setShowReviewForm(false);
+    setUserRating(0);
     setHoverRating(0);
-    setReviewComment(""); // Reset comment
+    setReviewComment("");
     setIsAnonymous(false);
   };
 
@@ -300,49 +272,57 @@ function ProductDetails() {
     console.log("Submitting review:", {
       rating: userRating,
       comment: reviewComment,
-      anonymous: isAnonymous, // Log thêm trạng thái ẩn danh
+      anonymous: isAnonymous,
     });
 
-    // --- TODO: Gọi API để gửi đánh giá lên backend ---
     try {
-      // const reviewData = {
-      //     bookId: id,
-      //     rating: userRating,
-      //     comment: reviewComment,
-      //     // Thêm userId nếu cần
-      // };
-      // await submitReview(reviewData); // Gọi hàm API của bạn
-
-      // --- Giả lập thành công ---
       await new Promise((resolve) => setTimeout(resolve, 1500));
       alert("Gửi đánh giá thành công!");
 
-      // Cập nhật lại danh sách reviews (lý tưởng nhất là fetch lại)
-      // const updatedReviews = await getReviews(id);
-      // setReviews(updatedReviews);
-      // Hoặc thêm review mới vào đầu danh sách (tạm thời)
       const newReview = {
-        id: Date.now(), // Hoặc ID từ backend
-        // Thay đổi user dựa trên isAnonymous
-        user: isAnonymous ? "Người dùng ẩn danh" : "Bạn", // <-- THAY ĐỔI Ở ĐÂY
+        id: Date.now(),
+        user: isAnonymous ? "Người dùng ẩn danh" : "Bạn",
+        username: isAnonymous ? "Người dùng ẩn danh" : "Bạn", // Thêm username tạm thời
         rating: userRating,
         comment: reviewComment,
         date: new Date().toISOString(),
-        // Có thể thêm trường is_anonymous: isAnonymous nếu backend cần
       };
-      setReviews([newReview, ...reviews]);
-      // TODO: Cập nhật lại averageRating, ratingCount, ratingBreakdown (lý tưởng là fetch lại book data)
+      // Cập nhật reviews và tính toán lại rating
+      const updatedReviews = [newReview, ...reviews];
+      setReviews(updatedReviews);
 
-      handleCancelReview(); // Đóng form và reset
+      const count = updatedReviews.length;
+      setTotalRatingCount(count);
+
+      if (count > 0) {
+        const sum = updatedReviews.reduce(
+          (acc, review) => acc + (review.rating || 0),
+          0
+        );
+        const avg = sum / count;
+        setCalculatedAverageRating(avg);
+
+        const breakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+        updatedReviews.forEach((review) => {
+          const rating = review.rating;
+          if (rating >= 1 && rating <= 5) {
+            breakdown[rating]++;
+          }
+        });
+        setCalculatedRatingBreakdown(breakdown);
+      } else {
+        setCalculatedAverageRating(0);
+        setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
+      }
+
+      handleCancelReview();
     } catch (error) {
       console.error("Lỗi gửi đánh giá:", error);
       alert("Đã có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại.");
     } finally {
       setIsSubmittingReview(false);
     }
-    // --- Hết phần gọi API ---
   };
-  // --- Hết Hàm xử lý Form Đánh giá ---
 
   // --- Render ---
   if (loading) {
@@ -387,7 +367,21 @@ function ProductDetails() {
 
   // --- Giao diện chi tiết sách ---
   return (
-    <div>
+    <div style={{ position: "relative" }}>
+      {" "}
+      {/* Bọc gốc bằng div relative nếu cần */}
+      {showPopup && (
+        <div className="add-to-cart-popup">
+          <CheckCircleOutlineIcon
+            style={{
+              fontSize: "70px",
+              color: "lightgreen",
+              marginBottom: "10px",
+            }}
+          ></CheckCircleOutlineIcon>
+          <p>{popupMessage}</p>
+        </div>
+      )}
       <Header />
       <div className="page-heading header-text">
         <div className="container">
@@ -402,7 +396,6 @@ function ProductDetails() {
           </div>
         </div>
       </div>
-
       <div className="single-product section">
         <div className="container">
           <div className="row">
@@ -528,7 +521,6 @@ function ProductDetails() {
                   <i className="fa fa-shopping-bag"></i> Thêm vào giỏ hàng
                 </button>
               </div>
-              {addedMessage && <p className="added-message">{addedMessage}</p>}
 
               {/* Thông tin khác */}
               <ul>
@@ -540,7 +532,18 @@ function ProductDetails() {
                   Array.isArray(book.book_genres) &&
                   book.book_genres.length > 0 ? (
                     book.book_genres.map((singleGenre, index) => (
-                      <p key={index} className="book-genre" onClick={()=>navigate("/shop", {state:{genre: singleGenre.genre_name, author_name:null}})}>
+                      <p
+                        key={index}
+                        className="book-genre"
+                        onClick={() =>
+                          navigate("/shop", {
+                            state: {
+                              genre: singleGenre.genre_name,
+                              author_name: null,
+                            },
+                          })
+                        }
+                      >
                         {singleGenre?.genre_name || "N/A"}
                       </p>
                     ))
@@ -551,7 +554,17 @@ function ProductDetails() {
                   <span style={{ fontSize: "20px", color: "black" }}>
                     Tác giả:
                   </span>{" "}
-                  <p className="book-genre" onClick={()=>navigate("/shop", {state:{genre:null, author_name: book.authors.author_name}})}>
+                  <p
+                    className="book-genre"
+                    onClick={() =>
+                      navigate("/shop", {
+                        state: {
+                          genre: null,
+                          author_name: book.authors.author_name,
+                        },
+                      })
+                    }
+                  >
                     {book.authors.author_name}
                   </p>
                 </li>
@@ -563,7 +576,6 @@ function ProductDetails() {
           </div>
         </div>
       </div>
-
       {/* --- Phần Đánh Giá Bằng Sao --- */}
       <div className="product-ratings-reviews section">
         <div className="container">
@@ -618,7 +630,8 @@ function ProductDetails() {
                       onClick={handleWriteReviewClick}
                       className="orange-button write-review-button"
                     >
-                      <i className="fas fa-pencil-alt"></i> Viết đánh giá của bạn
+                      <i className="fas fa-pencil-alt"></i> Viết đánh giá của
+                      bạn
                     </button>
                   ) : (
                     // --- Form Nhập Đánh Giá ---
@@ -710,7 +723,7 @@ function ProductDetails() {
                           <span className="reviewer-name">
                             {/* --- BẮT ĐẦU LOGIC HIỂN THỊ TÊN --- */}
                             {/* Ưu tiên 1: Kiểm tra cờ is_anonymous từ backend (nếu có) */}
-                           {review.username}
+                            {review.username}
                           </span>
                           <span className="review-stars">
                             <StarRating rating={review.rating} />
@@ -767,7 +780,6 @@ function ProductDetails() {
         </div>
       </div>
       {/* --- Hết Phần Đánh Giá --- */}
-
       <Footer />
     </div>
   );
