@@ -3,7 +3,6 @@ import supabase from "./initSupabase";
 export async function getAdminPost() {
     const { data, error } = await supabase.from("forum").select().ilike("username", "%@valleybook.com");
     if(!error){
-        console.log(data);
         return data;
     }
     else{
@@ -11,11 +10,49 @@ export async function getAdminPost() {
         return [];
     }
 }
-export async function postForumTopic(topicContent, creator, imageFile) {
+export async function getExplorePost(){
+  const {data, error} = await supabase.from("forum").select().not("username", "ilike", "%@valleybook.com").order("created_at", {ascending:false});
+  if(!error){
+    return data;
+}
+else{
+    console.log(error);
+    return [];
+}
+}
+export async function getSinglePost(postID) {
+  const {data, error} = await supabase.from("forum").select().eq("id", postID).single();
+  if(!error){
+    return data;
+}
+else{
+    console.log(error);
+    return null;
+}
+}
+export async function getHomePost(userEmail) {
+  const { data: userData, error: userError} = await supabase.from("accounts").select("username").eq("email", userEmail).single();
+  if(!userError){
+    const {data, error} = await supabase.from("forum").select().eq("username", userData.username).order("created_at", {ascending:false});
+      if(!error){
+        return data;
+    }
+    else{
+        console.log(error);
+        return [];
+    }
+  }
+  else{
+    return [];
+  }
+}
+export async function postForumTopic(topicContent, userEmail, imageFile) {
     // Insert the forum topic into the "forum" table and select the inserted row.
+    const { data: userData, error: userError} = await supabase.from("accounts").select("username").eq("email", userEmail).single();
+    
     const { data: rowData, error: rowError } = await supabase
       .from("forum")
-      .insert({ topic: topicContent, username: creator })
+      .insert({ topic: topicContent, username: userData.username })
       .select();
   
     if (rowError) {

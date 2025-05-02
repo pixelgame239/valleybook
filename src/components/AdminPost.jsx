@@ -25,7 +25,23 @@ const AdminPost = () => {
             >
              {adminPost.map((adPost, index) => (
                     <div key={index}>
-                        <div className="forum-post" onClick={()=>navigate(`/forum/${adPost.id}`)}>
+                        <div className="forum-post" 
+                        onMouseDown={(e) => (e.currentTarget.startX = e.clientX)}
+                        onMouseUp={(e) => {
+                          const deltaX = Math.abs(e.clientX - e.currentTarget.startX);
+                          if (deltaX < 10) {
+                            navigate(`/forum/${adPost.id}`);
+                          }
+                        }}
+                        onTouchStart={(e) => {
+                          e.currentTarget.startX = e.touches[0].clientX;
+                        }}
+                        onTouchEnd={(e) => {
+                          const deltaX = Math.abs(e.changedTouches[0].clientX - e.currentTarget.startX);
+                          if (deltaX < 10) {
+                            navigate(`/forum/${adPost.id}`);
+                          }
+                        }}>
                             <div className="post-content">
                                 <p className="post-topic">
                                     {adPost.topic}

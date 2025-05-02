@@ -1,5 +1,5 @@
 // Import React library
-import React from "react";
+import React, { useContext } from "react";
 
 // Import all required components
 import Preloader from "../components/Preloader"; // Loading animation component
@@ -19,9 +19,11 @@ import BestSellerCarousel from "../components/BestSellerCarousel";
 import CustomerSaying from "../components/CustomerSaying";
 import ChatBubble from "../components/ChatBubble";
 import MyAudioPlayer from "../components/MyAudioPlayer";
+import { AuthContext } from "../components/AuthContext";
 
 function Home() {
   const [loading, setLoading] = useState(true);
+  const { userInfo } = useContext(AuthContext);
   useEffect(() => {
     async function getData() {
       const currentUser = supabase.auth.getUser();
@@ -41,6 +43,7 @@ function Home() {
       }
     }
     getData();
+    console.log(userInfo);
   }, []);
   return (
     <div>

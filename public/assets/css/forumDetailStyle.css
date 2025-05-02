@@ -1,0 +1,100 @@
+.forum-container {
+    display: flex;
+    margin-top: 20px;
+}
+.content-container {
+    margin-left: 20px;
+    margin-right: 20px;
+    box-sizing: border-box;
+}
+
+.content-inner {
+    width: 100%;
+    max-width: 1200px;  /* Adjust this value as needed */
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.forum-title {
+    color: rgb(12, 133, 254);
+    font-weight: bold;
+    font-size: 35px;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.forum-post {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+    border: 1px inset grey;
+    box-shadow: 0 3px 10px rgba(102, 102, 102, 0.816);
+    border-radius: 30px;
+    margin: 20px auto; 
+    cursor: pointer;
+}
+
+.post-content {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-topic {    
+    flex: 3;
+    color: rgb(12, 133, 254);
+    font-weight: bold;
+    font-size: 30px;
+    padding: 15px;
+    overflow: hidden;
+    white-space: normal; 
+    line-height: 0.96;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.post-username {
+    flex: 1;
+    color: rgb(53, 72, 83);
+    font-style: italic;
+    font-size: 16px;
+    padding: 15px;
+}
+
+.post-attribute {
+    flex: 1;
+    position: relative;
+}
+.post-date-created{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: rgb(53, 72, 83);
+    font-style: italic;
+    font-size: 16px;
+    padding: 15px;
+}
+.post-emotion{
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+  .post-like {
+    font-weight: bold;
+    font-size: 20px;
+    color: green;
+  }
+  
+  .post-dislike {
+    font-weight: bold;
+    font-size: 20px;
+    color: red;
+  }
