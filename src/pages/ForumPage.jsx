@@ -9,15 +9,16 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../components/AuthContext";
 import AdminPost from "../components/AdminPost";
-import { getExplorePost, getHomePost, postForumTopic } from "../backend/forumData";
+import { getExplorePost, getHomePost, getNumsPost, postForumTopic } from "../backend/forumData";
 import supabase from "../backend/initSupabase";
 import Preloader from "../components/Preloader";
 import { ForumContext } from "../backend/ForumContext";
 import { getAdminPost } from "../backend/forumData";
 import UserPost from "../components/UserPost";
+import BottomBanner from "../components/BottomBanner";
 
 const ForumPage = () =>{
-    const { setAdminPost, setExplorePost, setHomePost, setSearchPost, explorePost, adminPost } = useContext(ForumContext);
+    const { setAdminPost, setExplorePost, setHomePost, setSearchPost, explorePost, adminPost, searchPost, homePost, currentPage, setCurrentPage } = useContext(ForumContext);
     const [imageUpload, setImageUpload] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [forumContent, setForumContent] = useState("Explore");
@@ -25,16 +26,25 @@ const ForumPage = () =>{
     const [searchString, setSearchString] = useState("");
     const { loggedIn } = useContext(AuthContext);
     const [postTopic, setPostTopic] = useState("");
+    const [pageCount, setPageCount] = useState(0);
     const [loading, setLoading] = useState(false);
     const { userInfo } = useContext(AuthContext);
+    const handleChangingPage=async (pageNumber)=>{
+        setLoading(true);
+        setCurrentPage(pageNumber);
+          setLoading(false);
+      }
     useEffect(() => {
+        console.log(userInfo);
         const fetchUserPost = async()=>{
             setLoading(true);
             const tempPost = await getExplorePost();
             const adminData = await getAdminPost();
             if(tempPost.length>0){
                 setExplorePost(tempPost);
-                setSearchPost(tempPost);
+                setSearchPost([...adminData,...tempPost]);
+                setPageCount(getNumsPost(tempPost,5));
+                setCurrentPage(1);
             }
             if(adminData.length>0){
                 setAdminPost(adminData);
@@ -53,6 +63,7 @@ const ForumPage = () =>{
         const allPost = [...adminPost,...explorePost];
         const tempSearch = allPost.filter((sPost)=>sPost.topic.toLowerCase().includes(searchString.toLowerCase()));
         setSearchPost(tempSearch);
+        setPageCount(getNumsPost(tempSearch,5));
     }, [searchString]);
     const handleTextChange = (e) => {
         setPostTopic(e.target.value);
@@ -71,6 +82,8 @@ const ForumPage = () =>{
         setPostTopic("");
         }
     }
+    const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
+
     return(
         <div>
             {loading?<Preloader></Preloader>:<>
@@ -92,17 +105,24 @@ const ForumPage = () =>{
                         <ul>
                             <li className={forumContent==="Explore" ? "active-content" : ""} onClick={() => {
                                 setShowSearch(false);
-                                setForumContent("Explore")}}>
+                                setForumContent("Explore");
+                                setCurrentPage(1);
+                                setPageCount(getNumsPost(explorePost,5))}}>
                                 <ExploreIcon /> Khám phá
                             </li>
                             <li className={forumContent==="Home" ? "active-content" : ""} onClick={() => {
                                 setShowSearch(false);
-                                setForumContent("Home")}}>
+                                setForumContent("Home");
+                                setCurrentPage(1);
+                                setPageCount(getNumsPost(homePost,5))}}>
                                 <HomeIcon /> Bài viết của tôi
                             </li>
                             <li className={forumContent==="Search" ? "active-content" : ""} onClick={() => {
                                 setShowSearch(true);
-                                setForumContent("Search");}}>
+                                setForumContent("Search");
+                                setCurrentPage(1);
+                                setPageCount(getNumsPost(searchPost,5));
+                                }}>
                             <SearchIcon /> Tìm kiếm
                             </li>
                         </ul>
@@ -165,7 +185,41 @@ const ForumPage = () =>{
                     </div>
                 </div>
             </div>
-
+            <div className="section trending">
+            <div style={{margin:"25px"}}>
+            <div className="row">
+                <div>
+                  <ul className="pagination">
+                    <li>
+                      <a style={{cursor: currentPage===1?"not-allowed":"pointer", backgroundColor: currentPage===1?"gray":null, color:currentPage===1?"black":null}} onClick={()=>{
+                        if(currentPage===1)
+                          return;
+                        else{
+                          handleChangingPage(currentPage-1)
+                        }
+                      }}>&lt;</a>
+                    </li>
+                    {pages.map(page=>(
+                    <li>
+                      <a style={{cursor:"pointer"}} className={currentPage===page?"is_active":""} onClick={()=>{handleChangingPage(page)}}>{page}</a>
+                    </li>
+                    ))}
+                    <li>
+                      <a style={{cursor: currentPage===pageCount?"not-allowed":"pointer", backgroundColor: currentPage===pageCount?"gray":null, color:currentPage===pageCount?"black":null}} onClick={()=>{
+                        if(currentPage===pageCount)
+                          return;
+                        else{
+                          handleChangingPage(currentPage+1)
+                        }
+                      }}>&gt;</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              </div>
+              </div>
+              {!loggedIn?<BottomBanner></BottomBanner>:null
+}
             <Footer />
             </>}
         </div>

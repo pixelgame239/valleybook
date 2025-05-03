@@ -1,0 +1,29 @@
+.answer-container{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+}
+.answer-post{
+    position: relative;
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 2px 3px 2px beige;
+    border: 1px solid grey;
+}
+.answer-username{
+    color: rgb(12, 133, 254);
+    font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    top: -25px;
+    left: 15px;
+}
+.answer-content{
+    color: black;
+    font-size: 20px;
+    padding: 15px;
+}

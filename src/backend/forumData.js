@@ -1,3 +1,4 @@
+import { email } from "react-admin";
 import supabase from "./initSupabase";
 
 export async function getAdminPost() {
@@ -46,6 +47,11 @@ export async function getHomePost(userEmail) {
     return [];
   }
 }
+export function getNumsPost(postData, numDisplay) {
+  let numPages;
+  numPages = Math.ceil(postData.length/numDisplay);
+  return numPages;
+}
 export async function postForumTopic(topicContent, userEmail, imageFile) {
     // Insert the forum topic into the "forum" table and select the inserted row.
     const { data: userData, error: userError} = await supabase.from("accounts").select("username").eq("email", userEmail).single();
@@ -93,4 +99,37 @@ export async function postForumTopic(topicContent, userEmail, imageFile) {
       }
     }
   }
-  
+export async function handleEmo(postId, emoType, userEmail) {
+  const { data, error } = await supabase.rpc('toggle_emo', {column_name: emoType, element_to_toggle: userEmail, id: postId});
+  if(error){
+    console.log(error);
+  }
+}
+export async function replyPost(postID, answerContent, userEmail, counter) {
+  const {data, error} =await supabase.rpc("reply_topic", { id: postID, new_reply: {
+    ans_num: counter,
+    answer: answerContent,
+    email: userEmail
+  }})
+  if(error){
+    console.log(error);
+  }
+}
+export async function getTopicAnswer(topicReply) {
+  const {data, error} =await supabase.from("accounts").select("username").eq("email", topicReply.email).single();
+  if(!error){
+    return {
+      ans_num: topicReply.ans_num,
+      answer: topicReply.answer,
+      username: data? data.username: "Người dùng bí ẩn"
+    };
+  }
+  else{
+    console.log(error);
+    return {
+      ans_num: topicReply.ans_num,
+      answer: topicReply.answer,
+      username: "Người dùng bí ẩn"
+    };
+  }
+}

@@ -6,13 +6,13 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 
 const UserPost = ({ forumType }) =>{
     const navigate = useNavigate();
-    const { explorePost, homePost, searchPost } = useContext(ForumContext);
+    const { explorePost, homePost, searchPost, currentPage } = useContext(ForumContext);
     return(
         <div>
             {forumType==="Explore"?
             <>
                   {explorePost.length===0?"Chưa có bài viết nào":
-                    explorePost.map((singPost, index)=>
+                    explorePost.slice(5*(currentPage-1), currentPage*5).map((singPost, index)=>
                         <div key={index}>
                     <div className="forum-post" 
                     onClick={()=>navigate(`/forum/${singPost.id}`)}>
@@ -26,11 +26,11 @@ const UserPost = ({ forumType }) =>{
                             <p className="post-date-created">{new Date(singPost.created_at).toLocaleString()}</p>
                             <div className="post-emotion">
                             <span className="post-like">
-                                {(!singPost.like || singPost.like.length === 0) ? 0 : singPost.like.length} 
+                                {(!singPost.like_count || singPost.like_count.length === 0) ? 0 : singPost.like_count.length} 
                                 <ThumbUpAltIcon />
                             </span>
                             <span className="post-dislike">
-                                {(!singPost.dislike || singPost.dislike.length === 0) ? 0 : singPost.dislike.length} 
+                                {(!singPost.dislike_count || singPost.dislike_count.length === 0) ? 0 : singPost.dislike_count.length} 
                                 <ThumbDownAltIcon />
                             </span>
                             </div>
@@ -40,8 +40,8 @@ const UserPost = ({ forumType }) =>{
                 }
                 </>
             : forumType==="Search" ?
-            <> {searchPost.length===0?"Chưa có bài viết nào, hãy viết bài viết đầu tiên của mình nào":
-                searchPost.map((singPost, index)=>
+            <> {searchPost.length===0?"Không tìm thấy bài viết":
+                searchPost.slice(5*(currentPage-1), currentPage*5).map((singPost, index)=>
                     <div key={index}>
                 <div className="forum-post" 
                 onClick={()=>navigate(`/forum/${singPost.id}`)}>
@@ -55,11 +55,11 @@ const UserPost = ({ forumType }) =>{
                         <p className="post-date-created">{new Date(singPost.created_at).toLocaleString()}</p>
                         <div className="post-emotion">
                         <span className="post-like">
-                            {(!singPost.like || singPost.like.length === 0) ? 0 : singPost.like.length} 
+                            {(!singPost.like_count || singPost.like_count.length === 0) ? 0 : singPost.like_count.length} 
                             <ThumbUpAltIcon />
                         </span>
                         <span className="post-dislike">
-                            {(!singPost.dislike || singPost.dislike.length === 0) ? 0 : singPost.dislike.length} 
+                            {(!singPost.dislike_count || singPost.dislike_count.length === 0) ? 0 : singPost.dislike_count.length} 
                             <ThumbDownAltIcon />
                         </span>
                         </div>
@@ -69,7 +69,7 @@ const UserPost = ({ forumType }) =>{
             }</>
             :
              <> {homePost.length===0?"Chưa có bài viết nào, hãy viết bài viết đầu tiên của mình nào":
-                homePost.map((singPost, index)=>
+                homePost.slice(5*(currentPage-1), currentPage*5).map((singPost, index)=>
                     <div key={index}>
                 <div className="forum-post" 
                 onClick={()=>navigate(`/forum/${singPost.id}`)}>
@@ -83,11 +83,11 @@ const UserPost = ({ forumType }) =>{
                         <p className="post-date-created">{new Date(singPost.created_at).toLocaleString()}</p>
                         <div className="post-emotion">
                         <span className="post-like">
-                            {(!singPost.like || singPost.like.length === 0) ? 0 : singPost.like.length} 
+                            {(!singPost.like_count || singPost.like_count.length === 0) ? 0 : singPost.like_count.length} 
                             <ThumbUpAltIcon />
                         </span>
                         <span className="post-dislike">
-                            {(!singPost.dislike || singPost.dislike.length === 0) ? 0 : singPost.dislike.length} 
+                            {(!singPost.dislike_count || singPost.dislike_count.length === 0) ? 0 : singPost.dislike_count.length} 
                             <ThumbDownAltIcon />
                         </span>
                         </div>
