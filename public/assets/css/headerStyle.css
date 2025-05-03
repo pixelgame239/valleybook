@@ -11,6 +11,12 @@
   align-items: center; /* Center the icon */
 }
 
+/* Đảm bảo giỏ hàng không bị ảnh hưởng bởi hover của .nav */
+.cart-button:hover {
+  background-color: #ffffff1a; /* Thay đổi nền khi hover, nếu cần */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng cho nút khi hover */
+}
+
 .bell-button {
   color: white;
   font-size: 24px;
@@ -20,17 +26,6 @@
   margin-right: 10px;
   width: 35px; /* Set the width */
   height: 35px; /* Set the height to match the width */
-}
-
-.bell-button:hover {
-  background-color: #ffffff1a; /* Thay đổi nền khi hover, nếu cần */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng cho nút khi hover */
-}
-
-/* Đảm bảo giỏ hàng không bị ảnh hưởng bởi hover của .nav */
-.cart-button:hover {
-  background-color: #ffffff1a; /* Thay đổi nền khi hover, nếu cần */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng cho nút khi hover */
 }
 
 /* Đảm bảo các phần tử khác không bị ảnh hưởng bởi hover */

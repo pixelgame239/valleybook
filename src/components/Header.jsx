@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import supabase from "../backend/initSupabase";
@@ -9,6 +9,7 @@ import accountLogo from "../../public/assets/images/account.png";
 import { useNavigate } from "react-router-dom";
 
 function Header({ currentPage }) {
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const { loggedIn, userData } = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -27,6 +28,23 @@ function Header({ currentPage }) {
   const toggleDropdown = () => {
     setShowDropdown((prev) => (prev = !prev));
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
+
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
   //     if (event === 'SIGNED_IN') {
@@ -101,6 +119,7 @@ function Header({ currentPage }) {
                 </li>
                 <li
                   className="profile-container"
+                  ref={dropdownRef}
                   style={{ display: "flex", alignItems: "center" }}
                 >
                   {loggedIn ? (
