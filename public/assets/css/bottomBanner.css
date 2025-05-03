@@ -1,65 +1,66 @@
 .bottom-banner {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #f0f2f5;
-    border-top: 1px solid #ccc;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 300;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-    overflow: hidden;
-    height: 200px;
-  }
-  .banner-content p{
-    font-weight: bold;
-  }
-  .bottom-banner.hide-banner, .expand-button.hide-banner {
-    transform: translateY(200px);
-  }
-  
-  .banner-buttons {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    height: 200;
-    z-index: 400;
-  }
-  
-  .expand-button {
-    background-color: #f0f2f5;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    font-size: 25px;
-    position: absolute;  /* Changed to absolute */
-    top: -230px;  /* Position it at the top */
-    left: 50%;  /* Move it to the center */
-    transition: transform 0.3s ease-in-out;
-  }
-  .expand-button:hover{
-    color: dodgerblue;
-  }
-  .forum-signin{
-    border-radius: 20px;
-    background-color: rgb(25, 107, 250);
-    color: white;
-    border: none;
-    padding: 20px;
-    font-size: 25px;
-    margin: 15px;
-    width: 200px;
-  }
-  .forum-signup{
-    border-radius: 20px;
-    background-color: rgb(0, 152, 33);
-    color: white;
-    border: none;
-    padding: 20px;
-    font-size: 25px;
-    margin: 15px;
-    width: 200px;
-  }
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f0f2f5;
+  border-top: 1px solid #ccc;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 300;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
+  height: 120px;
+}
+.banner-content p {
+  font-weight: bold;
+}
+.bottom-banner.hide-banner,
+.expand-button.hide-banner {
+  transform: translateY(200px);
+}
+
+.banner-buttons {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  height: 200;
+  z-index: 400;
+}
+
+.expand-button {
+  background-color: #f0f2f5;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  position: absolute; /* Changed to absolute */
+  top: -230px; /* Position it at the top */
+  left: 50%; /* Move it to the center */
+  transition: transform 0.3s ease-in-out;
+}
+.expand-button:hover {
+  color: dodgerblue;
+}
+.forum-signin {
+  border-radius: 20px;
+  background-color: rgb(25, 107, 250);
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 25px;
+  margin: 15px;
+  width: 200px;
+}
+.forum-signup {
+  border-radius: 20px;
+  background-color: rgb(0, 152, 33);
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 25px;
+  margin: 15px;
+  width: 200px;
+}

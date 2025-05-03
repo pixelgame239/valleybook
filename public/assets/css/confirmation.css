@@ -1,0 +1,19 @@
+.confirmation-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #9edae959; /* Màu nền nhạt */
+}
+
+.confirmation-container h2 {
+  color: #007bff; /* Màu tiêu đề */
+  margin-bottom: 20px;
+}
+
+.confirmation-container p {
+  font-size: 20px;
+  color: #333; /* Màu chữ */
+}

@@ -22,11 +22,17 @@ import SetNewPassword from "./pages/SetNewPassword.jsx"; // Điều chỉnh đư
 import ForumPage from "./pages/ForumPage.jsx";
 import { ForumProvider } from "./backend/ForumContext.jsx";
 import ForumDetailPage from "./pages/ForumDetailPage.jsx";
+import BackgroundMusic from "./components/BackgroundMusic.jsx";
+import Confirmation from "./pages/Confirmation";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter basename="/">
+        <div>
+          <BackgroundMusic />
+          {/* Nội dung khác của trang */}
+        </div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
@@ -51,8 +57,18 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/adminChat" element={<AdminChatScreen />} />
           <Route path="/setNewPassword" element={<SetNewPassword />} />
-          <Route path="/forum" element={<ForumProvider><ForumPage></ForumPage></ForumProvider>}></Route>
-          <Route path="/forum/:id" element={<ForumDetailPage></ForumDetailPage>}></Route>
+          <Route
+            path="/forum"
+            element={
+              <ForumProvider>
+                <ForumPage></ForumPage>
+              </ForumProvider>
+            }
+          ></Route>
+          <Route
+            path="/forum/:id"
+            element={<ForumDetailPage></ForumDetailPage>}
+          ></Route>
 
           {/* THÊM ROUTE CHO ADMIN PANEL */}
           <Route
@@ -62,6 +78,7 @@ function App() {
               <AdminApp />
             }
           />
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
