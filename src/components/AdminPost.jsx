@@ -52,11 +52,11 @@ const AdminPost = () => {
                                 <p className="post-date-created">{new Date(adPost.created_at).toLocaleString()}</p>
                                 <div className="post-emotion">
                                 <span className="post-like">
-                                    {(!adPost.like || adPost.like.length === 0) ? 0 : adPost.like.length} 
+                                    {(!adPost.like_count || adPost.like_count.length === 0) ? 0 : adPost.like_count.length} 
                                     <ThumbUpAltIcon />
                                 </span>
                                 <span className="post-dislike">
-                                    {(!adPost.dislike || adPost.dislike.length === 0) ? 0 : adPost.dislike.length} 
+                                    {(!adPost.dislike_count || adPost.dislike_count.length === 0) ? 0 : adPost.dislike_count.length} 
                                     <ThumbDownAltIcon />
                                 </span>
                                 </div>

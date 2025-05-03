@@ -1,100 +1,238 @@
-.forum-container {
-    display: flex;
-    margin-top: 20px;
-}
-.content-container {
-    margin-left: 20px;
-    margin-right: 20px;
-    box-sizing: border-box;
-}
-
-.content-inner {
-    width: 100%;
-    max-width: 1200px;  /* Adjust this value as needed */
-    margin: 0 auto;
-    box-sizing: border-box;
-}
-
-.forum-title {
-    color: rgb(12, 133, 254);
-    font-weight: bold;
-    font-size: 35px;
-    text-align: center;
-    text-decoration: underline;
-}
-
-.forum-post {
+.forum-topic {
     display: flex;
     flex-direction: row;
-    width: 100%;
-    max-width: 100%;
-    height: 200px;
     border: 1px inset grey;
     box-shadow: 0 3px 10px rgba(102, 102, 102, 0.816);
     border-radius: 30px;
-    margin: 20px auto; 
-    cursor: pointer;
+    margin: 20px;
+    position: relative;
 }
 
-.post-content {
-    flex: 4;
+.topic-content {
     display: flex;
     flex-direction: column;
+    width: 100%;
+}
+.topic-image-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
 }
 
-.post-topic {    
+.topic-text {    
     flex: 3;
     color: rgb(12, 133, 254);
     font-weight: bold;
     font-size: 30px;
     padding: 15px;
-    overflow: hidden;
     white-space: normal; 
     line-height: 0.96;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    text-overflow: ellipsis;
-    word-break: break-word;
+    white-space: normal; /* Allows breaking lines */
+    word-wrap: break-word; /* Breaks long words */
+    overflow-wrap: break-word; /* Ensures wrapping for long content */
 }
 
-.post-username {
+.topic-username {
     flex: 1;
     color: rgb(53, 72, 83);
     font-style: italic;
     font-size: 16px;
     padding: 15px;
+    display: inline-block;
 }
 
-.post-attribute {
-    flex: 1;
+.topic-attribute {
     position: relative;
 }
-.post-date-created{
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.topic-date-created{
     color: rgb(53, 72, 83);
     font-style: italic;
     font-size: 16px;
     padding: 15px;
+    display: inline-block;
+
 }
-.post-emotion{
+.topic-emotion{
     position: absolute;
     right: 20px;
     bottom: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 15px; 
+    width: 20%;
 }
-  .post-like {
+  .topic-like.active {
     font-weight: bold;
     font-size: 20px;
-    color: green;
+    color: rgb(0, 139, 0);
   }
-  
-  .post-dislike {
+  .topic-like {
+    font-weight: bold;
+    font-size: 20px;
+    color: rgb(59, 59, 59);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .topic-dislike{
+    font-weight: bold;
+    font-size: 20px;
+    color: rgb(59, 59, 59);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .topic-dislike:hover{
+    color: red;
+    transform: scale(1.09);
+  }
+  .topic-like:hover{
+    color: rgb(0, 139, 0);
+    transform: scale(1.09);
+  }
+  .topic-dislike.active {
     font-weight: bold;
     font-size: 20px;
     color: red;
   }
+  .reply-section{
+    margin: 20px;
+    color: rgb(12, 133, 254);
+    font-weight: bold;
+    font-size: 35px;
+    text-decoration: underline;
+  }
+  .reply-container {
+    position: fixed;
+    right: 15px;
+    bottom: 20px;
+}
+
+/* Initial button state */
+.reply-box {
+    display: flex;
+    align-items: center;
+    background-color: rgb(12, 133, 254);
+    border-radius: 25px;
+    box-shadow: 0 1px 3px rgba(102, 102, 102, 0.816);
+    padding: 10px;
+    transition: width 0.4s ease-in-out, padding 0.4s ease-in-out;
+    width: 110px; /* Start small */
+    animation: floating-reply 2s infinite;
+}
+
+/* Expanded state */
+.reply-box.expanded {
+    width: 90vw; /* Expands smoothly to full width */
+    background-color: white;
+    animation: none;
+}
+
+/* Reply button */
+.reply-button {
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Input field */
+.reply-input {
+    flex: 1;
+    font-size: 18px;
+    padding: 8px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* Show input when expanded */
+.reply-box.expanded .reply-input {
+    opacity: 1;
+}
+
+/* Send button */
+.send-button {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: rgb(12, 133, 254);
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+.send-button:disabled{
+    color: rgb(0, 35, 69);
+}
+
+/* Cancel button */
+.cancel-button {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: red;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: transform 0.2s ease;
+}
+
+.cancel-button:hover, .send-button:hover {
+    transform: scale(1.2);
+}
+
+/* Floating animation */
+@keyframes floating-reply {
+    0% {
+        transform: translateY(0px);
+        box-shadow: 0 1px 3px rgba(102, 102, 102, 0.816);
+    }
+    50% {
+        transform: translateY(-15px);
+        box-shadow: 0 10px 8px rgba(102, 102, 102, 0.816);
+        background-color: rgb(54, 154, 254);
+        color: whitesmoke;
+    }
+    100% {
+        transform: translateY(0px);
+        box-shadow: 0 1px 3px rgba(102, 102, 102, 0.816);
+    }
+}
+
+/* Input transformation */
+
+  /* .reply-button{
+    position: fixed;
+    right: 15px;
+    bottom: 20px;
+    border: 1px outset rgb(12, 133, 254);
+    background-color:rgb(12, 133, 254);
+    box-shadow: 0 1px 3px rgba(102, 102, 102, 0.816);
+    border-radius: 25px;
+    padding: 20px;
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
+    animation: floating-reply 2s  infinite;
+  }
+
+  @keyframes floating-reply {
+    0%{
+        transform: translateY(0px);
+        box-shadow: 0 1px 3px rgba(102, 102, 102, 0.816);
+    }
+    50%{
+        transform: translateY(-15px);
+        box-shadow: 0 10px 8px rgba(102, 102, 102, 0.816);
+        background-color: rgb(54, 154, 254);
+        color: whitesmoke
+    }
+    100%{
+        transform: translateY(0px);
+        box-shadow: 0 1px 3px rgba(102, 102, 102, 0.816);
+    }
+  } */
