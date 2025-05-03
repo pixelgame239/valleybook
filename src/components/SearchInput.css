@@ -29,9 +29,16 @@
   height: 40px;
   width: 100%; /* Make the input field longer */
   padding-right: 40px;
+  color: white;
+}
+
+.search-input-field:focus {
+  outline: none;
 }
 
 .search-input-field::placeholder {
+  border: 1px solid #007bff;
+
   color: white; /* Change placeholder text color to white */
 }
 

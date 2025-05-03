@@ -73,7 +73,7 @@
 /* ==== Style cho Tin nhắn pop-up ban đầu ==== */
 .initial-message-popup {
   position: fixed;
-  bottom: 90px; /* Điều chỉnh vị trí so với icon */
+  bottom: 80px; /* Điều chỉnh vị trí so với icon */
   right: 40px; /* Điều chỉnh vị trí so với icon */
   background-color: #fff;
   color: #333;
