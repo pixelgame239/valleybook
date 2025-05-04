@@ -133,7 +133,7 @@ export default function Footer() {
                       textDecoration: "none", // Optional: removes underline
                     }}
                   >
-                    Nam Từ Liêm, Hà Nội
+                    Trịnh Văn Bô, Nam Từ Liêm, Hà Nội
                   </a>
                 </li>
                 <li
@@ -162,7 +162,7 @@ export default function Footer() {
                     />{" "}
                   </svg>
                   <a
-                    href="mailto:valleybook@contact.com"
+                    href="mailto:hoangdang1368@gmail.com"
                     style={{
                       boxSizing: "border-box",
                       textDecoration: "none",
@@ -177,7 +177,7 @@ export default function Footer() {
                       fontFamily: "'civil-regular', sans-serif",
                     }}
                   >
-                    valleybook@contact.com
+                    hoangdang1368@gmail.com
                   </a>
                 </li>
                 <li
@@ -359,7 +359,7 @@ export default function Footer() {
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
                   <Link
-                    to="/contact"
+                    to="/contact#"
                     title="Liên hệ với chúng tôi"
                     style={{
                       boxSizing: "border-box",
