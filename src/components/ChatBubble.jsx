@@ -176,7 +176,7 @@ export default function ChatBubble() {
   }
 
   return (
-    <div style={{ position: "fixed", bottom: "-10px", right: "0px" }}>
+    <div style={{ position: "fixed", bottom: "5px", right: "0px" }}>
       {/* Chat window */}
       <div className={`chat-window ${open ? "open" : ""}`} ref={chatWindowRef}>
         <div style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
@@ -211,7 +211,7 @@ export default function ChatBubble() {
           onClick={markAdminMessagesAsRead}
           ref={chatBubbleRef}
         >
-          {open ? "×" : "💬"}
+          <span className="chat-icon">{open ? "×" : "💬"}</span>
           {unreadCount > 0 && (
             <>
               <span className="unread-bubble">{unreadCount}</span>

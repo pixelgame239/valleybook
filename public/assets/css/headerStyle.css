@@ -17,6 +17,17 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng cho nút khi hover */
 }
 
+.bell-button {
+  color: white;
+  font-size: 24px;
+  z-index: 999;
+  border-radius: 50%;
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 35px; /* Set the width */
+  height: 35px; /* Set the height to match the width */
+}
+
 /* Đảm bảo các phần tử khác không bị ảnh hưởng bởi hover */
 .nav li:hover .no-hover-bg {
   background-color: transparent !important;
@@ -29,7 +40,7 @@
   color: white;
   width: 40px;
 }
-.profile-container{
+.profile-container {
   position: relative;
 }
 
@@ -57,7 +68,7 @@
   position: absolute;
   top: 100%;
   right: 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   min-width: 120px;
 }

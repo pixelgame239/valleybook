@@ -12,7 +12,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserInfo = async (email) => {
       try {
+        console.log("Fetching user data for email:", email); // Debug log
         const tempData = await getUserData(email);
+        console.log("User data fetched:", tempData); // Debug log
         setUserInfo(tempData);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -21,7 +23,9 @@ export const AuthProvider = ({ children }) => {
 
     // ✅ Check for existing session on mount
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (session?.user) {
         setLoggedIn(true);
         setUserdata(session.user);
@@ -35,6 +39,8 @@ export const AuthProvider = ({ children }) => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (event === "SIGNED_IN") {
+          console.log("User signed in:", session.user.email); // Debug log
+
           setLoggedIn(true);
           setUserdata(session.user);
           fetchUserInfo(session.user.email);

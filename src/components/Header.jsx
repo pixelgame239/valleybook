@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import supabase from "../backend/initSupabase";
@@ -6,10 +6,15 @@ import "../../public/assets/css/headerStyle.css";
 import { AuthContext } from "./AuthContext";
 import bookLogo from "../../public/assets/images/bookLogo.png";
 import accountLogo from "../../public/assets/images/account.png";
+import { useNavigate } from "react-router-dom";
 
 function Header({ currentPage }) {
-  const { loggedIn } = useContext(AuthContext);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+  const { loggedIn, userData } = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
+  const isAdmin = userData?.email?.startsWith("admin");
+  console.log("is admin: ", isAdmin);
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -21,8 +26,25 @@ function Header({ currentPage }) {
   };
 
   const toggleDropdown = () => {
-    setShowDropdown((prev) =>prev= !prev);
+    setShowDropdown((prev) => (prev = !prev));
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
+
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
   //     if (event === 'SIGNED_IN') {
@@ -70,7 +92,10 @@ function Header({ currentPage }) {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/forum" className={currentPage === "forum" ? "active" : ""}>
+                  <Link
+                    to="/forum"
+                    className={currentPage === "forum" ? "active" : ""}
+                  >
                     Diễn đàn
                   </Link>
                 </li>
@@ -84,26 +109,52 @@ function Header({ currentPage }) {
                 </li>
                 <li>
                   <Link to="/cart" className="no-hover-bg">
-                    <button className="cart-button">
+                    <button
+                      className="cart-button"
+                      style={{ marginRight: "0px" }}
+                    >
                       <i className="fa fa-shopping-cart"></i>
                     </button>
                   </Link>
                 </li>
-                <li className="profile-container">
-                    {loggedIn ? (
-                      <>
-                        <button className="profile-button" onClick={toggleDropdown}>
-                          <img src={accountLogo} alt="Profile" className="profile-avatar" />
-                        </button>
-                        {showDropdown && (
-                          <div className="dropdown-menu">
-                            <ul>
-                              <li onClick={handleSignOut}>Đăng xuất</li>
-                            </ul>
-                          </div>
-                        )}
-                      </>
-                    ) : (
+                <li
+                  className="profile-container"
+                  ref={dropdownRef}
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  {loggedIn ? (
+                    <>
+                      {isAdmin && <i className="fas fa-bell bell-button"></i>}
+                      <button
+                        className="profile-button"
+                        onClick={toggleDropdown}
+                        style={{ marginLeft: "5px" }}
+                      >
+                        <img
+                          src={accountLogo}
+                          alt="Profile"
+                          className="profile-avatar"
+                        />
+                      </button>
+                      {showDropdown && (
+                        <div className="dropdown-menu">
+                          <ul>
+                            <li onClick={handleSignOut}>Đăng xuất</li>
+                            <li onClick={() => navigate("/adminChat")}>
+                              Admin Chat
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        // gap: "8px",
+                      }}
+                    >
                       <Link
                         to="/signIn"
                         className={currentPage === "signIn" ? "active" : ""}
@@ -111,8 +162,9 @@ function Header({ currentPage }) {
                       >
                         Đăng nhập
                       </Link>
-                    )}
-                  </li>
+                    </div>
+                  )}
+                </li>
               </ul>
               <a className="menu-trigger">
                 <span>Menu</span>

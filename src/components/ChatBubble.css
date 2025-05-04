@@ -33,24 +33,13 @@
   animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 5px rgba(255, 0, 0, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
-  }
-}
-
 .chat-bubble-container {
   position: relative;
-  display: inline-block;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .unread-bubble {
@@ -84,7 +73,7 @@
 /* ==== Style cho Tin nhắn pop-up ban đầu ==== */
 .initial-message-popup {
   position: fixed;
-  bottom: 90px; /* Điều chỉnh vị trí so với icon */
+  bottom: 80px; /* Điều chỉnh vị trí so với icon */
   right: 40px; /* Điều chỉnh vị trí so với icon */
   background-color: #fff;
   color: #333;
@@ -116,6 +105,52 @@
   margin-left: 10px;
   font-weight: bold;
   cursor: pointer;
+}
+.chat-icon {
+  font-size: 20px;
+  display: inline-block;
+  animation: rotateClockwise 0.5s ease-in-out infinite; /* Quay nhanh rồi chậm và liên tục */
+}
+
+/* Hiệu ứng quay theo chiều kim đồng hồ */
+@keyframes rotateClockwise {
+  0% {
+    transform: rotate(0deg); /* Bắt đầu từ góc 0 */
+  }
+  85% {
+    transform: rotate(360deg); /* Quay đến 360 độ */
+  }
+  90% {
+    transform: rotate(360deg); /* Dừng tại 360 độ trong 0.2 giây */
+  }
+  100% {
+    transform: rotate(360deg); /* Vẫn dừng ở 360 độ trước khi bắt đầu lại */
+  }
+}
+/* Khi hover sẽ không quay nữa, và có thể tăng size nếu muốn */
+.chat-bubble-container:hover .chat-icon {
+  animation-play-state: paused; /* Tạm dừng quay khi hover */
+  animation: none; /* Dừng hiệu ứng quay khi hover */
+}
+
+.chat-bubble-container.open .chat-icon {
+  transform: scale(1.3);
+}
+
+/* Cập nhật animation pulse */
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0;
+  }
 }
 
 /* ========================================= */
