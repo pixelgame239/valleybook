@@ -32,13 +32,16 @@ function Checkout() {
     fullName: "",
     phone: "",
     address: "",
-    ward: "",
-    district: "",
-    city: "",
+    wardCode: "", // Thay đổi tên để phản ánh việc lưu mã
+    districtCode: "", // Thay đổi tên để phản ánh việc lưu mã
+    provinceCode: "", // Thay đổi tên để phản ánh việc lưu mã
     notes: "",
   });
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [errors, setErrors] = useState({});
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
 
   useEffect(() => {
     document.title = "Thanh toán - Valley Book";
@@ -188,7 +191,62 @@ function Checkout() {
     }
     // --- Hết phần gửi Backend ---
   };
+  // --- Fetch dữ liệu tỉnh/thành phố ---
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const response = await fetch("https://provinces.open-api.vn/api/p/");
+        const data = await response.json();
+        setProvinces(data);
+      } catch (error) {
+        console.error("Lỗi khi tải danh sách tỉnh:", error);
+      }
+    };
 
+    fetchProvinces();
+  }, []);
+
+  // --- Fetch dữ liệu quận/huyện khi tỉnh/thành phố thay đổi ---
+  useEffect(() => {
+    const fetchDistricts = async (provinceCode) => {
+      if (provinceCode) {
+        try {
+          const response = await fetch(
+            `https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`
+          );
+          const data = await response.json();
+          setDistricts(data.districts || []);
+        } catch (error) {
+          console.error("Lỗi khi tải danh sách huyện:", error);
+        }
+      } else {
+        setDistricts([]);
+      }
+    };
+
+    fetchDistricts(formData.provinceCode);
+  }, [formData.provinceCode]);
+
+  // --- Fetch dữ liệu xã/phường khi quận/huyện thay đổi ---
+  useEffect(() => {
+    const fetchWards = async (districtCode) => {
+      if (districtCode) {
+        try {
+          const response = await fetch(
+            `https://provinces.open-api.vn/api/d/${districtCode}?depth=2`
+          );
+          const data = await response.json();
+          setWards(data.wards || []);
+        } catch (error) {
+          console.error("Lỗi khi tải danh sách xã:", error);
+        }
+      } else {
+        setWards([]);
+      }
+    };
+
+    fetchWards(formData.districtCode);
+  }, [formData.districtCode]);
   return (
     <div>
       <Header currentPage="checkout" />
@@ -276,59 +334,74 @@ function Checkout() {
                   </div>
                   {/* --- Các trường địa chỉ --- */}
                   <div className="col-md-4 form-group">
-                    <label htmlFor="city">Tỉnh/Thành phố *</label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
-                      placeholder="VD: Hà Nội"
-                      value={formData.city}
+                    <label htmlFor="provinceCode">Tỉnh/Thành phố *</label>
+                    <select
+                      id="provinceCode"
+                      name="provinceCode"
+                      value={formData.provinceCode}
                       onChange={handleInputChange}
-                      className={errors.city ? "error-input" : ""}
+                      className={errors.provinceCode ? "error-input" : ""}
                       required
-                      aria-describedby="cityError"
-                    />
-                    {errors.city && (
-                      <small id="cityError" className="error-message">
-                        {errors.city}
+                      aria-describedby="provinceCodeError"
+                    >
+                      <option value="">Chọn tỉnh/thành phố</option>
+                      {provinces.map((province) => (
+                        <option key={province.code} value={province.code}>
+                          {province.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.provinceCode && (
+                      <small id="provinceCodeError" className="error-message">
+                        {errors.provinceCode}
                       </small>
                     )}
                   </div>
                   <div className="col-md-4 form-group">
-                    <label htmlFor="district">Quận/Huyện *</label>
-                    <input
-                      type="text"
-                      id="district"
-                      name="district"
-                      placeholder="VD: Nam Từ Liêm"
-                      value={formData.district}
+                    <label htmlFor="districtCode">Quận/Huyện *</label>
+                    <select
+                      id="districtCode"
+                      name="districtCode"
+                      value={formData.districtCode}
                       onChange={handleInputChange}
-                      className={errors.district ? "error-input" : ""}
+                      className={errors.districtCode ? "error-input" : ""}
                       required
-                      aria-describedby="districtError"
-                    />
-                    {errors.district && (
-                      <small id="districtError" className="error-message">
-                        {errors.district}
+                      aria-describedby="districtCodeError"
+                    >
+                      <option value="">Chọn quận/huyện</option>
+                      {districts.map((district) => (
+                        <option key={district.code} value={district.code}>
+                          {district.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.districtCode && (
+                      <small id="districtCodeError" className="error-message">
+                        {errors.districtCode}
                       </small>
                     )}
                   </div>
                   <div className="col-md-4 form-group">
-                    <label htmlFor="ward">Phường/Xã *</label>
-                    <input
-                      type="text"
-                      id="ward"
-                      name="ward"
-                      placeholder="VD: Mỹ Đình 1"
-                      value={formData.ward}
+                    <label htmlFor="wardCode">Phường/Xã *</label>
+                    <select
+                      id="wardCode"
+                      name="wardCode"
+                      value={formData.wardCode}
                       onChange={handleInputChange}
-                      className={errors.ward ? "error-input" : ""}
+                      className={errors.wardCode ? "error-input" : ""}
                       required
-                      aria-describedby="wardError"
-                    />
-                    {errors.ward && (
-                      <small id="wardError" className="error-message">
-                        {errors.ward}
+                      aria-describedby="wardCodeError"
+                    >
+                      <option value="">Chọn phường/xã</option>
+                      {wards.map((ward) => (
+                        <option key={ward.code} value={ward.code}>
+                          {ward.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.wardCode && (
+                      <small id="wardCodeError" className="error-message">
+                        {errors.wardCode}
                       </small>
                     )}
                   </div>

@@ -5,6 +5,7 @@ function BackgroundMusic() {
 
   useEffect(() => {
     const audio = audioRef.current;
+    audio.volume = 0.55;
 
     // Đợi người dùng click để phát nhạc
     const handleUserGesture = () => {
