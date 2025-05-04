@@ -1,26 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../../public/assets/css/signup.css";
 import supabase from "../backend/initSupabase";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+import { AuthContext } from "../components/AuthContext";
+import { signUpNewUser } from "../backend/userData";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     email: "",
     phoneNumber: "",
-    name: "",
     password: "",
     confirmPassword: "",
     detailAddress: "",
-    province: "",
-    district: "",
-    ward: "",
+    province: {
+      province_code: "",
+      province_name: ""
+    },
+    district: {
+       district_code: "",
+      district_name: ""
+    },
+    ward: {
+      ward_code: "",
+      ward_name: "",
+    },
   });
 
   const [errors, setErrors] = useState({});
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
+  const { setLoggedIn } = useContext(AuthContext);
   const [showConfirmation, setShowConfirmation] = useState(false); // Thêm state này
   const navigate = useNavigate(); // Khởi tạo navigate
 
@@ -55,10 +66,11 @@ const Signup = () => {
       }
     };
 
-    fetchDistricts(formData.province);
+    fetchDistricts(formData.province.province_code);
   }, [formData.province]);
 
   useEffect(() => {
+    setWards([]);
     const fetchWards = async (districtCode) => {
       if (districtCode) {
         try {
@@ -75,7 +87,7 @@ const Signup = () => {
       }
     };
 
-    fetchWards(formData.district);
+    fetchWards(formData.district.district_code);
   }, [formData.district]);
 
   const handleChange = (e) => {
@@ -85,11 +97,50 @@ const Signup = () => {
       [name]: value,
     }));
   };
+  const handleProvinceChange = (e) => {
+    const selectedCode = e.target.value;
+    const selectedProvince = provinces.find(p => p.code.toString() === selectedCode);
+    setFormData(prev => ({
+      ...prev,
+      province: {
+        province_code: selectedProvince.code,
+        province_name: selectedProvince.name
+      },
+      district: { district_code: "", district_name: "" }, // reset
+      ward: { ward_code: "", ward_name: "" }
+    }));
+  };
+  const handleDistrictChange = (e) => {
+    const selectedCode = e.target.value;
+    const selectedDistrict = districts.find(p => p.code.toString() === selectedCode);
+    setFormData(prev => ({
+      ...prev,
+      district: {
+        district_code: selectedDistrict.code,
+        district_name: selectedDistrict.name
+      },
+      ward: { ward_code: "", ward_name: "" }
+    }));
+  };
+  const handleWardChange = (e) => {
+    const selectedCode = e.target.value;
+    const selectedWard = wards.find(p => p.code.toString() === selectedCode);
+    setFormData(prev => ({
+      ...prev,
+      ward: {
+        ward_code: selectedWard.code,
+        ward_name: selectedWard.name
+      }
+    }));
+  };
+
 
   const validateForm = () => {
     const errors = {};
+    console.log(formData.province);
+    console.log(formData.district);
+    console.log(formData.ward);
     if (!formData.email) errors.email = "Bạn cần nhập đúng email";
-    if (!formData.name) errors.name = "Vui lòng nhập họ và tên của bạn";
     if (!formData.password)
       errors.password = "Mật khẩu không đủ điều kiện bảo mật";
     if (formData.password !== formData.confirmPassword)
@@ -119,7 +170,8 @@ const Signup = () => {
       password: formData.confirmPassword,
       options: {
         // Thêm options
-        emailRedirectTo: window.location.origin, // Đặt URL chuyển hướng sau khi xác nhận
+        emailRedirectTo:"https://asrqcfdysjuddpjxnnkx.supabase.co/auth/v1/callback"
+        // emailRedirectTo: "localhost:5173", // Đặt URL chuyển hướng sau khi xác nhận
       },
     });
     if (error) {
@@ -133,28 +185,42 @@ const Signup = () => {
       setShowConfirmation(true); // Hiển thị màn hình chờ xác nhận
     }
   };
+  useEffect(()=>{
+      const { data: authListener } = supabase.auth.onAuthStateChange(
+          async (event, session) => {
+            if (event === "SIGNED_IN") {
+              const tempUsername = formData.email.split("@")[0];
+              await signUpNewUser(tempUsername, formData.email, formData.confirmPassword, `${formData.detailAddress}, ${formData.ward.ward_name}, ${formData.district.district_name}, ${formData.province.province_name}`, formData.phoneNumber)
+              navigate("/");
+            } 
+          }
+        );
+        return () => {
+          authListener.subscription.unsubscribe();
+        };
+  })
 
   // Hàm này sẽ được gọi khi người dùng xác nhận email thành công (thông qua URL chuyển hướng)
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
+  // useEffect(() => {
+  //   const intervalId = setInterval(async () => {
+  //     const {
+  //       data: { user },
+  //       error,
+  //     } = await supabase.auth.getUser();
 
-      if (error) {
-        console.error("Lỗi khi lấy user:", error.message);
-        return;
-      }
+  //     if (error) {
+  //       console.error("Lỗi khi lấy user:", error.message);
+  //       return;
+  //     }
 
-      if (user && user.email_confirmed_at) {
-        clearInterval(intervalId); // Dừng khi đã xác nhận
-        navigate("/"); // Chuyển về trang chủ
-      }
-    }, 3000); // Kiểm tra mỗi 3 giây
+  //     if (user && user.email_confirmed_at) {
+  //       clearInterval(intervalId); // Dừng khi đã xác nhận
+  //       navigate("/"); // Chuyển về trang chủ
+  //     }
+  //   }, 3000); // Kiểm tra mỗi 3 giây
 
-    return () => clearInterval(intervalId); // Cleanup khi component bị unmount
-  }, [navigate]);
+  //   return () => clearInterval(intervalId); // Cleanup khi component bị unmount
+  // }, [navigate]);
 
   if (showConfirmation) {
     return (
@@ -217,18 +283,6 @@ const Signup = () => {
           </div>
 
           <div className="form-group">
-            <label>Họ và Tên</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Vui lòng nhập họ và tên của bạn"
-            />
-            {errors.name && <p className="error">{errors.name}</p>}
-          </div>
-
-          <div className="form-group">
             <label>Mật khẩu</label>
             <input
               type="password"
@@ -258,8 +312,8 @@ const Signup = () => {
             <label>Tỉnh/Thành phố</label>
             <select
               name="province"
-              value={formData.province}
-              onChange={handleChange}
+              value={formData.province.province_code}
+              onChange={handleProvinceChange}
               className="select"
             >
               <option value="">Chọn tỉnh/thành phố</option>
@@ -276,8 +330,8 @@ const Signup = () => {
             <label>Huyện/Quận</label>
             <select
               name="district"
-              value={formData.district}
-              onChange={handleChange}
+              value={formData.district.district_code}
+              onChange={handleDistrictChange}
               className="select"
             >
               <option value="">Chọn huyện/quận</option>
@@ -294,8 +348,8 @@ const Signup = () => {
             <label>Xã/Phường</label>
             <select
               name="ward"
-              value={formData.ward}
-              onChange={handleChange}
+              value={formData.ward.ward_code}
+              onChange={handleWardChange}
               className="select"
             >
               <option value="">Chọn xã/phường</option>

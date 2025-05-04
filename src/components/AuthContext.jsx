@@ -14,8 +14,7 @@ export const AuthProvider = ({ children }) => {
       try {
         console.log("Fetching user data for email:", email); // Debug log
         const tempData = await getUserData(email);
-        console.log("User data fetched:", tempData); // Debug log
-        setUserInfo(tempData);
+        localStorage.setItem('userInfo', JSON.stringify(tempData));
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
@@ -29,7 +28,7 @@ export const AuthProvider = ({ children }) => {
       if (session?.user) {
         setLoggedIn(true);
         setUserdata(session.user);
-        fetchUserInfo(session.user.email);
+        await fetchUserInfo(session.user.email);
       }
     };
 
@@ -48,6 +47,7 @@ export const AuthProvider = ({ children }) => {
           setLoggedIn(false);
           setUserdata(null);
           setUserInfo(null);
+          localStorage.removeItem('userInfo');
         }
       }
     );
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, setLoggedIn, userData, userInfo }}>
+    <AuthContext.Provider value={{ loggedIn, setLoggedIn, userData }}>
       {children}
     </AuthContext.Provider>
   );

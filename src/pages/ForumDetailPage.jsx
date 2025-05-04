@@ -16,7 +16,7 @@ import AnswerList from "../components/AnswerList";
 const ForumDetailPage =()=>{
     const { id } = useParams();
     const [topicData, setTopicData] = useState(null);
-    const { userInfo } = useContext(AuthContext);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const [loading, setLoading] = useState(true);
     const [expanded, setExpanded] =useState(false);
     const { loggedIn } = useContext(AuthContext);
