@@ -19,8 +19,18 @@ const ForgetPassword = () => {
       setMessage("");
     } else {
       // Giả sử gửi yêu cầu thành công
-      await supabase.auth.resetPasswordForEmail(email);
-      setError("");
+      await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "http://localhost:5173/setNewPassword",
+      });
+
+      if (error) {
+        setError("Đã có lỗi xảy ra khi gửi liên kết. Vui lòng thử lại.");
+        setMessage("");
+      } else {
+        setError("");
+        setMessage("Liên kết đặt lại mật khẩu đã được gửi.");
+        alert("Hãy kiểm tra email của bạn");
+      }
     }
   };
 
