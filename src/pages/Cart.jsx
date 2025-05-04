@@ -48,9 +48,8 @@ function Cart() {
 
   useEffect(() => {
     document.title = "Giỏ hàng - Valley Book";
-    // Tính toán lại giảm giá khi cartItems thay đổi (ví dụ sau khi xóa)
     applyVoucherDiscount(appliedVoucher, cartItems);
-  }, [cartItems, appliedVoucher]); // Thêm appliedVoucher và cartItems vào dependencies
+  }, [cartItems, appliedVoucher]); 
 
   // --- Tính tổng tiền tạm tính (sử dụng price_at_cart) ---
   const calculateSubtotalForItem = (item) => {

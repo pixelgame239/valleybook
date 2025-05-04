@@ -9,7 +9,7 @@ export const ForumProvider = ({ children }) => {
   const [explorePost, setExplorePost] = useState([]);
   const [homePost, setHomePost] = useState([]);
   const [searchPost, setSearchPost] =useState([]);
-  const [currentPage, setCurrentPage] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <ForumContext.Provider value={{ adminPost, setAdminPost, explorePost, setExplorePost, homePost, setHomePost, searchPost, setSearchPost,

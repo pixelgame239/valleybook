@@ -49,8 +49,13 @@ export async function getHomePost(userEmail) {
 }
 export function getNumsPost(postData, numDisplay) {
   let numPages;
-  numPages = Math.ceil((postData.length)/(numDisplay));
-  return numPages;
+  if(postData.length===0){
+    return 1;
+  }
+  else{
+    numPages = Math.ceil((postData.length)/(numDisplay));
+    return numPages;  
+  }
 }
 export async function postForumTopic(topicContent, userEmail, imageFile) {
     // Insert the forum topic into the "forum" table and select the inserted row.

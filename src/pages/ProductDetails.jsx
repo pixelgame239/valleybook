@@ -68,7 +68,6 @@ function ProductDetails() {
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewComment, setReviewComment] = useState("");
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
-  const [isAnonymous, setIsAnonymous] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -242,7 +241,6 @@ function ProductDetails() {
     setUserRating(0);
     setHoverRating(0);
     setReviewComment("");
-    setIsAnonymous(false);
   };
 
   const handleStarClick = (ratingValue) => {
@@ -272,7 +270,6 @@ function ProductDetails() {
     console.log("Submitting review:", {
       rating: userRating,
       comment: reviewComment,
-      anonymous: isAnonymous,
     });
 
     try {
@@ -281,8 +278,8 @@ function ProductDetails() {
 
       const newReview = {
         id: Date.now(),
-        user: isAnonymous ? "Người dùng ẩn danh" : "Bạn",
-        username: isAnonymous ? "Người dùng ẩn danh" : "Bạn", // Thêm username tạm thời
+        user: "Bạn",
+        username:  "Bạn", 
         rating: userRating,
         comment: reviewComment,
         date: new Date().toISOString(),
@@ -673,17 +670,6 @@ function ProductDetails() {
                       </div>
 
                       {/* --- THÊM CHECKBOX ẨN DANH --- */}
-                      <div className="form-group anonymous-checkbox-group">
-                        <input
-                          type="checkbox"
-                          id="anonymousReview"
-                          checked={isAnonymous}
-                          onChange={(e) => setIsAnonymous(e.target.checked)}
-                        />
-                        <label htmlFor="anonymousReview">
-                          Gửi đánh giá ẩn danh
-                        </label>
-                      </div>
                       {/* --- HẾT CHECKBOX ẨN DANH --- */}
                       {/* Nút Submit/Cancel */}
                       <div className="form-actions">
