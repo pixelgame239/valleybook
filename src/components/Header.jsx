@@ -140,9 +140,6 @@ function Header({ currentPage }) {
                         <div className="dropdown-menu">
                           <ul>
                             <li onClick={handleSignOut}>Đăng xuất</li>
-                            <li onClick={() => navigate("/adminChat")}>
-                              Admin Chat
-                            </li>
                           </ul>
                         </div>
                       )}

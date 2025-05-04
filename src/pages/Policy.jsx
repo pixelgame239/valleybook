@@ -210,18 +210,17 @@ function Policy() {
             </h2>
             <h5>1. Cước phí đóng gói và giao hàng</h5>
             <p>Đơn hàng sẽ được miễn phí vận chuyển khi:</p>
-            <ul>
-              <li>Có giá trị từ 300.000 trở lên ở khu vực nội thành Hà Nội.</li>
-              <li>
-                Có giá trị từ 400.000 trở lên ở các tỉnh thành khác trên toàn
-                quốc.
-              </li>
-            </ul>
+
+            <p>
+              Có giá trị từ 300.000 trở lên ở khu vực nội thành Hà Nội. <br />
+              Có giá trị từ 400.000 trở lên ở các tỉnh thành khác trên toàn
+              quốc.
+            </p>
             <p>
               Trong trường hợp trị giá đơn hàng chưa đủ mức miễn phí đóng gói và
               giao hàng, thì phí sẽ được áp dụng như sau: - trong nội thành Hà
               Nội phí vận chuyển là: 20.000 - ngoại thành và các tỉnh khác phí
-              vận chuyển là: 30.0000
+              vận chuyển là: 30.000
             </p>
 
             <h5>2. Thời gian giao hàng</h5>

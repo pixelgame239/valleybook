@@ -164,10 +164,31 @@ export default function ChatBubble() {
     return (
       <div style={{ position: "fixed", bottom: "20px", right: "20px" }}>
         <div className="chat-bubble-container">
-          <Link to="/adminChat" style={{ textDecoration: "none" }}>
+          <Link
+            to="/adminChat"
+            style={{ textDecoration: "none" }}
+            aria-label="Open chat"
+          >
             <div style={bubbleStyle}>
-              admin chat
-              {unreadCount > 0 && <div className="unread-dot"></div>}
+              <span className="">
+                {open ? (
+                  "×"
+                ) : (
+                  <img
+                    src="https://asrqcfdysjuddpjxnnkx.supabase.co/storage/v1/object/sign/image/adminChatIcon.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZS9hZG1pbkNoYXRJY29uLnBuZyIsImlhdCI6MTc0NjM2NjQ4OCwiZXhwIjoxNzc3OTAyNDg4fQ.hV0RwjDhBLoPLJVOVoOj77LjKsAhXAOX9dGCX1Qyti8"
+                    alt="Chat Icon"
+                    style={{
+                      width: "28px",
+                      height: "28px",
+                      filter: "invert(1)",
+                      transform: "scale(1.2)",
+                    }}
+                  />
+                )}
+              </span>
+              {unreadCount > 0 && (
+                <div className="unread-dot" aria-label="Unread messages"></div>
+              )}
             </div>
           </Link>
         </div>
