@@ -207,6 +207,18 @@
   height: auto;
   display: block; /* quan trọng để căn giữa chính xác */
 }
+.back-to-forum{
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  color: rgb(54, 154, 254);
+  cursor: pointer;
+  width: fit-content;
+  z-index: 9999;
+}
+.back-to-forum:hover{
+  color: dodgerblue;
+}
 
 /* Input transformation */
 

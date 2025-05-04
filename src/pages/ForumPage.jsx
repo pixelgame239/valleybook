@@ -30,9 +30,7 @@ const ForumPage = () =>{
     const [loading, setLoading] = useState(false);
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const handleChangingPage=async (pageNumber)=>{
-        setLoading(true);
         setCurrentPage(pageNumber);
-          setLoading(false);
       }
     useEffect(() => {
         console.log(userInfo);
@@ -42,19 +40,19 @@ const ForumPage = () =>{
             const adminData = await getAdminPost();
             if(tempPost.length>0){
                 setExplorePost(tempPost);
-                setSearchPost([...adminData,...tempPost]);
                 setPageCount(getNumsPost(tempPost,5));
                 setCurrentPage(1);
             }
             if(adminData.length>0){
                 setAdminPost(adminData);
             }
-            if(loggedIn){
+            if(userInfo){
                 const tempHPost = await getHomePost(userInfo.email);
                 if(tempHPost.length>0){
                     setHomePost(tempHPost);
                 }
             }
+            setSearchPost([...adminData,...tempPost]);
             setLoading(false);
         }
         fetchUserPost();
