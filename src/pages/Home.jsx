@@ -23,7 +23,6 @@ import { AuthContext } from "../components/AuthContext";
 
 function Home() {
   const [loading, setLoading] = useState(true);
-  const { userInfo } = useContext(AuthContext);
   useEffect(() => {
     async function getData() {
       const currentUser = supabase.auth.getUser();
@@ -43,7 +42,6 @@ function Home() {
       }
     }
     getData();
-    console.log(userInfo);
   }, []);
   return (
     <div>
