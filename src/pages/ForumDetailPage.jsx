@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { useContext, useEffect, useState } from "react";
 import { getSinglePost, getTopicAnswer, handleEmo, replyPost } from "../backend/forumData";
@@ -12,6 +12,7 @@ import { AuthContext } from "../components/AuthContext";
 import BottomBanner from "../components/BottomBanner";
 import supabase from "../backend/initSupabase";
 import AnswerList from "../components/AnswerList";
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 
 const ForumDetailPage =()=>{
     const { id } = useParams();
@@ -21,6 +22,7 @@ const ForumDetailPage =()=>{
     const [expanded, setExpanded] =useState(false);
     const { loggedIn } = useContext(AuthContext);
     const [answerContent, setAnswerContent] = useState("");
+    const navigate = useNavigate();
     const handleEmoChange=async (emoType)=>{
         if(emoType==="like_count"){
             await handleEmo(id, emoType, userInfo.email);
@@ -63,6 +65,7 @@ const ForumDetailPage =()=>{
         <div>
             {loading?<Preloader></Preloader>:
                <div>
+                    <div className="back-to-forum" onClick={()=>navigate("/forum")}><ArrowBackIosRoundedIcon sx={{fontSize: 50}}></ArrowBackIosRoundedIcon></div>
                     <div className="forum-topic">
                         <div className="topic-content">
                             <div className="topic-image-container">

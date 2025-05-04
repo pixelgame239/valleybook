@@ -93,7 +93,7 @@ function GenreCarousel() {
   return (
     <div className="my-5 mx-5">
       <div className="w-100" style={{ maxWidth: "85%", margin: "0 auto" }}>
-        <HeadingHomepage title={"Bài viết nổi bật"} />
+        <HeadingHomepage title={"Diễn đàn"} />
       </div>
 
       <Slider {...settings}>

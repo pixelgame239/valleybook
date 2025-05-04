@@ -19,14 +19,14 @@
 }
 .bottom-banner.hide-banner,
 .expand-button.hide-banner {
-  transform: translateY(200px);
+  transform: translateY(120px);
 }
 
 .banner-buttons {
   width: 100%;
   position: fixed;
   bottom: 0;
-  height: 200;
+  height: 120;
   z-index: 400;
 }
 
@@ -37,7 +37,7 @@
   cursor: pointer;
   font-size: 25px;
   position: absolute; /* Changed to absolute */
-  top: -230px; /* Position it at the top */
+  top: -150px; /* Position it at the top */
   left: 50%; /* Move it to the center */
   transition: transform 0.3s ease-in-out;
 }
