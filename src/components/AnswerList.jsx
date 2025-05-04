@@ -4,7 +4,7 @@ import "../../public/assets/css/answerList.css";
 
 const AnswerList = ( {replyList} ) =>{
     const [topicAnswer, setTopicAnswer] = useState([]);
-    const [pageCount, setPageCount] = useState(0);
+    const [pageCount, setPageCount] = useState(1);
     const[currentPage,setCurrentPage] = useState(1);
     const handleChangingPage= (pageNumber)=>{
         setCurrentPage(pageNumber);

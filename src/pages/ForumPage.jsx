@@ -26,9 +26,9 @@ const ForumPage = () =>{
     const [searchString, setSearchString] = useState("");
     const { loggedIn } = useContext(AuthContext);
     const [postTopic, setPostTopic] = useState("");
-    const [pageCount, setPageCount] = useState(0);
+    const [pageCount, setPageCount] = useState(1);
     const [loading, setLoading] = useState(false);
-    const { userInfo } = useContext(AuthContext);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const handleChangingPage=async (pageNumber)=>{
         setLoading(true);
         setCurrentPage(pageNumber);

@@ -49,7 +49,7 @@ export async function getHomePost(userEmail) {
 }
 export function getNumsPost(postData, numDisplay) {
   let numPages;
-  numPages = Math.ceil(postData.length/numDisplay);
+  numPages = Math.ceil((postData.length)/(numDisplay));
   return numPages;
 }
 export async function postForumTopic(topicContent, userEmail, imageFile) {
