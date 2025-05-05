@@ -68,6 +68,8 @@ function ProductDetails() {
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewComment, setReviewComment] = useState("");
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const [showAllReviews, setShowAllReviews] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -221,10 +223,6 @@ function ProductDetails() {
     return `${book.description.substring(0, DESCRIPTION_MAX_LENGTH)}...`;
   };
 
-  const handleWriteReview = () => {
-    alert("Chức năng viết đánh giá đang được phát triển!");
-  };
-
   const calculateRatingPercentage = (starCount) => {
     if (!calculatedRatingBreakdown || totalRatingCount === 0) return 0;
     return (
@@ -233,6 +231,13 @@ function ProductDetails() {
   };
 
   const handleWriteReviewClick = () => {
+    // Kiểm tra lại userInfo trước khi hiển thị form (mặc dù nút đã được kiểm tra)
+    if (!userInfo) {
+      alert("Vui lòng đăng nhập để viết đánh giá.");
+      // Có thể chuyển hướng đến trang đăng nhập nếu muốn
+      // navigate('/signIn');
+      return;
+    }
     setShowReviewForm(true);
   };
 
@@ -270,6 +275,8 @@ function ProductDetails() {
     console.log("Submitting review:", {
       rating: userRating,
       comment: reviewComment,
+      userId: userInfo.user_id, // Ví dụ: lấy user_id
+      userName: userInfo.full_name, // Ví dụ: lấy full_name
     });
 
     try {
@@ -277,9 +284,9 @@ function ProductDetails() {
       alert("Gửi đánh giá thành công!");
 
       const newReview = {
-        id: Date.now(),
-        user: "Bạn",
-        username:  "Bạn", 
+        id: Date.now(), // ID tạm thời
+        user: userInfo.full_name || "Bạn", // Sử dụng tên từ userInfo
+        username: userInfo.full_name || "Bạn", // Giữ lại username nếu cần
         rating: userRating,
         comment: reviewComment,
         date: new Date().toISOString(),
@@ -622,7 +629,7 @@ function ProductDetails() {
                     ))}
                   </div>
                   {/* ... (Phần form viết đánh giá giữ nguyên) ... */}
-                  {!showReviewForm ? (
+                  {userInfo && !showReviewForm && (
                     <button
                       onClick={handleWriteReviewClick}
                       className="orange-button write-review-button"
@@ -630,7 +637,10 @@ function ProductDetails() {
                       <i className="fas fa-pencil-alt"></i> Viết đánh giá của
                       bạn
                     </button>
-                  ) : (
+                  )}
+
+                  {/* Form chỉ hiện khi showReviewForm là true (và userInfo đã được kiểm tra khi click nút) */}
+                  {showReviewForm && (
                     // --- Form Nhập Đánh Giá ---
                     <form className="review-form" onSubmit={handleReviewSubmit}>
                       <h5>Đánh giá của bạn</h5>
@@ -701,48 +711,58 @@ function ProductDetails() {
                 <div className="reviews-list">
                   <h4 className="reviews-list-title">Đánh giá nổi bật</h4>
                   {reviews && reviews.length > 0 ? (
-                    reviews.slice(0, 3).map((review, index) => (
-                      <div className="review-item" key={review.id || index}>
-                        {" "}
-                        {/* Ưu tiên review.id nếu có */}
-                        <div className="review-header">
-                          <span className="reviewer-name">
-                            {/* --- BẮT ĐẦU LOGIC HIỂN THỊ TÊN --- */}
-                            {/* Ưu tiên 1: Kiểm tra cờ is_anonymous từ backend (nếu có) */}
-                            {review.username}
-                          </span>
-                          <span className="review-stars">
-                            <StarRating rating={review.rating} />
-                          </span>
+                    // +++ SỬ DỤNG STATE showAllReviews ĐỂ QUYẾT ĐỊNH RENDER +++
+                    (showAllReviews ? reviews : reviews.slice(0, 3)).map(
+                      (review, index) => (
+                        <div className="review-item" key={review.id || index}>
+                          {" "}
+                          {/* Ưu tiên review.id nếu có */}
+                          <div className="review-header">
+                            <span className="reviewer-name">
+                              {/* --- BẮT ĐẦU LOGIC HIỂN THỊ TÊN --- */}
+                              {/* Ưu tiên 1: Kiểm tra cờ is_anonymous từ backend (nếu có) */}
+                              {review.username}
+                            </span>
+                            <span className="review-stars">
+                              <StarRating rating={review.rating} />
+                            </span>
+                          </div>
+                          <p className="review-comment">{review.comment}</p>
+                          {/* Hiển thị ngày nếu có */}
+                          {review.date && (
+                            <span className="review-date">
+                              {new Date(review.date).toLocaleDateString(
+                                "vi-VN"
+                              )}
+                            </span>
+                          )}
                         </div>
-                        <p className="review-comment">{review.comment}</p>
-                        {/* Hiển thị ngày nếu có */}
-                        {review.date && (
-                          <span className="review-date">
-                            {new Date(review.date).toLocaleDateString("vi-VN")}
-                          </span>
-                        )}
-                      </div>
-                    ))
+                      )
+                    )
                   ) : (
                     <p>Chưa có đánh giá nào.</p>
                   )}
                   {/* Kiểm tra state `reviews` */}
-                  {reviews &&
-                    reviews.length > 3 && ( // Nút xem thêm nếu có nhiều hơn 3 reviews
-                      <button
-                        className="read-more-button"
-                        style={{ marginTop: "15px" }}
-                        // TODO: Thêm logic xử lý cho nút này (ví dụ: hiển thị tất cả reviews)
-                        onClick={() =>
-                          alert(
-                            "Chức năng xem tất cả đánh giá đang được phát triển!"
-                          )
-                        }
-                      >
-                        Xem tất cả đánh giá
-                      </button>
-                    )}
+                  {!showAllReviews && reviews && reviews.length > 3 && (
+                    <button
+                      className="read-more-button"
+                      style={{ marginTop: "15px" }}
+                      onClick={() => setShowAllReviews(true)} // Cập nhật state khi click
+                    >
+                      Xem tất cả đánh giá ({reviews.length})
+                    </button>
+                  )}
+
+                  {/* Chỉ hiển thị nút "Thu gọn" nếu đang show all */}
+                  {showAllReviews && (
+                    <button
+                      className="read-more-button" // Có thể dùng class khác nếu muốn style riêng
+                      style={{ marginTop: "15px" }}
+                      onClick={() => setShowAllReviews(false)} // Cập nhật state khi click
+                    >
+                      Thu gọn đánh giá
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -751,15 +771,78 @@ function ProductDetails() {
             <div className="row">
               <div className="col-12 text-center">
                 <p>Chưa có đánh giá nào cho sản phẩm này.</p>
-                {/* ... Nút viết đánh giá đầu tiên ... */}
-                <button
-                  onClick={handleWriteReviewClick} // Sử dụng hàm mở form mới
-                  className="orange-button write-review-button"
-                  style={{ marginTop: "10px", width: "auto" }}
-                >
-                  <i className="fas fa-pencil-alt"></i> Hãy là người đầu tiên
-                  đánh giá
-                </button>
+                {/* +++ KIỂM TRA userInfo TRƯỚC KHI HIỂN THỊ NÚT +++ */}
+                {userInfo && ( // Chỉ hiện nút nếu đã đăng nhập
+                  <button
+                    onClick={handleWriteReviewClick} // Vẫn dùng hàm này để mở form
+                    className="orange-button write-review-button"
+                    style={{ marginTop: "10px", width: "auto" }}
+                  >
+                    <i className="fas fa-pencil-alt"></i> Hãy là người đầu tiên
+                    đánh giá
+                  </button>
+                )}
+                {/* Form đánh giá sẽ hiện ra khi click nút trên (nếu đã đăng nhập) */}
+                {showReviewForm && (
+                  <form className="review-form" onSubmit={handleReviewSubmit}>
+                    <h5>Đánh giá của bạn</h5>
+                    {/* Chọn sao */}
+                    <div className="form-group star-input-group">
+                      <label>Chọn số sao *</label>
+                      <div className="stars">
+                        {[1, 2, 3, 4, 5].map((starValue) => (
+                          <i
+                            key={starValue}
+                            className={`fa-star ${
+                              (hoverRating || userRating) >= starValue
+                                ? "fas"
+                                : "far" // fas = solid, far = regular/empty
+                            }`}
+                            onClick={() => handleStarClick(starValue)}
+                            onMouseEnter={() => handleStarHover(starValue)}
+                            onMouseLeave={handleStarLeave}
+                          ></i>
+                        ))}
+                        <span className="selected-rating-text">
+                          {userRating > 0 ? `(${userRating}/5 sao)` : ""}
+                        </span>
+                      </div>
+                    </div>
+                    {/* Nhập bình luận */}
+                    <div className="form-group">
+                      <label htmlFor="reviewComment">Viết bình luận *</label>
+                      <textarea
+                        id="reviewComment"
+                        rows="4"
+                        placeholder="Chia sẻ cảm nhận của bạn về sản phẩm..."
+                        value={reviewComment}
+                        onChange={(e) => setReviewComment(e.target.value)}
+                        required
+                      ></textarea>
+                    </div>
+
+                    {/* --- THÊM CHECKBOX ẨN DANH --- */}
+                    {/* --- HẾT CHECKBOX ẨN DANH --- */}
+                    {/* Nút Submit/Cancel */}
+                    <div className="form-actions">
+                      <button
+                        type="submit"
+                        className="orange-button submit-review-button"
+                        disabled={isSubmittingReview}
+                      >
+                        {isSubmittingReview ? "Đang gửi..." : "Gửi đánh giá"}
+                      </button>
+                      <button
+                        type="button"
+                        className="cancel-review-button"
+                        onClick={handleCancelReview}
+                        disabled={isSubmittingReview}
+                      >
+                        Hủy
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           )}

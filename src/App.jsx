@@ -26,6 +26,7 @@ import BackgroundMusic from "./components/BackgroundMusic.jsx";
 import Confirmation from "./pages/Confirmation";
 import Profile from "./pages/Profile";
 import Gacha from "./pages/Gacha.jsx";
+import OrderSuccess from "./pages/OrderSuccess";
 
 function App() {
   return (
@@ -84,6 +85,7 @@ function App() {
           />
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
