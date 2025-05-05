@@ -11,6 +11,7 @@ import StarRating from "../components/StarRating"; // Import component StarRatin
 import "../../public/assets/css/productDetail.css"; // CSS gốc
 import "../../public/assets/css/productDetailCustom.css"; // CSS tùy chỉnh đã thêm
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import TrialReadModal from "../components/TrialRead.jsx";
 
 // --- Helper Functions for Cart ---
 const getCartItemsFromStorage = () => {
@@ -37,12 +38,13 @@ const mapBookType = (typeCode) => {
   }
 };
 function ProductDetails() {
+  const [showTrialModal, setShowTrialModal] = useState(false);
+
   const navigate = useNavigate();
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  // --- BỎ DÒNG NÀY --- const [addedMessage, setAddedMessage] = useState("");
   // +++ THÊM STATE CHO POP-UP +++
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState(""); // State để lưu nội dung thông báo
@@ -68,6 +70,11 @@ function ProductDetails() {
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewComment, setReviewComment] = useState("");
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -200,7 +207,10 @@ function ProductDetails() {
   };
 
   const handleReadTrial = () => {
-    alert("Chức năng Đọc thử đang được phát triển!");
+    setShowTrialModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowTrialModal(false);
   };
   const handleListenTrial = () => {
     alert("Chức năng Nghe thử đang được phát triển!");
@@ -279,7 +289,7 @@ function ProductDetails() {
       const newReview = {
         id: Date.now(),
         user: "Bạn",
-        username:  "Bạn", 
+        username: "Bạn",
         rating: userRating,
         comment: reviewComment,
         date: new Date().toISOString(),
@@ -416,6 +426,7 @@ function ProductDetails() {
 
             {/* Thông tin */}
             <div className="col-lg-6 align-self-center">
+              {/* Tên sách */}
               <h4>{book.book_name}</h4>
 
               {/* Loại Sách */}
@@ -454,11 +465,11 @@ function ProductDetails() {
 
               {/* Giá */}
               <span className="price main-price">
-                Giá: {currentPrice.toLocaleString()}đ
+                Giá: {Math.ceil(currentPrice).toLocaleString()}đ
                 {/* Chỉ hiển thị giá gốc nếu có discount VÀ giá gốc khác giá hiện tại (tức là có giảm giá) */}
                 {book.discount > 0 && book.price !== currentPrice && (
                   <em className="original-price-display">
-                    {book.price.toLocaleString()}đ
+                    {Math.ceil(book.price).toLocaleString()}đ
                   </em>
                 )}
               </span>
@@ -482,6 +493,11 @@ function ProductDetails() {
                     <i className="fa fa-headphones"></i> Nghe thử
                   </button>
                 )}
+                {/* The modal component */}
+                <TrialReadModal
+                  show={showTrialModal}
+                  handleClose={handleCloseModal}
+                />
               </div>
 
               {/* Mô tả */}
