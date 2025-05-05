@@ -7,14 +7,13 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserdata] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     const fetchUserInfo = async (email) => {
       try {
         console.log("Fetching user data for email:", email); // Debug log
         const tempData = await getUserData(email);
-        localStorage.setItem('userInfo', JSON.stringify(tempData));
+        localStorage.setItem("userInfo", JSON.stringify(tempData));
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
@@ -46,8 +45,7 @@ export const AuthProvider = ({ children }) => {
         } else if (event === "SIGNED_OUT") {
           setLoggedIn(false);
           setUserdata(null);
-          setUserInfo(null);
-          localStorage.removeItem('userInfo');
+          localStorage.removeItem("userInfo");
         }
       }
     );
