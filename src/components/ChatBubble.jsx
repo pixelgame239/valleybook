@@ -138,6 +138,7 @@ export default function ChatBubble() {
 
   const handleCloseInitialMessage = () => {
     setShowInitialMessage(false);
+    setOpen(true);
   };
 
   const markAdminMessagesAsRead = async () => {
@@ -232,7 +233,10 @@ export default function ChatBubble() {
           onClick={markAdminMessagesAsRead}
           ref={chatBubbleRef}
         >
-          <span className="chat-icon">{open ? "×" : "💬"}</span>
+          <span className={open ? "chat-icon-no-rotate" : "chat-icon-rotate"}>
+            {open ? "×" : "💬"}
+          </span>
+
           {unreadCount > 0 && (
             <>
               <span className="unread-bubble">{unreadCount}</span>
