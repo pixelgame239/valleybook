@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { useContext, useEffect, useState } from "react";
-import { getSinglePost, getTopicAnswer, handleEmo, replyPost } from "../backend/forumData";
+import { deleteTopic, getSinglePost, getTopicAnswer, handleEmo, replyPost } from "../backend/forumData";
 import Preloader from "../components/Preloader";
 import "../../public/assets/css/forumDetailStyle.css";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -13,6 +13,9 @@ import BottomBanner from "../components/BottomBanner";
 import supabase from "../backend/initSupabase";
 import AnswerList from "../components/AnswerList";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import DeleteForumPopup from "../components/DeleteForumPopup";
 
 const ForumDetailPage =()=>{
     const { id } = useParams();
@@ -22,7 +25,14 @@ const ForumDetailPage =()=>{
     const [expanded, setExpanded] =useState(false);
     const { loggedIn } = useContext(AuthContext);
     const [answerContent, setAnswerContent] = useState("");
+    const [showDelete, setShowDelete] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
     const navigate = useNavigate();
+    const handleDeleteTopic = async (postID) =>{
+        await deleteTopic(postID);
+        setShowDelete(false);
+        navigate("/forum");
+    }
     const handleEmoChange=async (emoType)=>{
         if(emoType==="like_count"){
             await handleEmo(id, emoType, userInfo.email);
@@ -65,7 +75,8 @@ const ForumDetailPage =()=>{
         <div>
             {loading?<Preloader></Preloader>:
                <div>
-                    <div className="back-to-forum" onClick={()=>navigate("/forum")}><ArrowBackIosRoundedIcon sx={{fontSize: 50}}></ArrowBackIosRoundedIcon></div>
+                    {showDelete?<DeleteForumPopup onClose={()=>setShowDelete(false)} onDelete={async()=>handleDeleteTopic(topicData.id)}></DeleteForumPopup>:null}
+                    <div className="back-to-forum" onClick={()=>navigate("/forum")}><ArrowBackIosRoundedIcon sx={{fontSize: 40}}></ArrowBackIosRoundedIcon></div>
                     <div className="forum-topic">
                         <div className="topic-content">
                             <div className="topic-image-container">
@@ -81,15 +92,30 @@ const ForumDetailPage =()=>{
                             </p>
                         </div>
                             <div className="topic-emotion">
-                            <span className={`topic-like ${topicData.like_count&&topicData.like_count.includes(userInfo.email)?"active":""}`} onClick={async()=>await handleEmoChange("like_count")}>
+                                {userInfo?<>
+                                <span className={`topic-like ${topicData.like_count&&topicData.like_count.includes(userInfo.email)?"active":""}`} onClick={async()=>await handleEmoChange("like_count")}>
                                 {(!topicData.like_count || topicData.like_count.length === 0) ? 0 : topicData.like_count.length} 
-                                <ThumbUpAltIcon />
+                                <ThumbUpAltIcon sx={{fontSize:40}} />
                             </span>
                             <span className={`topic-dislike ${topicData.dislike_count&&topicData.dislike_count.includes(userInfo.email)?"active":""}`} onClick={async()=>await handleEmoChange("dislike_count")}>
                                 {(!topicData.dislike_count || topicData.dislike_count.length === 0) ? 0 : topicData.dislike_count.length} 
-                                <ThumbDownAltIcon />
-                            </span>
+                                <ThumbDownAltIcon sx={{fontSize:40}}/>
+                            </span></>:<>
+                              <span className={`topic-like active`} style={{cursor:"default"}}>
+                              {(!topicData.like_count || topicData.like_count.length === 0) ? 0 : topicData.like_count.length} 
+                              <ThumbUpAltIcon sx={{fontSize:40}}/>
+                          </span>
+                          <span className={`topic-dislike active`} style={{cursor:"default"}}>
+                              {(!topicData.dislike_count || topicData.dislike_count.length === 0) ? 0 : topicData.dislike_count.length} 
+                              <ThumbDownAltIcon sx={{fontSize:40}}/>
+                          </span>
+                          </>
+                            }
                             </div>
+                            {userInfo&&(userInfo.username===topicData.username||userInfo.username.endsWith("@valleybook.com"))?<div className="topic-interaction">
+                                <span className="edit-topic"><EditRoundedIcon  sx={{ fontSize: 40}}></EditRoundedIcon></span>
+                                <span className="delete-topic" onClick={()=>setShowDelete(prev=>prev=true)}><DeleteRoundedIcon sx={{ fontSize: 40}}></DeleteRoundedIcon></span>
+                            </div>:null}
                     </div>
                     <p className="reply-section">Các câu trả lời:</p>
                     <AnswerList replyList={topicData.reply}></AnswerList>

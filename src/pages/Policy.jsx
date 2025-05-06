@@ -4,6 +4,7 @@ import Preloader from "../components/Preloader";
 import Footer from "../components/Footer";
 import "./Policy.css";
 import { useLocation } from "react-router-dom";
+import ChatBubble from "../components/ChatBubble";
 
 function Policy() {
   const [loading, setLoading] = useState(true);
@@ -269,6 +270,7 @@ function Policy() {
               </li>
             </ul>
           </div>
+          <ChatBubble />
 
           <Footer />
         </>

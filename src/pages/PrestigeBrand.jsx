@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Preloader from "../components/Preloader";
 import Footer from "../components/Footer";
 import "./QualityProduct.css"; // Reuse the same CSS for consistency
+import ChatBubble from "../components/ChatBubble";
 
 function PrestigeBrand() {
   const [loading, setLoading] = useState(true);
@@ -103,6 +104,7 @@ function PrestigeBrand() {
               </div>{" "}
             </div>{" "}
           </div>
+          <ChatBubble/>
           <Footer />{" "}
         </>
       )}{" "}

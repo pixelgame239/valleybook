@@ -16,6 +16,7 @@ import { ForumContext } from "../backend/ForumContext";
 import { getAdminPost } from "../backend/forumData";
 import UserPost from "../components/UserPost";
 import BottomBanner from "../components/BottomBanner";
+import ChatBubble from "../components/ChatBubble";
 
 const ForumPage = () =>{
     const { setAdminPost, setExplorePost, setHomePost, setSearchPost, explorePost, adminPost, searchPost, homePost, currentPage, setCurrentPage } = useContext(ForumContext);
@@ -27,7 +28,7 @@ const ForumPage = () =>{
     const { loggedIn } = useContext(AuthContext);
     const [postTopic, setPostTopic] = useState("");
     const [pageCount, setPageCount] = useState(1);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const handleChangingPage=async (pageNumber)=>{
         setCurrentPage(pageNumber);
@@ -35,7 +36,6 @@ const ForumPage = () =>{
     useEffect(() => {
         console.log(userInfo);
         const fetchUserPost = async()=>{
-            setLoading(true);
             const tempPost = await getExplorePost();
             const adminData = await getAdminPost();
             if(tempPost.length>0){
@@ -56,6 +56,19 @@ const ForumPage = () =>{
             setLoading(false);
         }
         fetchUserPost();
+        const allforum_channel = supabase
+        .channel('allforum_channel')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'forum' }, async payload => {
+            await fetchUserPost();
+        })
+        .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'forum' }, async payload => {
+            await fetchUserPost();
+        })
+        .subscribe();
+
+        return () => {
+        supabase.removeChannel(allforum_channel);
+        };
     }, []);
     useEffect(()=>{
         const allPost = [...adminPost,...explorePost];
@@ -218,6 +231,7 @@ const ForumPage = () =>{
               </div>
               {!loggedIn?<BottomBanner></BottomBanner>:null
 }
+            <ChatBubble />
             <Footer />
             </>}
         </div>
