@@ -35,7 +35,7 @@ function Gacha() {
           </div>
 
           <GachaStrip />
-
+          <ChatBubble />
           <Footer />
         </>
       )}

@@ -8,6 +8,7 @@ import { BookContext } from "../backend/BookContext";
 import { getBookData, getNumsBook } from "../backend/getBookData";
 import { getAuthors, getGenres } from "../backend/getGenres";
 import { useLocation } from "react-router-dom";
+import ChatBubble from "../components/ChatBubble";
 
 function Shop() {
   const location = useLocation();
@@ -123,6 +124,7 @@ function Shop() {
           </div>
         </div>
       </div>
+      <ChatBubble />
       <Footer />
       {/* <Preloader /> */}
 

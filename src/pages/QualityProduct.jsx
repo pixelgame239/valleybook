@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Preloader from "../components/Preloader";
 import Footer from "../components/Footer";
 import "./QualityProduct.css"; // You might need to create this CSS file
+import ChatBubble from "../components/ChatBubble";
 
 function QualityProduct() {
   const [loading, setLoading] = useState(true);
@@ -154,6 +155,7 @@ function QualityProduct() {
               phá tri thức.
             </p>
           </div>
+          <ChatBubble />
           <Footer />
         </>
       )}

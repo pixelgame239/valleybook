@@ -8,6 +8,7 @@ import MostPlayed from "../components/MostPlayed";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 import "../../public/assets/css/Contact.css";
+import ChatBubble from "../components/ChatBubble";
 
 function Contact() {
   const [showMessage, setShowMessage] = useState(false);
@@ -103,7 +104,7 @@ function Contact() {
           </div>
         </div>
       </div>
-
+      <ChatBubble />
       <Footer />
     </div>
   );

@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../../public/assets/css/Cart.css";
 import { Link } from "react-router-dom";
+import ChatBubble from "../components/ChatBubble";
 
 // --- Helper Functions for Cart ---
 const getCartItemsFromStorage = () => {
@@ -339,7 +340,7 @@ function Cart() {
           )}
         </div>
       </div>
-
+          <ChatBubble />
       <Footer />
     </div>
   );

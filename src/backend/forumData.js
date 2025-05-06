@@ -138,3 +138,7 @@ export async function getTopicAnswer(topicReply) {
     };
   }
 }
+export async function deleteTopic(topicID) {
+  const {data: delData, error: delErr} = await supabase.from("forum").delete().eq("id", topicID);
+  const {data, error} = await supabase.storage.from("forum").remove(`${topicID}.jpg`);
+}

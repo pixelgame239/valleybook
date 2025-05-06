@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../../public/assets/css/Checkout.css"; // Đảm bảo bạn đã tạo và thêm CSS vào file này
+import ChatBubble from "../components/ChatBubble";
 
 // --- Helper Functions for Cart ---
 const getCartItemsFromStorage = () => {
@@ -586,7 +587,7 @@ function Checkout() {
         </form>{" "}
         {/* Đóng thẻ form */}
       </div>
-
+        <ChatBubble></ChatBubble>
       <Footer />
     </div>
   );
