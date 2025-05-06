@@ -1,15 +1,18 @@
 import React from "react";
-import ReactAudioPlayer from "react-audio-player";
 
-const AudioPlayer = () => {
+function AudioPlayer({ onClose }) {
   return (
-    <ReactAudioPlayer
-      src={"/assets/audio/sach-noi-giet-con-chim-nhai.mp3"}
-      autoPlay={true}
-      controls={true}
-      loop={false}
-    />
+    <div className="audio-player-container">
+      <audio
+        controls
+        autoPlay
+        src="/assets/audio/sach-noi-giet-con-chim-nhai.mp3"
+      />
+      <button onClick={onClose} className="close-audio-button">
+        <i className="fas fa-times"></i>
+      </button>
+    </div>
   );
-};
+}
 
 export default AudioPlayer;

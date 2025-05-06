@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom"; // Thêm Link
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { getSingleBookData } from "../backend/getBookData"; // Giả sử hàm này lấy đủ dữ liệu rating hoặc bạn sẽ cập nhật nó
 import { useNavigate } from "react-router-dom";
 import AudioPlayer from "../components/SimpleAudioPlayer";
-
 // import { getReviews } from "../backend/getReviews"; // Giả sử bạn có hàm này để lấy reviews
 import Preloader from "../components/Preloader";
 import StarRating from "../components/StarRating"; // Import component StarRating
@@ -38,9 +37,10 @@ const mapBookType = (typeCode) => {
       return "Không xác định";
   }
 };
-function ProductDetails() {
+function ProductDetails({ onMusicControl }) {
   const [showTrialModal, setShowTrialModal] = useState(false);
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
+  const [isBackgroundMuted, setIsBackgroundMuted] = useState(false);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -79,6 +79,21 @@ function ProductDetails() {
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
+
+  const handleListenTrial = () => {
+    if (onMusicControl) {
+      onMusicControl("pause");
+    }
+    setShowAudioPlayer(true);
+  };
+
+  // Thêm hàm xử lý khi đóng audio player
+  const handleCloseAudioPlayer = () => {
+    setShowAudioPlayer(false);
+    if (onMusicControl) {
+      onMusicControl("play");
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -215,10 +230,6 @@ function ProductDetails() {
   };
   const handleCloseModal = () => {
     setShowTrialModal(false);
-  };
-  const handleListenTrial = () => {
-    console.log("handle listen trial called");
-    setShowAudioPlayer(true); // Show the audio player when the button is clicked
   };
 
   const toggleDescription = () => {
@@ -386,8 +397,6 @@ function ProductDetails() {
   // --- Giao diện chi tiết sách ---
   return (
     <div style={{ position: "relative" }}>
-      {" "}
-      {/* Bọc gốc bằng div relative nếu cần */}
       {showPopup && (
         <div className="add-to-cart-popup">
           <CheckCircleOutlineIcon
@@ -505,7 +514,12 @@ function ProductDetails() {
                       <i className="fa fa-headphones"></i> Nghe thử
                     </button>
 
-                    {showAudioPlayer && <AudioPlayer />}
+                    {showAudioPlayer && (
+                      <AudioPlayer
+                        onClose={handleCloseAudioPlayer}
+                        autoPlay={true}
+                      />
+                    )}
                   </>
                 )}
                 {/* The modal component */}
