@@ -52,7 +52,7 @@ function Contact() {
                     <span>Số điện thoại</span> 0869003199
                   </li>
                   <li>
-                    <span>Email</span> valleybook@contact.com
+                    <span>Email</span> hoangdang1368@gmail.com
                   </li>
                 </ul>
               </div>

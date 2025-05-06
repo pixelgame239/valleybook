@@ -33,6 +33,7 @@ function Gacha() {
               </div>
             </div>
           </div>
+          
 
           <GachaStrip />
 

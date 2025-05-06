@@ -106,10 +106,15 @@
   font-weight: bold;
   cursor: pointer;
 }
-.chat-icon {
+.chat-icon-rotate {
   font-size: 20px;
   display: inline-block;
   animation: rotateClockwise 0.5s ease-in-out infinite; /* Quay nhanh rồi chậm và liên tục */
+}
+
+.chat-icon-no-rotate {
+  font-size: 20px;
+  display: inline-block;
 }
 
 /* Hiệu ứng quay theo chiều kim đồng hồ */

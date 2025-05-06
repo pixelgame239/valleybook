@@ -68,6 +68,7 @@ function GachaStrip() {
 
   return (
     <div className={styles.gachaContainer}>
+      <h1>Số lượt quay còn lại: {spinCount}</h1>
       <div className={styles.stripFrame} ref={stripContainerRef}>
         <div className={styles.strip} ref={stripRef}>
           {extendedPrizes.map((prize, index) => (
