@@ -1,20 +1,15 @@
-import React, { useRef } from "react";
+import React from "react";
+import ReactAudioPlayer from "react-audio-player";
 
-function SimpleAudioPlayer() {
-  const audioRef = useRef(null);
-
-  const playAudio = () => {
-    audioRef.current.play();
-  };
-
+const AudioPlayer = () => {
   return (
-    <div>
-      <button onClick={playAudio}>Play Audio</button>
-      <audio ref={audioRef}>
-        <source src="https://assets.coderrocketfuel.com/pomodoro-times-up.mp3" type="audio/mpeg" />
-      </audio>
-    </div>
+    <ReactAudioPlayer
+      src={"/assets/audio/sach-noi-giet-con-chim-nhai.mp3"}
+      autoPlay={true}
+      controls={true}
+      loop={false}
+    />
   );
-}
+};
 
-export default SimpleAudioPlayer;
+export default AudioPlayer;

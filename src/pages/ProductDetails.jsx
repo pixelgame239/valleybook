@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { getSingleBookData } from "../backend/getBookData"; // Giả sử hàm này lấy đủ dữ liệu rating hoặc bạn sẽ cập nhật nó
 import { useNavigate } from "react-router-dom";
+import AudioPlayer from "../components/SimpleAudioPlayer";
 
 // import { getReviews } from "../backend/getReviews"; // Giả sử bạn có hàm này để lấy reviews
 import Preloader from "../components/Preloader";
@@ -39,6 +40,7 @@ const mapBookType = (typeCode) => {
 };
 function ProductDetails() {
   const [showTrialModal, setShowTrialModal] = useState(false);
+  const [showAudioPlayer, setShowAudioPlayer] = useState(false);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -215,7 +217,8 @@ function ProductDetails() {
     setShowTrialModal(false);
   };
   const handleListenTrial = () => {
-    alert("Chức năng Nghe thử đang được phát triển!");
+    console.log("handle listen trial called");
+    setShowAudioPlayer(true); // Show the audio player when the button is clicked
   };
 
   const toggleDescription = () => {
@@ -294,7 +297,6 @@ function ProductDetails() {
       alert("Gửi đánh giá thành công!");
 
       const newReview = {
-
         id: Date.now(), // ID tạm thời
         user: userInfo.full_name || "Bạn", // Sử dụng tên từ userInfo
         username: userInfo.full_name || "Bạn", // Giữ lại username nếu cần
@@ -494,13 +496,17 @@ function ProductDetails() {
                   </button>
                 )}
                 {selectedType === "audio" && (
-                  <button
-                    type="button"
-                    onClick={handleListenTrial}
-                    className="trial-button listen-trial"
-                  >
-                    <i className="fa fa-headphones"></i> Nghe thử
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      onClick={handleListenTrial}
+                      className="trial-button listen-trial"
+                    >
+                      <i className="fa fa-headphones"></i> Nghe thử
+                    </button>
+
+                    {showAudioPlayer && <AudioPlayer />}
+                  </>
                 )}
                 {/* The modal component */}
                 <TrialReadModal

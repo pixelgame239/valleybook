@@ -28,6 +28,7 @@ function BackgroundMusic() {
       src="https://asrqcfdysjuddpjxnnkx.supabase.co/storage/v1/object/sign/audio/web-sound-2.mp3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdWRpby93ZWItc291bmQtMi5tcDMiLCJpYXQiOjE3NDYyODU4NDksImV4cCI6MTc0ODg3Nzg0OX0.I9S0BXIXKOEo_Gp0jftCRoQlfpjhy7yyyg2KDBegujc"
       loop
       preload="auto"
+      muted
     />
   );
 }
