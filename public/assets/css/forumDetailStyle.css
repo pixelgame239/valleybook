@@ -210,7 +210,7 @@
 .back-to-forum{
   position: absolute;
   top: 20px;
-  left: 10px;
+  left: 20px;
   color: rgb(54, 154, 254);
   cursor: pointer;
   width: fit-content;
@@ -218,6 +218,29 @@
 }
 .back-to-forum:hover{
   color: dodgerblue;
+}
+.topic-interaction{
+  position: absolute;
+  width: 10%;
+  top: 15px;
+  right: 15px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.edit-topic{
+  color: rgb(33, 174, 255);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.delete-topic{
+  color: red;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.edit-topic:hover, .delete-topic:hover{
+  transform: scale(1.09);
 }
 
 /* Input transformation */

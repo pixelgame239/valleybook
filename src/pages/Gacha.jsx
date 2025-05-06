@@ -36,7 +36,7 @@ function Gacha() {
           
 
           <GachaStrip />
-
+          <ChatBubble />
           <Footer />
         </>
       )}

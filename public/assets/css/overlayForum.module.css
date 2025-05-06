@@ -1,0 +1,64 @@
+/* DeletePostModal.module.css */
+
+/* Overlay styles */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal styles */
+  .modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+  }
+  
+  /* Header style */
+  .header {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Content style */
+  .content {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  /* Button container style */
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Cancel button style */
+  .cancelButton {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Delete button style */
+  .deleteButton {
+    background-color: #ff4747;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
