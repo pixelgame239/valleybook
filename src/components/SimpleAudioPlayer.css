@@ -6,9 +6,9 @@
 
 .close-audio-button {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  background: #ff4444;
+  top: 15px;
+  right: -20px;
+  background: #0171f9;
   color: white;
   border: none;
   border-radius: 50%;
