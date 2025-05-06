@@ -45,8 +45,8 @@ function Contact() {
                 </p>
                 <ul>
                   <li>
-                    <span>Địa chỉ</span> Toà nhà Đại học Công nghệ Đông Á, Hà
-                    Nội
+                    <span>Địa chỉ</span> Toà nhà Đại học Công nghệ Đông Á, Nam
+                    Từ Liêm, Hà Nội
                   </li>
                   <li>
                     <span>Số điện thoại</span> 0869003199

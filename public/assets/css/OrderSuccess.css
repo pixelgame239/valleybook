@@ -1,0 +1,70 @@
+/* public/assets/css/OrderSuccess.css */
+
+.order-success-block {
+  text-align: center;
+  padding: 40px 25px; /* Tăng padding */
+}
+
+.order-success-icon {
+  font-size: 4em; /* Kích thước lớn cho icon */
+  color: #28a745; /* Màu xanh lá cây thành công */
+  margin-bottom: 20px;
+}
+
+.order-success-block h4 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #333;
+  border-bottom: none; /* Bỏ gạch chân nếu không cần */
+}
+
+.order-success-block p {
+  color: #555;
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.order-success-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Khoảng cách giữa các nút */
+  flex-wrap: wrap; /* Xuống dòng nếu không đủ chỗ */
+}
+
+/* Tùy chỉnh nút thứ hai nếu cần */
+.secondary-button {
+  background-color: #6c757d; /* Màu xám */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1em; /* Điều chỉnh kích thước nếu cần */
+}
+
+.secondary-button:hover {
+  background-color: #5a6268;
+}
+
+.secondary-button i {
+  margin-right: 5px;
+}
+
+/* Đảm bảo nút orange-button kế thừa đúng style */
+.order-success-actions .orange-button {
+  padding: 10px 20px; /* Đồng bộ padding nếu cần */
+  font-size: 1em; /* Đồng bộ font-size nếu cần */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.order-success-actions .orange-button i {
+  margin-right: 5px;
+}

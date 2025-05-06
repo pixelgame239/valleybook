@@ -179,10 +179,15 @@ function Checkout() {
 
       // --- Giả lập thành công ---
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Giả lập chờ API
-      alert("Đặt hàng thành công!");
+      console.log("Đặt hàng thành công!"); // Thay alert bằng console.log hoặc thông báo khác nếu muốn
+
+      // Xóa thông tin giỏ hàng và giảm giá sau khi đặt hàng thành công
       sessionStorage.removeItem("cartItems");
-      sessionStorage.removeItem("discountAmount");
-      navigate("/"); // Chuyển về trang chủ
+      sessionStorage.removeItem("discountAmount"); // Xóa cả discount nếu có
+
+      // Chuyển hướng đến trang đặt hàng thành công
+      navigate("/order-success"); // <<< THAY ĐỔI CHỖ NÀY
+
       // setLoading(false); // Kết thúc loading
     } catch (error) {
       console.error("Lỗi đặt hàng:", error);
