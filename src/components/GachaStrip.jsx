@@ -17,15 +17,17 @@ function GachaStrip() {
   const [result, setResult] = useState("");
   const stripRef = useRef(null);
   const stripContainerRef = useRef(null);
+  const [spinCount, setSpinCount] = useState(1);
 
   // Tạo một mảng dài gấp nhiều lần để tạo hiệu ứng vô hạn
   const extendedPrizes = [...Array(50)].flatMap(() => basePrizes);
 
   const handleSpin = () => {
-    if (isSpinning) return;
+    if (isSpinning || spinCount <= 0) return;
 
     setIsSpinning(true);
     setResult("");
+    setSpinCount((prev) => prev - 1);
 
     const itemWidth = stripRef.current.children[0].offsetWidth;
     const visibleItems = 7;
@@ -79,9 +81,9 @@ function GachaStrip() {
       <button
         className={styles.spinBtn}
         onClick={handleSpin}
-        disabled={isSpinning}
+        disabled={isSpinning || spinCount <= 0}
       >
-        {isSpinning ? "Đang quay..." : "Quay"}
+        {isSpinning ? "Đang quay..." : spinCount <= 0 ? "Hết lượt" : "Quay"}
       </button>
       {result && !isSpinning && (
         <div className={styles.result}>

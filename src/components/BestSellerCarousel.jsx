@@ -89,14 +89,17 @@ function BestSellerCarousel() {
                 <div className="bg-white rounded shadow-sm hover-shadow-lg transition overflow-hidden">
                   <div
                     className="d-flex justify-content-center align-items-center"
-                    style={{ height: "350px" , position:"relative"}}
+                    style={{ height: "350px", position: "relative" }}
                   >
-                <img src={hotItem} style={{
-                    position: "absolute",
-                    bottom:12,
-                    zIndex:1,
-                    width:"250px"
-                  }}></img>
+                    <img
+                      src={hotItem}
+                      style={{
+                        position: "absolute",
+                        bottom: 12,
+                        zIndex: 1,
+                        width: "250px",
+                      }}
+                    ></img>
                     <img
                       loading="lazy"
                       src={book.url_image || "/placeholder.jpg"}
@@ -106,7 +109,7 @@ function BestSellerCarousel() {
                         width: "200px",
                         height: "300px",
                         borderRadius: "5px",
-                        zIndex:2,
+                        zIndex: 2,
                       }}
                     />
                   </div>

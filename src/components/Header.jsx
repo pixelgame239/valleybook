@@ -139,7 +139,24 @@ function Header({ currentPage }) {
                       {showDropdown && (
                         <div className="dropdown-menu">
                           <ul>
-                            <li onClick={handleSignOut}>Đăng xuất</li>
+                            <li
+                              onClick={handleSignOut}
+                              style={{ textAlign: "center" }}
+                            >
+                              Đăng xuất
+                            </li>
+                            <li>
+                              <Link
+                                to="/profile"
+                                style={{
+                                  color: "black",
+                                  textTransform: "none",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Profile
+                              </Link>
+                            </li>
                           </ul>
                         </div>
                       )}
