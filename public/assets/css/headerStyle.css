@@ -13,10 +13,10 @@
 }
 
 /* Đảm bảo giỏ hàng không bị ảnh hưởng bởi hover của .nav */
-.cart-button:hover {
-  background-color: #ffffff1a; /* Thay đổi nền khi hover, nếu cần */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng cho nút khi hover */
-}
+/* .cart-button:hover {
+  background-color: #ffffff1a; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+} */
 
 .bell-button {
   color: white;
@@ -72,6 +72,17 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   min-width: 120px;
+}
+
+.dropdown-menu-notification {
+  background-color: white;
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 320px;
 }
 
 .dropdown-menu ul {
