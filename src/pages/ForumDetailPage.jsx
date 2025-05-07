@@ -16,6 +16,7 @@ import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import DeleteForumPopup from "../components/DeleteForumPopup";
+import EditForumPopup from "../components/EditForumPopup";
 
 const ForumDetailPage =()=>{
     const { id } = useParams();
@@ -57,6 +58,7 @@ const ForumDetailPage =()=>{
             const tempData = await getSinglePost(id);
             if(tempData!==null){
                 setTopicData(tempData);
+                console.log(tempData.topic_image);
                 setLoading(false);
             } 
         }
@@ -76,6 +78,7 @@ const ForumDetailPage =()=>{
             {loading?<Preloader></Preloader>:
                <div>
                     {showDelete?<DeleteForumPopup onClose={()=>setShowDelete(false)} onDelete={async()=>handleDeleteTopic(topicData.id)}></DeleteForumPopup>:null}
+                    {showEdit?<EditForumPopup currentTopic={topicData} onClose={()=>setShowEdit(false)} onSave={()=>setShowEdit(false)}></EditForumPopup>:null}
                     <div className="back-to-forum" onClick={()=>navigate("/forum")}><ArrowBackIosRoundedIcon sx={{fontSize: 40}}></ArrowBackIosRoundedIcon></div>
                     <div className="forum-topic">
                         <div className="topic-content">
@@ -113,7 +116,7 @@ const ForumDetailPage =()=>{
                             }
                             </div>
                             {userInfo&&(userInfo.username===topicData.username||userInfo.username.endsWith("@valleybook.com"))?<div className="topic-interaction">
-                                <span className="edit-topic"><EditRoundedIcon  sx={{ fontSize: 40}}></EditRoundedIcon></span>
+                                <span className="edit-topic" onClick={()=>setShowEdit(prev=>prev=true)}><EditRoundedIcon  sx={{ fontSize: 40}}></EditRoundedIcon></span>
                                 <span className="delete-topic" onClick={()=>setShowDelete(prev=>prev=true)}><DeleteRoundedIcon sx={{ fontSize: 40}}></DeleteRoundedIcon></span>
                             </div>:null}
                     </div>
