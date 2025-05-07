@@ -7,6 +7,7 @@ import { AuthContext } from "./AuthContext";
 import bookLogo from "../../public/assets/images/bookLogo.png";
 import accountLogo from "../../public/assets/images/account.png";
 import { useNavigate } from "react-router-dom";
+import NotificationSign from "./NotificationSign";
 
 function Header({ currentPage }) {
   const dropdownRef = useRef(null);
@@ -14,6 +15,7 @@ function Header({ currentPage }) {
   const { loggedIn, userData } = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const isAdmin = userData?.email?.startsWith("admin");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   console.log("is admin: ", isAdmin);
 
   const handleSignOut = async () => {
@@ -113,7 +115,16 @@ function Header({ currentPage }) {
                       className="cart-button"
                       style={{ marginRight: "0px" }}
                     >
-                      <i className="fa fa-shopping-cart"></i>
+                      <i className="fa fa-shopping-cart" style={{fontSize:23}}></i>
+                      <div style={{position: "absolute", top:"-5px", left:"35%"}}>
+                        {userInfo ? (
+                              <NotificationSign items={userInfo.cart_items} />
+                          ) : (() => {
+                              const cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
+                              return <NotificationSign items={cartItems} />;
+                          })()}
+
+                      </div>
                     </button>
                   </Link>
                 </li>

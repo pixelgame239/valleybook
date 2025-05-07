@@ -61,6 +61,9 @@ export default function GridBook() {
             src={book.url_image}
             alt={book.book_name}
             className="book-image"
+            style={{
+              objectFit:"contain"
+            }}
           />
           <div className="book-info">
             <h5 className="book-title">{book.book_name}</h5>

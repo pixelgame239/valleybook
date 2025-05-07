@@ -1,24 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./GachaStrip.module.css";
-
-const basePrizes = [
-  "Voucher 10%",
-  "Voucher 20%",
-  "Voucher 30%",
-  "Voucher 40%",
-  "Voucher 50%",
-  "Voucher 60%",
-  "Voucher 70%",
-  "Voucher 80%",
-];
+import { getVoucher } from "../backend/voucherData";
+import Preloader from "./Preloader";
 
 function GachaStrip() {
+  const [basePrizes, setBasePrizes] = useState([]);
   const [isSpinning, setIsSpinning] = useState(false);
   const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(true);
   const stripRef = useRef(null);
   const stripContainerRef = useRef(null);
   const [spinCount, setSpinCount] = useState(1);
-
+  useEffect(()=>{
+    const fetchVoucher = async() =>{
+      const tempData = await getVoucher("Voucher");
+      setBasePrizes(prev=>prev = tempData);
+      setLoading(false);
+    };
+    fetchVoucher();
+  }, []);
   // Tạo một mảng dài gấp nhiều lần để tạo hiệu ứng vô hạn
   const extendedPrizes = [...Array(50)].flatMap(() => basePrizes);
 
@@ -51,7 +51,7 @@ function GachaStrip() {
     // Sau khi quay xong, lấy kết quả
     setTimeout(() => {
       setIsSpinning(false);
-      setResult(basePrizes[randomExtra - 2]);
+      setResult(basePrizes[randomExtra - 1].voucher_id);
 
       // ✅ Reset về vị trí tương đương ở giữa strip để tránh lỗi "quay ngược"
       const itemWidth = stripRef.current.children[0].offsetWidth;
@@ -68,12 +68,13 @@ function GachaStrip() {
 
   return (
     <div className={styles.gachaContainer}>
+      {loading?<Preloader></Preloader>:<>
       <h1>Số lượt quay còn lại: {spinCount}</h1>
       <div className={styles.stripFrame} ref={stripContainerRef}>
         <div className={styles.strip} ref={stripRef}>
           {extendedPrizes.map((prize, index) => (
             <div className={styles.stripItem} key={index}>
-              {prize}
+              {prize.voucher_id}
             </div>
           ))}
         </div>
@@ -90,7 +91,7 @@ function GachaStrip() {
         <div className={styles.result}>
           🎉 Bạn nhận được: <strong>{result}</strong>!
         </div>
-      )}
+      )}</>}
     </div>
   );
 }

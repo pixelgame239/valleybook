@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Preloader from "../components/Preloader";
 import Footer from "../components/Footer";
 import GachaStrip from "../components/GachaStrip";
+import ChatBubble from "../components/ChatBubble";
 
 function Gacha() {
   const [loading, setLoading] = useState(true);
@@ -36,7 +37,7 @@ function Gacha() {
           
 
           <GachaStrip />
-          <ChatBubble />
+          <ChatBubble></ChatBubble>
           <Footer />
         </>
       )}
