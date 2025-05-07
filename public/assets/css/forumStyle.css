@@ -201,11 +201,11 @@
   flex: 3;
   color: rgb(12, 133, 254);
   font-weight: bold;
-  font-size: 30px;
+  font-size: 20px;
   padding: 15px;
   overflow: hidden;
   white-space: pre-wrap;
-  line-height: 0.96;
+  line-height: 1.2;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;

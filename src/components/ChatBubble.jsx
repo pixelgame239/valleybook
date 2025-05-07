@@ -213,17 +213,6 @@ export default function ChatBubble() {
         <ChatWindow isOpen={open} />
       </div>
 
-      {/* Initial message popup */}
-      {showInitialMessage && !open && (
-        <div
-          className="initial-message-popup"
-          onClick={handleCloseInitialMessage}
-        >
-          Chúng tôi có thể giúp gì cho bạn?
-          <span className="initial-message-close-button">×</span>
-        </div>
-      )}
-
       {/* Chat bubble */}
       <div className="chat-bubble-container">
         <div
