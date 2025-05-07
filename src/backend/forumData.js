@@ -142,3 +142,35 @@ export async function deleteTopic(topicID) {
   const {data: delData, error: delErr} = await supabase.from("forum").delete().eq("id", topicID);
   const {data, error} = await supabase.storage.from("forum").remove(`${topicID}.jpg`);
 }
+export async function editTopic(topicID, topicContent,topicImage) {
+  if(topicImage==="Unchange"){
+    console.log("Unchange");
+    const {data, error} = await supabase.from("forum").update({ topic: topicContent}).eq("id", topicID);
+    if(error){
+      console.log(error);
+    }
+  }
+  else if(!topicImage){
+    console.log("Null image");
+    const {data, error} = await supabase.from("forum").update({ topic: topicContent, topic_image:null}).eq("id", topicID);
+    const {data: imageData, error:imageError} = await supabase.storage.from("forum").remove(`${topicID}.jpg`);
+    if(error){
+      console.log(error);
+    }
+  }
+  else{
+    console.log("Change");
+    const {data:imageData, error:imageError} = await supabase.storage.from("forum").upload(`${topicID}.jpg`, topicImage, {
+      upsert: true,
+    });
+    if(!imageError){
+      const {data:downData, error:downError} =  supabase.storage.from("forum").getPublicUrl(`${topicID}.jpg`);
+      const tempImageURL = `${downData.publicUrl}?t=${Date.now()}`;
+      const {data: tableData, error: tableError} = await supabase.from("forum").update({ topic: topicContent, topic_image: tempImageURL}).eq("id", topicID);
+      if(tableError){console.log(tableError);}
+    }
+    else{
+      console.log(imageError);
+    }
+  }
+}

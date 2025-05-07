@@ -9,6 +9,7 @@
   height: 35px; /* Set the height to match the width */
   justify-content: center; /* Center the icon */
   align-items: center; /* Center the icon */
+  position: relative;
 }
 
 /* Đảm bảo giỏ hàng không bị ảnh hưởng bởi hover của .nav */
