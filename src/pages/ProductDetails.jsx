@@ -12,6 +12,7 @@ import "../../public/assets/css/productDetail.css"; // CSS gốc
 import "../../public/assets/css/productDetailCustom.css"; // CSS tùy chỉnh đã thêm
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import TrialReadModal from "../components/TrialRead.jsx";
+import supabase from "../backend/initSupabase";
 
 // --- Helper Functions for Cart ---
 const getCartItemsFromStorage = () => {
@@ -296,28 +297,22 @@ function ProductDetails({ onMusicControl }) {
     }
 
     setIsSubmittingReview(true);
-    console.log("Submitting review:", {
+    const newReview = {
       rating: userRating,
       comment: reviewComment,
-      userId: userInfo.user_id, // Ví dụ: lấy user_id
-      userName: userInfo.full_name, // Ví dụ: lấy full_name
-    });
+
+      username: userInfo.username || "Bạn",
+    };
+
+    // Tạo mảng reviews mới, đẩy review mới lên đầu
+    const updatedReviews = [newReview, ...(reviews || [])];
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      alert("Gửi đánh giá thành công!");
-
-      const newReview = {
-        id: Date.now(), // ID tạm thời
-        user: userInfo.full_name || "Bạn", // Sử dụng tên từ userInfo
-        username: userInfo.full_name || "Bạn", // Giữ lại username nếu cần
-
-        rating: userRating,
-        comment: reviewComment,
-        date: new Date().toISOString(),
-      };
-      // Cập nhật reviews và tính toán lại rating
-      const updatedReviews = [newReview, ...reviews];
+      const { error } = await supabase
+        .from("books")
+        .update({ reviews: updatedReviews })
+        .eq("book_id", book.book_id);
+      if (error) throw error;
       setReviews(updatedReviews);
 
       const count = updatedReviews.length;
@@ -343,11 +338,11 @@ function ProductDetails({ onMusicControl }) {
         setCalculatedAverageRating(0);
         setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
       }
-
+      alert("Gửi đánh giá thành công!");
       handleCancelReview();
     } catch (error) {
-      console.error("Lỗi gửi đánh giá:", error);
-      alert("Đã có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại.");
+      console.error("Lỗi khi lưu đánh giá lên Supabase:", error);
+      alert("Không thể lưu đánh giá. Vui lòng thử lại.");
     } finally {
       setIsSubmittingReview(false);
     }

@@ -99,10 +99,6 @@ function QualityProduct() {
               </h5>
               <ul>
                 <li>
-                  Định dạng phổ biến (PDF, EPUB, MOBI...), hỗ trợ nhiều thiết
-                  bị.
-                </li>
-                <li>
                   Cho phép <strong>tải về để đọc offline</strong>.
                 </li>
                 <li>
