@@ -161,7 +161,7 @@ function Header({ currentPage }) {
                         >
                           <i
                             className="fas fa-bell bell-button"
-                            style={{ cursor: "pointer", fontSize: "20px" }}
+                            style={{ cursor: "pointer", fontSize: "25px" }}
                             onClick={() => {
                               setShowBellDropdown((prev) => {
                                 const newState = !prev;
@@ -218,7 +218,7 @@ function Header({ currentPage }) {
                                   textAlign: "center",
                                 }}
                               >
-                                Profile
+                                Hồ sơ
                               </Link>
                             </li>
                           </ul>

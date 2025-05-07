@@ -6,7 +6,7 @@ function AudioPlayer({ onClose }) {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 1; // Set volume to 50%
+      audioRef.current.volume = 1;
     }
   }, []);
 
