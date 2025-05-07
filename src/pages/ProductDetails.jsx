@@ -13,31 +13,10 @@ import "../../public/assets/css/productDetailCustom.css"; // CSS tùy chỉnh đ
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import TrialReadModal from "../components/TrialRead.jsx";
 import supabase from "../backend/initSupabase";
+import ChatBubble from "../components/ChatBubble.jsx";
+import { updateCartItems } from "../backend/userData.js";
 
 // --- Helper Functions for Cart ---
-const getCartItemsFromStorage = () => {
-  const items = sessionStorage.getItem("cartItems");
-  return items ? JSON.parse(items) : [];
-};
-
-const saveCartItemsToStorage = (items) => {
-  sessionStorage.setItem("cartItems", JSON.stringify(items));
-};
-// --- End Helper Functions ---
-
-// Hàm map loại sách
-const mapBookType = (typeCode) => {
-  switch (typeCode) {
-    case "paper":
-      return "Sách giấy";
-    case "ebook":
-      return "Ebook";
-    case "audio":
-      return "Sách nói";
-    default:
-      return "Không xác định";
-  }
-};
 function ProductDetails() {
   const [showTrialModal, setShowTrialModal] = useState(false);
 
@@ -65,6 +44,41 @@ function ProductDetails() {
     2: 0,
     1: 0,
   });
+  const getCartItemsFromStorage = () => {
+    if(userInfo){
+      const items = localStorage.getItem("cart_items");
+      return items ? JSON.parse(items) : [];
+    }
+    else{
+      const items = sessionStorage.getItem("cart_items");
+      return items ? JSON.parse(items) : [];
+    }
+  };
+  
+  const saveCartItemsToStorage = async(items) => {
+    if(userInfo){
+      await updateCartItems(userInfo.email, items);
+      localStorage.setItem("cart_items", JSON.stringify(items));
+    }
+    else{
+      sessionStorage.setItem("cart_items", JSON.stringify(items));
+    }
+  };
+  // --- End Helper Functions ---
+  
+  // Hàm map loại sách
+  const mapBookType = (typeCode) => {
+    switch (typeCode) {
+      case "paper":
+        return "Sách giấy";
+      case "ebook":
+        return "Ebook";
+      case "audio":
+        return "Sách nói";
+      default:
+        return "Không xác định";
+    }
+  };
 
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [userRating, setUserRating] = useState(0);
@@ -81,8 +95,8 @@ function ProductDetails() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setLoading(true);
     const fetchBookDetail = async () => {
-      setLoading(true);
       try {
         let bookData = await getSingleBookData(id);
         if (bookData) {
@@ -140,6 +154,12 @@ function ProductDetails() {
         setLoading(false);
       }
     };
+    supabase
+    .channel('room1')
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'books' }, async payload => {
+      await fetchBookDetail();
+    })
+    .subscribe()
     fetchBookDetail();
   }, [id]);
 
@@ -158,7 +178,7 @@ function ProductDetails() {
   };
 
   // --- CẬP NHẬT HÀM NÀY ---
-  const handleAddToCart = () => {
+  const handleAddToCart = async() => {
     if (!book) return;
     const cartItems = getCartItemsFromStorage();
     const existingItemIndex = cartItems.findIndex(
@@ -174,13 +194,13 @@ function ProductDetails() {
         url_image: book.url_image,
         quantity: quantity,
         type: selectedType,
-        price_at_cart: currentPrice,
+        price_at_cart: Math.ceil(currentPrice),
         original_price: book.price,
         discount_at_cart: book.discount || 0,
       };
       cartItems.push(newItem);
     }
-    saveCartItemsToStorage(cartItems);
+    await saveCartItemsToStorage(cartItems);
 
     // +++ HIỂN THỊ POP-UP +++
     const message = `Đã thêm ${quantity} "${book.book_name}" (${mapBookType(
@@ -323,7 +343,6 @@ function ProductDetails() {
         setCalculatedAverageRating(0);
         setCalculatedRatingBreakdown({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
       }
-      alert("Gửi đánh giá thành công!");
       handleCancelReview();
     } catch (error) {
       console.error("Lỗi khi lưu đánh giá lên Supabase:", error);
@@ -530,7 +549,7 @@ function ProductDetails() {
                 />
                 <button
                   type="button"
-                  onClick={handleAddToCart}
+                  onClick={async()=>handleAddToCart()}
                   className="orange-button add-to-cart-button"
                 >
                   <i className="fa fa-shopping-bag"></i> Thêm vào giỏ hàng
@@ -640,7 +659,7 @@ function ProductDetails() {
                     ))}
                   </div>
                   {/* ... (Phần form viết đánh giá giữ nguyên) ... */}
-                  {userInfo && !showReviewForm && (
+                  {userInfo && !showReviewForm && !book.reviews.some(review => review.username === userInfo.username) &&(
                     <button
                       onClick={handleWriteReviewClick}
                       className="orange-button write-review-button"
@@ -859,6 +878,7 @@ function ProductDetails() {
           )}
         </div>
       </div>
+      <ChatBubble></ChatBubble>
       {/* --- Hết Phần Đánh Giá --- */}
       <Footer />
     </div>

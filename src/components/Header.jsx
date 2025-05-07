@@ -117,13 +117,17 @@ function Header({ currentPage }) {
                     >
                       <i className="fa fa-shopping-cart" style={{fontSize:23}}></i>
                       <div style={{position: "absolute", top:"-5px", left:"35%"}}>
-                        {userInfo ? (
-                              <NotificationSign items={userInfo.cart_items} />
-                          ) : (() => {
-                              const cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
-                              return <NotificationSign items={cartItems} />;
-                          })()}
-
+                      {userInfo ? (
+                              (() => {
+                                const cartItems = JSON.parse(localStorage.getItem("cart_items"));
+                                return <NotificationSign items={cartItems} />;
+                              })()
+                            ) : (
+                              (() => {
+                                const cartItems = JSON.parse(sessionStorage.getItem("cart_items"));
+                                return <NotificationSign items={cartItems} />;
+                              })()
+                            )}
                       </div>
                     </button>
                   </Link>

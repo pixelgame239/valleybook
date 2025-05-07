@@ -7,7 +7,7 @@ import ChatBubble from "../components/ChatBubble";
 
 // --- Helper Functions for Cart ---
 const getCartItemsFromStorage = () => {
-  const items = sessionStorage.getItem("cartItems");
+  const items = sessionStorage.getItem("cart_items");
   return items ? JSON.parse(items) : [];
 };
 // --- End Helper Functions ---
@@ -183,7 +183,7 @@ function Checkout() {
       console.log("Đặt hàng thành công!"); // Thay alert bằng console.log hoặc thông báo khác nếu muốn
 
       // Xóa thông tin giỏ hàng và giảm giá sau khi đặt hàng thành công
-      sessionStorage.removeItem("cartItems");
+      sessionStorage.removeItem("cart_items");
       sessionStorage.removeItem("discountAmount"); // Xóa cả discount nếu có
 
       // Chuyển hướng đến trang đặt hàng thành công

@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./GachaStrip.module.css";
 import { getVoucher } from "../backend/voucherData";
 import Preloader from "./Preloader";
+import voucher from "../../public/assets/images/voucher.png";
+import freeShip from "../../public/assets/images/freeship.png";
 
 function GachaStrip() {
   const [basePrizes, setBasePrizes] = useState([]);
@@ -10,7 +12,6 @@ function GachaStrip() {
   const [loading, setLoading] = useState(true);
   const stripRef = useRef(null);
   const stripContainerRef = useRef(null);
-  const [spinCount, setSpinCount] = useState(1);
   useEffect(()=>{
     const fetchVoucher = async() =>{
       const tempData = await getVoucher("Voucher");
@@ -23,12 +24,10 @@ function GachaStrip() {
   const extendedPrizes = [...Array(50)].flatMap(() => basePrizes);
 
   const handleSpin = () => {
-    if (isSpinning || spinCount <= 0) return;
+    if (isSpinning) return;
 
     setIsSpinning(true);
     setResult("");
-    setSpinCount((prev) => prev - 1);
-
     const itemWidth = stripRef.current.children[0].offsetWidth;
     const visibleItems = 7;
     const middleItemIndex = Math.floor(visibleItems / 2);
@@ -69,12 +68,12 @@ function GachaStrip() {
   return (
     <div className={styles.gachaContainer}>
       {loading?<Preloader></Preloader>:<>
-      <h1>Số lượt quay còn lại: {spinCount}</h1>
       <div className={styles.stripFrame} ref={stripContainerRef}>
         <div className={styles.strip} ref={stripRef}>
           {extendedPrizes.map((prize, index) => (
             <div className={styles.stripItem} key={index}>
-              {prize.voucher_id}
+              <img src={prize.voucher_id.startsWith("V")?voucher:freeShip}></img>
+              <p>{prize.discount>100?`${prize.discount.toLocaleString()}đ`:`${prize.discount}%`}</p>
             </div>
           ))}
         </div>
@@ -83,9 +82,9 @@ function GachaStrip() {
       <button
         className={styles.spinBtn}
         onClick={handleSpin}
-        disabled={isSpinning || spinCount <= 0}
+        disabled={isSpinning}
       >
-        {isSpinning ? "Đang quay..." : spinCount <= 0 ? "Hết lượt" : "Quay"}
+        {isSpinning ? "Đang quay..."  : "Quay"}
       </button>
       {result && !isSpinning && (
         <div className={styles.result}>
