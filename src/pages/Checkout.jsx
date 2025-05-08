@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../../public/assets/css/Checkout.css"; // Đảm bảo bạn đã tạo và thêm CSS vào file này
 import ChatBubble from "../components/ChatBubble";
+import { getVoucher } from "../backend/voucherData";
 
 // --- Helper Functions for Cart ---
 // --- End Helper Functions ---
@@ -24,10 +25,14 @@ const mapBookType = (typeCode) => {
 
 function Checkout() {
   const navigate = useNavigate();
+  const [voucherCode, setVoucherCode] = useState("");
+  const [voucherMessage, setVoucherMessage] = useState({ text: "", type: "" });
+
   const [cartItems, setCartItems] = useState([]);
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
+    email: "",
     address: "",
     wardCode: "", // Thay đổi tên để phản ánh việc lưu mã
     districtCode: "", // Thay đổi tên để phản ánh việc lưu mã
@@ -39,22 +44,53 @@ function Checkout() {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
-  const userInfo  = JSON.parse(localStorage.getItem("userInfo"));
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const getCartItemsFromStorage = () => {
-    if(userInfo){
+    if (userInfo) {
       const items = localStorage.getItem("cart_items");
       console.log(`user cart: ${items}`);
       return items ? JSON.parse(items) : [];
-    }
-    else{
+    } else {
       const items = sessionStorage.getItem("cart_items");
       console.log(`None cart: ${items}`);
       return items ? JSON.parse(items) : [];
     }
   };
-  useEffect(()=>{
+
+  // Thêm state cho danh sách voucher
+  const [availableVouchers, setAvailableVouchers] = useState([]);
+
+  const handleApplyVoucher = (code) => {
+    const voucher = availableVouchers.find((v) => v.code === code);
+
+    if (voucher) {
+      let discountValue = 0;
+
+      if (voucher.type === "percent") {
+        discountValue = (subtotalAmount * voucher.discount) / 100;
+      } else if (voucher.type === "shipping") {
+        discountValue = shippingCost;
+      } else {
+        discountValue = voucher.discount;
+      }
+
+      setDiscountAmount(discountValue);
+      setVoucherMessage({
+        text: `Áp dụng thành công voucher "${code}"!`,
+        type: "success",
+      });
+    } else {
+      setDiscountAmount(0);
+      setVoucherMessage({
+        text: "Mã voucher không hợp lệ hoặc đã hết hạn.",
+        type: "error",
+      });
+    }
+    setTimeout(() => setVoucherMessage({ text: "", type: "" }), 4000);
+  };
+  useEffect(() => {
     const tempCart = getCartItemsFromStorage();
-    setCartItems(prev=>tempCart);
+    setCartItems((prev) => tempCart);
     console.log(cartItems);
     document.title = "Thanh toán - Valley Book";
     // Nếu giỏ hàng trống khi vào trang checkout, quay lại giỏ hàng
@@ -65,7 +101,7 @@ function Checkout() {
       return () => clearTimeout(timer); // Cleanup timeout
     }
     window.scrollTo(0, 0); // Cuộn lên đầu trang
-  },[]);
+  }, []);
 
   // --- Tính toán Tổng tiền ---
   const subtotalAmount = useMemo(
@@ -128,6 +164,13 @@ function Checkout() {
     } else if (!/^(0[3|5|7|8|9])+([0-9]{8})\b/.test(formData.phone.trim())) {
       // Regex chuẩn hơn cho SĐT Việt Nam
       newErrors.phone = "Số điện thoại không hợp lệ";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Vui lòng nhập email";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email.trim())
+    ) {
+      newErrors.email = "Email không hợp lệ";
     }
     if (!formData.address.trim())
       newErrors.address = "Vui lòng nhập địa chỉ (Số nhà, tên đường)";
@@ -261,6 +304,30 @@ function Checkout() {
 
     fetchWards(formData.districtCode);
   }, [formData.districtCode]);
+
+  // Add useEffect to fetch vouchers
+  useEffect(() => {
+    const fetchVouchers = async () => {
+      try {
+        const vouchers = await getVoucher("Voucher");
+        if (vouchers) {
+          // Transform data to match the structure
+          const formattedVouchers = vouchers.map((v) => ({
+            code: v.voucher_id,
+            discount: v.discount,
+            type: v.voucher_id.startsWith("FSHIP") ? "shipping" : "totalPrice",
+            detail: v.detail, // Add detail field
+          }));
+          setAvailableVouchers(formattedVouchers);
+        }
+      } catch (error) {
+        console.error("Error fetching vouchers:", error);
+      }
+    };
+
+    fetchVouchers();
+  }, []);
+
   return (
     <div>
       <Header currentPage="checkout" />
@@ -305,6 +372,24 @@ function Checkout() {
                     {errors.fullName && (
                       <small id="fullNameError" className="error-message">
                         {errors.fullName}
+                      </small>
+                    )}
+                  </div>
+                  <div className="col-md-12 form-group">
+                    <label htmlFor="email">Email *</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className={errors.email ? "error-input" : ""}
+                      required
+                      aria-describedby="emailError"
+                    />
+                    {errors.email && (
+                      <small id="emailError" className="error-message">
+                        {errors.email}
                       </small>
                     )}
                   </div>
@@ -559,6 +644,37 @@ function Checkout() {
                     </div>
                   ))}
                 </div>
+
+                {/* Phần Voucher */}
+                <div className="voucher-section">
+                  <label htmlFor="voucher">Mã giảm giá:</label>
+                  <div className="voucher-select-group">
+                    <select
+                      id="voucher"
+                      value={voucherCode}
+                      onChange={(e) => {
+                        setVoucherCode(e.target.value);
+                        if (e.target.value) {
+                          handleApplyVoucher(e.target.value);
+                        }
+                      }}
+                      className="voucher-select"
+                    >
+                      <option value="">Chọn mã giảm giá</option>
+                      {availableVouchers.map((voucher) => (
+                        <option key={voucher.code} value={voucher.code}>
+                          {voucher.code} - {voucher.detail}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {voucherMessage.text && (
+                    <p className={`voucher-message ${voucherMessage.type}`}>
+                      {voucherMessage.text}
+                    </p>
+                  )}
+                </div>
+                {/* Hết Phần Voucher */}
 
                 {/* --- Hiển thị Tổng tiền --- */}
                 <div className="order-totals">
