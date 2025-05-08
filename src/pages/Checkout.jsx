@@ -56,18 +56,16 @@ function Checkout() {
     const tempCart = getCartItemsFromStorage();
     setCartItems(prev=>tempCart);
     console.log(cartItems);
-  },[]);
-  useEffect(() => {
     document.title = "Thanh toán - Valley Book";
     // Nếu giỏ hàng trống khi vào trang checkout, quay lại giỏ hàng
-    if (cartItems.length === 0) {
+    if (tempCart.length === 0) {
       console.warn("Giỏ hàng trống, đang chuyển hướng về trang giỏ hàng...");
       // Dùng timeout nhỏ để tránh lỗi state update khi component đang unmount
       const timer = setTimeout(() => navigate("/cart"), 0);
       return () => clearTimeout(timer); // Cleanup timeout
     }
     window.scrollTo(0, 0); // Cuộn lên đầu trang
-  }, [cartItems, navigate]); // Thêm navigate vào dependency array
+  },[]);
 
   // --- Tính toán Tổng tiền ---
   const subtotalAmount = useMemo(
