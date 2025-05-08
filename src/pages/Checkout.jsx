@@ -6,10 +6,6 @@ import "../../public/assets/css/Checkout.css"; // Đảm bảo bạn đã tạo 
 import ChatBubble from "../components/ChatBubble";
 
 // --- Helper Functions for Cart ---
-const getCartItemsFromStorage = () => {
-  const items = sessionStorage.getItem("cart_items");
-  return items ? JSON.parse(items) : [];
-};
 // --- End Helper Functions ---
 
 // Hàm map loại sách
@@ -28,7 +24,7 @@ const mapBookType = (typeCode) => {
 
 function Checkout() {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState(getCartItemsFromStorage());
+  const [cartItems, setCartItems] = useState([]);
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -43,7 +39,24 @@ function Checkout() {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
-
+  const userInfo  = JSON.parse(localStorage.getItem("userInfo"));
+  const getCartItemsFromStorage = () => {
+    if(userInfo){
+      const items = localStorage.getItem("cart_items");
+      console.log(`user cart: ${items}`);
+      return items ? JSON.parse(items) : [];
+    }
+    else{
+      const items = sessionStorage.getItem("cart_items");
+      console.log(`None cart: ${items}`);
+      return items ? JSON.parse(items) : [];
+    }
+  };
+  useEffect(()=>{
+    const tempCart = getCartItemsFromStorage();
+    setCartItems(prev=>tempCart);
+    console.log(cartItems);
+  },[]);
   useEffect(() => {
     document.title = "Thanh toán - Valley Book";
     // Nếu giỏ hàng trống khi vào trang checkout, quay lại giỏ hàng

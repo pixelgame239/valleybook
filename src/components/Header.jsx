@@ -28,7 +28,7 @@ function Header({ currentPage }) {
   };
 
   const toggleDropdown = () => {
-    setShowDropdown((prev) => (prev = !prev));
+    setShowDropdown((prev) => (!prev));
   };
 
   useEffect(() => {
