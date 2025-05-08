@@ -364,6 +364,10 @@ Header Style
   transition: all 0.5s ease 0s;
 }
 
+.background-header #search-input {
+  margin-top: 10px !important;
+}
+
 .background-header .logo img {
   max-width: 110px;
 }

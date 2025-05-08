@@ -20,6 +20,7 @@ import CustomerSaying from "../components/CustomerSaying";
 import ChatBubble from "../components/ChatBubble";
 import MyAudioPlayer from "../components/MyAudioPlayer";
 import { AuthContext } from "../components/AuthContext";
+import CarouselPosts from "../components/CarouselPosts";
 
 function Home() {
   const [loading, setLoading] = useState(true);
@@ -64,7 +65,7 @@ function Home() {
           {/* ***** Most Played Section End ***** */}
 
           {/* ***** Categories Section Start ***** */}
-          <GenreCarousel />
+          <CarouselPosts />
           {/* ***** Categories Section End ***** */}
           <CustomerSaying />
           {/* ***** CTA Section Start ***** */}

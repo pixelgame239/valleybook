@@ -17,6 +17,8 @@ function Header({ currentPage }) {
   const isAdmin = userData?.email?.startsWith("admin");
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   console.log("is admin: ", isAdmin);
+  const [showBellDropdown, setShowBellDropdown] = useState(false);
+  const bellDropdownRef = useRef(null);
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -30,22 +32,27 @@ function Header({ currentPage }) {
   const toggleDropdown = () => {
     setShowDropdown((prev) => (prev = !prev));
   };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
+      if (
+        bellDropdownRef.current &&
+        !bellDropdownRef.current.contains(event.target)
+      ) {
+        setShowBellDropdown(false);
+      }
     };
 
-    if (showDropdown) {
+    if (showDropdown || showBellDropdown) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showDropdown]);
+  }, [showDropdown, showBellDropdown]);
 
   // useEffect(() => {
   //   const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
@@ -74,7 +81,10 @@ function Header({ currentPage }) {
                 />
               </Link>
               {/* ***** Logo End ***** */}
-              <SearchInput />
+              <div id="search-input">
+                {" "}
+                <SearchInput />
+              </div>
               {/* ***** Menu Start ***** */}
               <ul className="nav">
                 <li>
@@ -115,15 +125,27 @@ function Header({ currentPage }) {
                       className="cart-button"
                       style={{ marginRight: "0px" }}
                     >
-                      <i className="fa fa-shopping-cart" style={{fontSize:23}}></i>
-                      <div style={{position: "absolute", top:"-5px", left:"35%"}}>
+                      <i
+                        className="fa fa-shopping-cart"
+                        style={{ fontSize: 23 }}
+                      ></i>
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "-5px",
+                          left: "75%",
+                        }}
+                      >
                         {userInfo ? (
-                              <NotificationSign items={userInfo.cart_items} />
-                          ) : (() => {
-                              const cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
-                              return <NotificationSign items={cartItems} />;
-                          })()}
-
+                          <NotificationSign items={userInfo.cart_items} />
+                        ) : (
+                          (() => {
+                            const cartItems = JSON.parse(
+                              sessionStorage.getItem("cartItems")
+                            );
+                            return <NotificationSign items={cartItems} />;
+                          })()
+                        )}
                       </div>
                     </button>
                   </Link>
@@ -135,10 +157,44 @@ function Header({ currentPage }) {
                 >
                   {loggedIn ? (
                     <>
-                      {isAdmin && <i className="fas fa-bell bell-button"></i>}
+                      {isAdmin && (
+                        <div
+                          ref={bellDropdownRef}
+                          style={{ position: "relative", marginRight: "10px" }}
+                        >
+                          <i
+                            className="fas fa-bell bell-button"
+                            style={{ cursor: "pointer", fontSize: "25px" }}
+                            onClick={() => {
+                              setShowBellDropdown((prev) => {
+                                const newState = !prev;
+                                if (newState) setShowDropdown(false); // close profile if opening bell
+                                return newState;
+                              });
+                            }}
+                          ></i>
+                          {showBellDropdown && (
+                            <div
+                              className="dropdown-menu-notification"
+                              style={{ right: 0 }}
+                            >
+                              <ul>
+                                <li>Thông báo 1</li>
+                                <li>Thông báo 2</li>
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       <button
                         className="profile-button"
-                        onClick={toggleDropdown}
+                        onClick={() => {
+                          setShowDropdown((prev) => {
+                            const newState = !prev;
+                            if (newState) setShowBellDropdown(false); // close bell if opening profile
+                            return newState;
+                          });
+                        }}
                         style={{ marginLeft: "5px" }}
                       >
                         <img
@@ -165,7 +221,7 @@ function Header({ currentPage }) {
                                   textAlign: "center",
                                 }}
                               >
-                                Profile
+                                Hồ sơ
                               </Link>
                             </li>
                           </ul>

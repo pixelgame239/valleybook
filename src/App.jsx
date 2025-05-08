@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from "react";
 import "./App.css";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
@@ -31,12 +32,65 @@ import OrderTracking from "./pages/OrderTracking";
 import OrderList from "./pages/OrderList";
 
 function App() {
+  const audioRef = useRef(null);
+  const [isBackgroundMusicMuted, setIsBackgroundMusicMuted] = useState(false);
+  const [isAudioInitialized, setIsAudioInitialized] = useState(false);
+
+  useEffect(() => {
+    const initializeAudio = () => {
+      if (audioRef.current) {
+        audioRef.current.volume = 0.55;
+        setIsAudioInitialized(true);
+      }
+    };
+
+    // Initialize on mount
+    initializeAudio();
+
+    // Also initialize when audioRef changes
+    if (audioRef.current) {
+      initializeAudio();
+    }
+  }, [audioRef.current]);
+
+  const handleBackgroundMusic = (action) => {
+    if (!audioRef.current || !isAudioInitialized) {
+      console.error("Audio not initialized yet");
+      return;
+    }
+
+    try {
+      if (action === "pause") {
+        console.log("Pausing background music");
+        audioRef.current.pause();
+        setIsBackgroundMusicMuted(true);
+      } else if (action === "play") {
+        console.log("Playing background music");
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsBackgroundMusicMuted(false);
+            })
+            .catch((error) => {
+              console.error("Playback failed:", error);
+            });
+        }
+      }
+    } catch (error) {
+      console.error("Error controlling background music:", error);
+    }
+  };
+
   return (
     <AuthProvider>
       <BrowserRouter basename="/">
         <div>
-          <BackgroundMusic />
-          {/* Nội dung khác của trang */}
+          <BackgroundMusic
+            ref={audioRef}
+            muted={isBackgroundMusicMuted}
+            onInit={() => setIsAudioInitialized(true)}
+          />
         </div>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -49,7 +103,16 @@ function App() {
               </BookProvider>
             }
           />
-          <Route path="/shop/:id" element={<ProductDetails />} />
+          <Route
+            path="/shop/:id"
+            element={
+              <ProductDetails
+                onMusicControl={
+                  isAudioInitialized ? handleBackgroundMusic : null
+                }
+              />
+            }
+          />
           <Route path="/signIn" element={<LoginPage />} />
           <Route path="/signUp" element={<Signup></Signup>}></Route>
           <Route path="/policy" element={<Policy />} />
