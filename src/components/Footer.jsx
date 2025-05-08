@@ -545,23 +545,50 @@ export default function Footer() {
                   color: "white",
                 }}
               >
-                <span style={{ boxSizing: "border-box" }}>
-                  {"Phương thức thanh toán"}
-                </span>
+                <span style={{ boxSizing: "border-box" }}>{"Mạng xã hội"}</span>
               </h4>
               <div className="payment" style={{ boxSizing: "border-box" }}>
                 <img
                   className="lazyload loaded"
                   alt="Phương thức thanh toán"
-                  src="https://bizweb.dktcdn.net/100/363/455/themes/918830/assets/payment_method.png?1724988401192"
+                  src="/assets/images/Facebook.png"
                   style={{
                     boxSizing: "border-box",
                     borderStyle: "none",
                     verticalAlign: "middle",
                     maxWidth: "100%",
                     background: "transparent",
-                    width: "auto",
+                    width: "40px",
                     height: "unset",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    window.open(
+                      "https://www.facebook.com/profile.php?id=61575698363382",
+                      "_blank"
+                    );
+                  }}
+                />
+                <img
+                  className="lazyload loaded"
+                  alt="Phương thức thanh toán"
+                  src="/assets/images/Tiktok.webp"
+                  style={{
+                    boxSizing: "border-box",
+                    borderStyle: "none",
+                    verticalAlign: "middle",
+                    maxWidth: "100%",
+                    background: "transparent",
+                    width: "40px",
+                    height: "unset",
+                    marginLeft: "10px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    window.open(
+                      "https://www.tiktok.com/@valleybookstore",
+                      "_blank"
+                    );
                   }}
                 />
               </div>
