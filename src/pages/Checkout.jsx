@@ -74,29 +74,26 @@ function Checkout() {
   );
 
   // --- Cập nhật logic tính phí vận chuyển ---
-  const calculateShippingCost = (city) => {
-    const normalizedCity = (city || "").trim().toLowerCase(); // Thêm kiểm tra city tồn tại
-    // Kiểm tra chính xác hơn cho Hà Nội
-    if (
-      normalizedCity === "hà nội" ||
-      normalizedCity === "tp hà nội" ||
-      normalizedCity === "thành phố hà nội" ||
-      normalizedCity === "hanoi"
-    ) {
-      return 20000;
-    }
-    // Nếu không nhập tỉnh/thành phố thì tạm tính phí mặc định (ví dụ 30k)
-    if (!normalizedCity) {
-      return 30000;
-    }
-    // Các tỉnh thành khác
-    return 30000;
+  const calculateShippingCost = (provinceCode) => {
+    // Province code của Hà Nội trên open-api.vn thường là 1
+    return +provinceCode === 1 ? 20000 : 30000;
+  };
+
+  // Hàm tính thời gian giao hàng dự kiến
+  const calculateDeliveryTime = (provinceCode) => {
+    return +provinceCode === 1 ? "1–2 ngày" : "3–5 ngày";
   };
 
   // Tính shippingCost dựa trên formData.city hiện tại
   const shippingCost = useMemo(
-    () => calculateShippingCost(formData.city),
-    [formData.city]
+    () => calculateShippingCost(formData.provinceCode),
+    [formData.provinceCode]
+  );
+
+  // Tính deliveryTime để hiển thị
+  const deliveryTime = useMemo(
+    () => calculateDeliveryTime(formData.provinceCode),
+    [formData.provinceCode]
   );
 
   const finalTotalAmount = subtotalAmount - discountAmount + shippingCost;
@@ -572,6 +569,10 @@ function Checkout() {
                         : "Miễn phí"}
                     </span>
                   </div>
+                  <div className="totals-row">
+                    <span>Thời gian giao hàng dự kiến:</span>
+                    <span>{deliveryTime}</span>
+                  </div>
                   <hr />
                   <div className="totals-row final-total">
                     <span>Tổng cộng:</span>
@@ -592,7 +593,7 @@ function Checkout() {
         </form>{" "}
         {/* Đóng thẻ form */}
       </div>
-        <ChatBubble></ChatBubble>
+      <ChatBubble></ChatBubble>
       <Footer />
     </div>
   );
