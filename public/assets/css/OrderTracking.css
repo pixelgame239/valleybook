@@ -1,0 +1,116 @@
+.tracking-section {
+  padding: 60px 0;
+}
+.tracking-steps {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.step-line-background {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #eee;
+  z-index: 0;
+}
+.tracking-step {
+  position: relative;
+  text-align: center;
+  flex: 1;
+  z-index: 1;
+}
+.tracking-step.completed .step-marker {
+  background-color: #ee626b;
+  border-color: #ee626b;
+  color: #fff;
+}
+.step-marker {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.step-details .step-title {
+  display: block;
+  font-weight: 600;
+}
+.step-details .step-date {
+  display: block;
+  font-size: 0.85em;
+  color: #777;
+}
+@media (max-width: 991px) {
+  .tracking-steps {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .step-line-background {
+    display: none;
+  }
+  .tracking-step:not(:last-child) {
+    margin-bottom: 20px;
+  }
+}
+.order-info {
+  margin: 40px auto;
+  max-width: 900px;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+.order-info h4 {
+  margin-bottom: 20px;
+  font-size: 1.3em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+.customer-info p {
+  margin: 5px 0;
+  font-size: 0.95em;
+}
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+.order-table th,
+.order-table td {
+  padding: 12px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.product-image {
+  width: 50px;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.totals {
+  max-width: 300px;
+  margin-left: auto;
+  font-size: 0.95em;
+}
+.totals div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.total-row {
+  font-weight: 600;
+  font-size: 1.1em;
+  margin-top: 10px;
+}

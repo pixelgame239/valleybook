@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../../public/assets/css/Cart.css";
 import { Link } from "react-router-dom";
 import ChatBubble from "../components/ChatBubble";
+import { AuthContext } from "../components/AuthContext";
+import { updateCartItems } from "../backend/userData";
 
 // --- Helper Functions for Cart ---
-const getCartItemsFromStorage = () => {
-  // Thay localStorage bằng sessionStorage
-  const items = sessionStorage.getItem("cartItems");
-  return items ? JSON.parse(items) : []; // Chỉ lấy từ storage, không dùng sample nữa
-};
-
-const saveCartItemsToStorage = (items) => {
-  // Thay localStorage bằng sessionStorage
-  sessionStorage.setItem("cartItems", JSON.stringify(items));
-};
-// --- End Helper Functions ---
-
-// --- Dữ liệu Voucher mẫu (Giữ nguyên) ---
-const VALID_VOUCHERS = {
-  GIAM10: { type: "percentage", value: 10 },
-  GIAM50K: { type: "fixed", value: 50000 },
-  FREESHIP: { type: "shipping", value: 0 },
-};
-// --- End Voucher mẫu ---
 
 // Hàm ánh xạ mã loại sách sang tên tiếng Việt
 const mapBookType = (typeCode) => {
@@ -41,12 +24,39 @@ const mapBookType = (typeCode) => {
 };
 
 function Cart() {
-  const [cartItems, setCartItems] = useState(getCartItemsFromStorage());
+  const [cartItems, setCartItems] = useState([]);
   const [voucherCode, setVoucherCode] = useState("");
   const [appliedVoucher, setAppliedVoucher] = useState(null);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [voucherMessage, setVoucherMessage] = useState({ text: "", type: "" });
-
+  const userInfo  = JSON.parse(localStorage.getItem("userInfo"));
+  const getCartItemsFromStorage = () => {
+      if(userInfo){
+        const items = localStorage.getItem("cart_items");
+        console.log(`user cart: ${items}`);
+        return items ? JSON.parse(items) : [];
+      }
+      else{
+        const items = sessionStorage.getItem("cart_items");
+        console.log(`None cart: ${items}`);
+        return items ? JSON.parse(items) : [];
+      }
+    };
+    
+    const saveCartItemsToStorage = async(items) => {
+      if(userInfo){
+        localStorage.setItem("cart_items", JSON.stringify(items));
+        await updateCartItems(userInfo.email, items);
+      }
+      else{
+        sessionStorage.setItem("cart_items", JSON.stringify(items));
+      }
+    };
+    useEffect(()=>{
+      const tempCart = getCartItemsFromStorage();
+      console.log(tempCart);
+      setCartItems(prev=>prev = tempCart);
+    },[])
   useEffect(() => {
     document.title = "Giỏ hàng - Valley Book";
     applyVoucherDiscount(appliedVoucher, cartItems);
@@ -64,7 +74,7 @@ function Cart() {
   );
 
   // Hàm cập nhật số lượng
-  const updateQuantity = (id, type, newQuantity) => {
+  const updateQuantity = async (id, type, newQuantity) => {
     if (newQuantity < 1) return;
     const updatedItems = cartItems.map((item) =>
       item.book_id === id && item.type === type // Phân biệt dựa trên cả id và type
@@ -72,17 +82,17 @@ function Cart() {
         : item
     );
     setCartItems(updatedItems);
-    saveCartItemsToStorage(updatedItems);
+    await saveCartItemsToStorage(updatedItems);
     // Tính lại giảm giá đã được tích hợp trong useEffect
   };
 
   // Hàm xóa sản phẩm
-  const removeItem = (id, type) => {
+  const removeItem = async (id, type) => {
     const updatedItems = cartItems.filter(
       (item) => !(item.book_id === id && item.type === type) // Phân biệt dựa trên cả id và type
     );
     setCartItems(updatedItems);
-    saveCartItemsToStorage(updatedItems);
+    await saveCartItemsToStorage(updatedItems);
     // Tính lại giảm giá đã được tích hợp trong useEffect
   };
 
@@ -233,8 +243,8 @@ function Cart() {
                         <td>
                           <div className="quantity-control">
                             <button
-                              onClick={() =>
-                                updateQuantity(
+                              onClick={async() =>
+                                await updateQuantity(
                                   item.book_id,
                                   item.type,
                                   item.quantity - 1
@@ -251,8 +261,8 @@ function Cart() {
                               readOnly // Nên để readOnly vì đã có nút +/-
                             />
                             <button
-                              onClick={() =>
-                                updateQuantity(
+                              onClick={async () =>
+                                await updateQuantity(
                                   item.book_id,
                                   item.type,
                                   item.quantity + 1
@@ -269,7 +279,7 @@ function Cart() {
                         </td>
                         <td>
                           <button
-                            onClick={() => removeItem(item.book_id, item.type)}
+                            onClick={async() => removeItem(item.book_id, item.type)}
                             className="remove-button"
                           >
                             <i className="fa fa-times"></i>

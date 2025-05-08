@@ -28,6 +28,8 @@ import Confirmation from "./pages/Confirmation";
 import Profile from "./pages/Profile";
 import Gacha from "./pages/Gacha.jsx";
 import OrderSuccess from "./pages/OrderSuccess";
+import OrderTracking from "./pages/OrderTracking";
+import OrderList from "./pages/OrderList";
 
 function App() {
   const audioRef = useRef(null);
@@ -149,6 +151,8 @@ function App() {
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/tracking" element={<OrderTracking />} />
+          <Route path="/orders" element={<OrderList />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
