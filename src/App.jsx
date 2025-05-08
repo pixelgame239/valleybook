@@ -39,7 +39,6 @@ function App() {
       if (audioRef.current) {
         audioRef.current.volume = 0.55;
         setIsAudioInitialized(true);
-        console.log("Audio initialized successfully");
       }
     };
 

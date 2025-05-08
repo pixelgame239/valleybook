@@ -81,7 +81,10 @@ function Header({ currentPage }) {
                 />
               </Link>
               {/* ***** Logo End ***** */}
-              <SearchInput />
+              <div id="search-input">
+                {" "}
+                <SearchInput />
+              </div>
               {/* ***** Menu Start ***** */}
               <ul className="nav">
                 <li>

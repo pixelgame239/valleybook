@@ -16,7 +16,6 @@ const BackgroundMusic = forwardRef(({ muted, onInit }, ref) => {
       audioRef.current.volume = 0.55;
       setIsInitialized(true);
       onInit?.();
-      console.log("Audio initialized successfully");
     }
   }, [audioRef.current, isInitialized]);
 

@@ -24,11 +24,12 @@
 .topic-text {
   flex: 3;
   color: rgb(12, 133, 254);
+  margin-top: 15px;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 20px;
   padding: 15px;
   white-space: pre-wrap;
-  line-height: 0.96;
+  line-height: 1.2;
   word-wrap: break-word; /* Breaks long words */
   overflow-wrap: break-word; /* Ensures wrapping for long content */
 }
@@ -98,7 +99,7 @@
   margin: 20px;
   color: rgb(12, 133, 254);
   font-weight: bold;
-  font-size: 35px;
+  font-size: 20px;
   text-decoration: underline;
 }
 .reply-container {
@@ -122,7 +123,7 @@
 
 /* Expanded state */
 .reply-box.expanded {
-  width: 90vw; /* Expands smoothly to full width */
+  width: 98vw; /* Expands smoothly to full width */
   background-color: white;
   animation: none;
 }
@@ -207,19 +208,19 @@
   height: auto;
   display: block; /* quan trọng để căn giữa chính xác */
 }
-.back-to-forum{
+.back-to-forum {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 30px;
+  left: 30px;
   color: rgb(54, 154, 254);
   cursor: pointer;
   width: fit-content;
   z-index: 9999;
 }
-.back-to-forum:hover{
+.back-to-forum:hover {
   color: dodgerblue;
 }
-.topic-interaction{
+.topic-interaction {
   position: absolute;
   width: 10%;
   top: 15px;
@@ -229,17 +230,18 @@
   align-items: center;
   display: flex;
 }
-.edit-topic{
+.edit-topic {
   color: rgb(33, 174, 255);
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.delete-topic{
+.delete-topic {
   color: red;
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.edit-topic:hover, .delete-topic:hover{
+.edit-topic:hover,
+.delete-topic:hover {
   transform: scale(1.09);
 }
 
