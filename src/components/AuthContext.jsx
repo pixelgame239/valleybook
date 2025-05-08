@@ -14,6 +14,12 @@ export const AuthProvider = ({ children }) => {
         console.log("Fetching user data for email:", email); // Debug log
         const tempData = await getUserData(email);
         localStorage.setItem("userInfo", JSON.stringify(tempData));
+        if(tempData.cart_items==null){
+          localStorage.setItem("cart_items", "[]");
+        }
+        else{
+          localStorage.setItem("cart_items", JSON.stringify(tempData.cart_items));
+        }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
@@ -38,14 +44,15 @@ export const AuthProvider = ({ children }) => {
       (event, session) => {
         if (event === "SIGNED_IN") {
           console.log("User signed in:", session.user.email); // Debug log
-
           setLoggedIn(true);
           setUserdata(session.user);
           fetchUserInfo(session.user.email);
+          sessionStorage.removeItem("cart_items");
         } else if (event === "SIGNED_OUT") {
           setLoggedIn(false);
           setUserdata(null);
           localStorage.removeItem("userInfo");
+          localStorage.removeItem("cart_items");
         }
       }
     );

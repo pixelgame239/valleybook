@@ -30,7 +30,7 @@ function Header({ currentPage }) {
   };
 
   const toggleDropdown = () => {
-    setShowDropdown((prev) => (prev = !prev));
+    setShowDropdown((prev) => (!prev));
   };
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -136,16 +136,17 @@ function Header({ currentPage }) {
                           left: "75%",
                         }}
                       >
-                        {userInfo ? (
-                          <NotificationSign items={userInfo.cart_items} />
-                        ) : (
-                          (() => {
-                            const cartItems = JSON.parse(
-                              sessionStorage.getItem("cartItems")
-                            );
-                            return <NotificationSign items={cartItems} />;
-                          })()
-                        )}
+                      {userInfo ? (
+                              (() => {
+                                const cartItems = JSON.parse(localStorage.getItem("cart_items"));
+                                return <NotificationSign items={cartItems} />;
+                              })()
+                            ) : (
+                              (() => {
+                                const cartItems = JSON.parse(sessionStorage.getItem("cart_items"));
+                                return <NotificationSign items={cartItems} />;
+                              })()
+                            )}
                       </div>
                     </button>
                   </Link>
