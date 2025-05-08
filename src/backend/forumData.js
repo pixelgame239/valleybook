@@ -220,16 +220,21 @@ export async function editTopic(topicID, topicContent, topicImage) {
 }
 
 export async function getTop3LikedPosts() {
-  const { data, error } = await supabase
-    .from("forum")
-    .select("*, array_length(like_count, 1)")
-    .order("array_length", { ascending: false })
-    .limit(3);
+  // First, get all posts
+  const { data: posts, error } = await supabase.from("forum").select("*");
 
-  if (!error) {
-    return data;
-  } else {
-    console.log("Error fetching top liked posts:", error);
+  if (error) {
+    console.error("Error fetching posts:", error);
     return [];
   }
+
+  // Sort posts by the length of like_count array in descending order
+  const sortedPosts = posts.sort((a, b) => {
+    const aLikes = a.like_count?.length || 0;
+    const bLikes = b.like_count?.length || 0;
+    return bLikes - aLikes;
+  });
+
+  // Return top 3 posts
+  return sortedPosts.slice(0, 3);
 }

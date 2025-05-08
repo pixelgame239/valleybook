@@ -123,7 +123,7 @@
 
 /* Expanded state */
 .reply-box.expanded {
-  width: 90vw; /* Expands smoothly to full width */
+  width: 98vw; /* Expands smoothly to full width */
   background-color: white;
   animation: none;
 }

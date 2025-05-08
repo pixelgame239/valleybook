@@ -36,7 +36,7 @@
   padding: 10px;
   /* Đổi màu border từ xanh nhạt sang #0171F9 hoặc một sắc thái của nó */
   border: 1px solid #0171f9; /* Đổi màu border */
-  border-radius: 5px;
+  border-radius: 5px !important;
 }
 
 .login-page .input-group input:focus {
