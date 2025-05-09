@@ -69,7 +69,7 @@ export const BookCreate = (props) => (
   <Create {...props}>
     <SimpleForm>
       {/* book_id là khóa chính, bắt buộc khi tạo mới */}
-      <TextInput source="book_id" required label="Book ID" />
+      {/* <TextInput source="book_id" required label="Book ID" /> */}
       {/* book_name cũng có thể là bắt buộc */}
       <TextInput source="book_name" required label="Book Name" />
       <TextInput source="description" label="Description" multiline />

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import supabase from "../backend/initSupabase";
-import { getUserData } from "../backend/userData";
+import { getUserDataByUsername } from "../backend/userData"; // Updated import
 import "./EditAccount.css";
 
 function EditAccount() {
-  // Here the route parameter id is expected to be the user's email.
+  // Here the route parameter id is the username (primary key)
   const { id } = useParams();
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
@@ -19,14 +19,8 @@ function EditAccount() {
 
   useEffect(() => {
     async function fetchAccount() {
-      // If the route parameter is not a valid email, show error.
-      // if (!id.includes("@")) {
-      //   setErrorMessage("Không tìm thấy thông tin tài khoản.");
-      //   return;
-      // }
-
-      // Fetch account data by email
-      const data = await getUserData(id);
+      // Use getUserDataByUsername to lookup by username
+      const data = await getUserDataByUsername(id);
       if (data) {
         setAccount(data);
         setFormData({
@@ -49,13 +43,13 @@ function EditAccount() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Exclude username from update since it's the primary key
+    // Exclude username from update as it's the primary key
     const { username, ...updatedData } = formData;
-    // Update by matching the email (which is passed as id)
+
     const { error } = await supabase
       .from("accounts")
       .update(updatedData)
-      .eq("email", id);
+      .eq("username", id);
 
     if (error) {
       setErrorMessage("Có lỗi xảy ra khi cập nhật tài khoản.");
@@ -78,9 +72,7 @@ function EditAccount() {
       <h2>Chỉnh sửa tài khoản</h2>
       <form onSubmit={handleSubmit} className="edit-account-form">
         <div className="form-group">
-          <label htmlFor="username">
-            Tên đăng nhập (không thể chỉnh sửa - khóa chính)
-          </label>
+          <label htmlFor="username">Tên đăng nhập</label>
           <input
             type="text"
             id="username"

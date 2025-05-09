@@ -12,6 +12,19 @@ export async function getUserData(userEmail) {
     return null;
   }
 }
+
+export async function getUserDataByUsername(username) {
+  const { data, error } = await supabase
+    .from("accounts")
+    .select("username, email, phone_number, address, user_voucher, cart_items")
+    .eq("username", username)
+    .single();
+  if (error) {
+    console.error("Error fetching user data by username:", error);
+    return null;
+  }
+  return data;
+}
 export async function signUpNewUser(
   username,
   userEmail,
