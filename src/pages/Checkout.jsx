@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import "../../public/assets/css/Checkout.css"; // Đảm bảo bạn đã tạo và thêm CSS vào file này
 import ChatBubble from "../components/ChatBubble";
 import { getVoucher } from "../backend/voucherData";
+import { insertOrder } from "../backend/orderData";
 
 // --- Helper Functions for Cart ---
 // --- End Helper Functions ---
@@ -114,11 +115,15 @@ function Checkout() {
     [cartItems]
   );
 
+  const [discountAmount, setDiscountAmount] = useState(() => {
+    return parseFloat(sessionStorage.getItem("discountAmount") || "0");
+  });
+
   // Lấy discount từ sessionStorage (chỉ lấy 1 lần)
-  const discountAmount = useMemo(
-    () => parseFloat(sessionStorage.getItem("discountAmount") || "0"),
-    []
-  );
+  // const discountAmount = useMemo(
+  //   () => parseFloat(sessionStorage.getItem("discountAmount") || "0"),
+  //   []
+  // );
 
   // --- Cập nhật logic tính phí vận chuyển ---
   const calculateShippingCost = (provinceCode) => {
@@ -183,7 +188,6 @@ function Checkout() {
 
   // Hàm xử lý đặt hàng
   const handleSubmitOrder = async (e) => {
-    // Thêm async nếu gọi API
     e.preventDefault();
 
     const validationErrors = validateForm();
@@ -198,8 +202,8 @@ function Checkout() {
       return;
     }
 
-    // --- Xử lý gửi đơn hàng ---
-    const orderData = {
+    // Prepare order data
+    const orderDetails = {
       customerInfo: formData,
       items: cartItems,
       paymentMethod: paymentMethod,
@@ -207,46 +211,24 @@ function Checkout() {
       subtotal: subtotalAmount,
       discount: discountAmount,
       total: finalTotalAmount,
-      createdAt: new Date().toISOString(), // Thêm thời gian tạo đơn
-      // Thêm thông tin người dùng nếu đã đăng nhập
-      // userId: supabase.auth.user()?.id || null,
+      createdAt: new Date().toISOString(),
     };
 
-    console.log("--- Chuẩn bị gửi đơn hàng ---");
-    console.log(orderData);
-
-    // --- TODO: Gửi dữ liệu lên Backend/API ---
     try {
-      // setLoading(true); // Bắt đầu loading nếu cần
-      // const response = await fetch('/api/orders', { // Ví dụ endpoint API
-      //     method: 'POST',
-      //     headers: { 'Content-Type': 'application/json' },
-      //     body: JSON.stringify(orderData),
-      // });
-      // if (!response.ok) {
-      //     throw new Error('Đặt hàng thất bại!');
-      // }
-      // const result = await response.json();
-      // console.log('Đặt hàng thành công:', result);
+      // Insert order into database
+      const result = await insertOrder(orderDetails);
+      console.log("Order inserted successfully:", result);
 
-      // --- Giả lập thành công ---
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Giả lập chờ API
-      console.log("Đặt hàng thành công!"); // Thay alert bằng console.log hoặc thông báo khác nếu muốn
-
-      // Xóa thông tin giỏ hàng và giảm giá sau khi đặt hàng thành công
+      // Clear cart and discount after successful order
       sessionStorage.removeItem("cart_items");
-      sessionStorage.removeItem("discountAmount"); // Xóa cả discount nếu có
+      sessionStorage.removeItem("discountAmount");
 
-      // Chuyển hướng đến trang đặt hàng thành công
-      navigate("/order-success"); // <<< THAY ĐỔI CHỖ NÀY
-
-      // setLoading(false); // Kết thúc loading
+      // Navigate to success page
+      navigate("/order-success");
     } catch (error) {
-      console.error("Lỗi đặt hàng:", error);
+      console.error("Error placing order:", error);
       alert("Đã có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.");
-      // setLoading(false); // Kết thúc loading
     }
-    // --- Hết phần gửi Backend ---
   };
   // --- Fetch dữ liệu tỉnh/thành phố ---
   useEffect(() => {
