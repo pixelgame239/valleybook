@@ -22,21 +22,28 @@ export const insertOrder = async (orderDetails) => {
   }
 };
 
-// Hàm lấy tất cả đơn hàng (hoặc có thể thêm filter theo người dùng nếu cần)
-export const getAllOrders = async () => {
+// Hàm lấy tất cả đơn hàng của một người dùng dựa trên email
+export const getAllOrders = async (userEmail) => {
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from("orders")
       .select(
         `
-        order_id, 
-        created_at, 
-        total_price, 
-        status, 
-        order_details->customerInfo->>fullName as customer_name 
+        order_id,
+        created_at,
+        total_price,
+        status,
+        order_details->customerInfo->>fullName as customer_name
       `
-      ) // Ví dụ: lấy tên khách hàng từ JSON
+      )
       .order("created_at", { ascending: false }); // Sắp xếp theo ngày tạo mới nhất
+
+    // Thêm điều kiện lọc theo email nếu userEmail được cung cấp
+    if (userEmail) {
+      query = query.eq("email", userEmail);
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error;
     return data;
