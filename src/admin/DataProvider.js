@@ -17,6 +17,9 @@ const dataProvider = supabaseDataProvider({
     ["accounts", ["username"]],
     ["books", ["book_id"]],
     ["orders", ["order_id"]],
+    ["voucher", ["voucher_id"]], // 👈 Thêm dòng này
+    ["genres", ["genre_name"]], // 👈 Thêm dòng này
+    ["authors", ["author_id"]], // 👈 Thêm dòng này
   ]),
   // Các cấu hình khác nếu cần, ví dụ:
   // defaultPagination: { page: 1, perPage: 25 },

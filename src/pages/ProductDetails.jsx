@@ -17,7 +17,7 @@ import ChatBubble from "../components/ChatBubble.jsx";
 import { updateCartItems } from "../backend/userData.js";
 
 // --- Helper Functions for Cart ---
-function ProductDetails() {
+function ProductDetails({ onMusicControl }) {
   const [showTrialModal, setShowTrialModal] = useState(false);
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [isBackgroundMuted, setIsBackgroundMuted] = useState(false);
@@ -47,27 +47,25 @@ function ProductDetails() {
     1: 0,
   });
   const getCartItemsFromStorage = () => {
-    if(userInfo){
+    if (userInfo) {
       const items = localStorage.getItem("cart_items");
       return items ? JSON.parse(items) : [];
-    }
-    else{
+    } else {
       const items = sessionStorage.getItem("cart_items");
       return items ? JSON.parse(items) : [];
     }
   };
-  
-  const saveCartItemsToStorage = async(items) => {
-    if(userInfo){
+
+  const saveCartItemsToStorage = async (items) => {
+    if (userInfo) {
       await updateCartItems(userInfo.email, items);
       localStorage.setItem("cart_items", JSON.stringify(items));
-    }
-    else{
+    } else {
       sessionStorage.setItem("cart_items", JSON.stringify(items));
     }
   };
   // --- End Helper Functions ---
-  
+
   // Hàm map loại sách
   const mapBookType = (typeCode) => {
     switch (typeCode) {
@@ -172,11 +170,15 @@ function ProductDetails() {
       }
     };
     supabase
-    .channel('room1')
-    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'books' }, async payload => {
-      await fetchBookDetail();
-    })
-    .subscribe()
+      .channel("room1")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "books" },
+        async (payload) => {
+          await fetchBookDetail();
+        }
+      )
+      .subscribe();
     fetchBookDetail();
   }, [id]);
 
@@ -195,7 +197,7 @@ function ProductDetails() {
   };
 
   // --- CẬP NHẬT HÀM NÀY ---
-  const handleAddToCart = async() => {
+  const handleAddToCart = async () => {
     if (!book) return;
     const cartItems = getCartItemsFromStorage();
     const existingItemIndex = cartItems.findIndex(
@@ -571,7 +573,7 @@ function ProductDetails() {
                 />
                 <button
                   type="button"
-                  onClick={async()=>handleAddToCart()}
+                  onClick={async () => handleAddToCart()}
                   className="orange-button add-to-cart-button"
                 >
                   <i className="fa fa-shopping-bag"></i> Thêm vào giỏ hàng
@@ -681,15 +683,19 @@ function ProductDetails() {
                     ))}
                   </div>
                   {/* ... (Phần form viết đánh giá giữ nguyên) ... */}
-                  {userInfo && !showReviewForm && !book.reviews.some(review => review.username === userInfo.username) &&(
-                    <button
-                      onClick={handleWriteReviewClick}
-                      className="orange-button write-review-button"
-                    >
-                      <i className="fas fa-pencil-alt"></i> Viết đánh giá của
-                      bạn
-                    </button>
-                  )}
+                  {userInfo &&
+                    !showReviewForm &&
+                    !book.reviews.some(
+                      (review) => review.username === userInfo.username
+                    ) && (
+                      <button
+                        onClick={handleWriteReviewClick}
+                        className="orange-button write-review-button"
+                      >
+                        <i className="fas fa-pencil-alt"></i> Viết đánh giá của
+                        bạn
+                      </button>
+                    )}
 
                   {/* Form chỉ hiện khi showReviewForm là true (và userInfo đã được kiểm tra khi click nút) */}
                   {showReviewForm && (

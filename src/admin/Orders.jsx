@@ -1,5 +1,6 @@
 // src/admin/orders.js
 import React from "react";
+import EditOrder from "../pages/EditOrder";
 // Import các components cần thiết
 import {
   List,
@@ -44,25 +45,9 @@ export const OrderList = (props) => (
 );
 
 // Component chỉnh sửa đơn hàng
-export const OrderEdit = (props) => (
-  <Edit {...props}>
-    <SimpleForm>
-      {/* order_id là khóa chính, hiển thị nhưng disabled khi chỉnh sửa */}
-      <TextInput source="order_id" disabled label="Order ID (Primary Key)" />
-      {/* username: hiện tại dùng TextInput, có thể nâng cấp ReferenceInput */}
-      <TextInput source="username" label="Username" />
-      {/* created_at: không chỉnh sửa */}
-      {/* order_details: dùng TextInput, multiline nếu nội dung dài */}
-      <TextInput source="order_details" label="Order Details" multiline />
-      {/* total_price: dùng NumberInput */}
-      <NumberInput source="total_price" label="Total Price" />
-      {/* status: dùng TextInput, có thể nâng cấp SelectInput với các lựa chọn */}
-      <TextInput source="status" label="Status" />
-      {/* payment_method: dùng TextInput, có thể nâng cấp SelectInput */}
-      <TextInput source="payment_method" label="Payment Method" />
-    </SimpleForm>
-  </Edit>
-);
+export const OrderEdit = () => {
+  return <EditOrder />;
+};
 
 // Component thêm mới đơn hàng
 export const OrderCreate = (props) => (
