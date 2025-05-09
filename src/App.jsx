@@ -30,6 +30,11 @@ import Gacha from "./pages/Gacha.jsx";
 import OrderSuccess from "./pages/OrderSuccess";
 import OrderTracking from "./pages/OrderTracking";
 import OrderList from "./pages/OrderList";
+import EditBook from "./pages/EditBook";
+import EditAccount from "./pages/EditAccount"; // <-- Import EditAccount component
+import EditOrder from "./pages/EditOrder"; // <-- Import EditOrder component
+import EditVoucher from "./pages/EditVoucher";
+import EditAuthor from "./pages/EditAuthor";
 
 function App() {
   const audioRef = useRef(null);
@@ -113,8 +118,13 @@ function App() {
               />
             }
           />
-          <Route path="/admin/books/:id" element={<Cart />} />
-          
+          <Route path="/admin/books/:id" element={<EditBook />} />
+          <Route path="/admin/accounts/:id" element={<EditAccount />} />{" "}
+          <Route path="/admin/orders/:id" element={<EditOrder />} />{" "}
+          <Route path="/admin/voucher/:id" element={<EditVoucher />} />
+          <Route path="/admin/authors/:id" element={<EditAuthor />} />
+          {/* New route for editing orders */}
+          {/* Updated route for accounts */}
           <Route path="/signIn" element={<LoginPage />} />
           <Route path="/signUp" element={<Signup></Signup>}></Route>
           <Route path="/policy" element={<Policy />} />
@@ -128,7 +138,6 @@ function App() {
           <Route path="/adminChat" element={<AdminChatScreen />} />
           <Route path="/setNewPassword" element={<SetNewPassword />} />
           <Route path="/gacha" element={<Gacha />} />
-
           <Route
             path="/forum"
             element={
@@ -141,7 +150,6 @@ function App() {
             path="/forum/:id"
             element={<ForumDetailPage></ForumDetailPage>}
           ></Route>
-
           {/* THÊM ROUTE CHO ADMIN PANEL */}
           <Route
             path="/admin/*" // <-- ĐẢM BẢO ĐƯỜNG DẪN CHÍNH XÁC
