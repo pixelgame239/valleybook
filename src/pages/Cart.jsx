@@ -29,38 +29,36 @@ function Cart() {
   const [appliedVoucher, setAppliedVoucher] = useState(null);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [voucherMessage, setVoucherMessage] = useState({ text: "", type: "" });
-  const userInfo  = JSON.parse(localStorage.getItem("userInfo"));
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const getCartItemsFromStorage = () => {
-      if(userInfo){
-        const items = localStorage.getItem("cart_items");
-        console.log(`user cart: ${items}`);
-        return items ? JSON.parse(items) : [];
-      }
-      else{
-        const items = sessionStorage.getItem("cart_items");
-        console.log(`None cart: ${items}`);
-        return items ? JSON.parse(items) : [];
-      }
-    };
-    
-    const saveCartItemsToStorage = async(items) => {
-      if(userInfo){
-        localStorage.setItem("cart_items", JSON.stringify(items));
-        await updateCartItems(userInfo.email, items);
-      }
-      else{
-        sessionStorage.setItem("cart_items", JSON.stringify(items));
-      }
-    };
-    useEffect(()=>{
-      const tempCart = getCartItemsFromStorage();
-      console.log(tempCart);
-      setCartItems(prev=>prev = tempCart);
-    },[])
+    if (userInfo) {
+      const items = localStorage.getItem("cart_items");
+      console.log(`user cart: ${items}`);
+      return items ? JSON.parse(items) : [];
+    } else {
+      const items = sessionStorage.getItem("cart_items");
+      console.log(`None cart: ${items}`);
+      return items ? JSON.parse(items) : [];
+    }
+  };
+
+  const saveCartItemsToStorage = async (items) => {
+    if (userInfo) {
+      localStorage.setItem("cart_items", JSON.stringify(items));
+      await updateCartItems(userInfo.email, items);
+    } else {
+      sessionStorage.setItem("cart_items", JSON.stringify(items));
+    }
+  };
+  useEffect(() => {
+    const tempCart = getCartItemsFromStorage();
+    console.log(tempCart);
+    setCartItems((prev) => (prev = tempCart));
+  }, []);
   useEffect(() => {
     document.title = "Giỏ hàng - Valley Book";
     applyVoucherDiscount(appliedVoucher, cartItems);
-  }, [cartItems, appliedVoucher]); 
+  }, [cartItems, appliedVoucher]);
 
   // --- Tính tổng tiền tạm tính (sử dụng price_at_cart) ---
   const calculateSubtotalForItem = (item) => {
@@ -122,27 +120,7 @@ function Cart() {
   };
 
   // Hàm xử lý khi nhấn nút Áp dụng Voucher
-  const handleApplyVoucher = () => {
-    const code = voucherCode.trim().toUpperCase();
-    const voucher = VALID_VOUCHERS[code];
 
-    if (voucher) {
-      setAppliedVoucher(voucher);
-      applyVoucherDiscount(voucher, cartItems); // Cập nhật state giảm giá
-      setVoucherMessage({
-        text: `Áp dụng thành công voucher "${code}"!`,
-        type: "success",
-      });
-    } else {
-      setAppliedVoucher(null);
-      setDiscountAmount(0);
-      setVoucherMessage({
-        text: "Mã voucher không hợp lệ hoặc đã hết hạn.",
-        type: "error",
-      });
-    }
-    setTimeout(() => setVoucherMessage({ text: "", type: "" }), 4000);
-  };
 
   // Tính tổng tiền cuối cùng
   const finalTotalAmount = subtotalAmount - discountAmount;
@@ -243,7 +221,7 @@ function Cart() {
                         <td>
                           <div className="quantity-control">
                             <button
-                              onClick={async() =>
+                              onClick={async () =>
                                 await updateQuantity(
                                   item.book_id,
                                   item.type,
@@ -279,7 +257,9 @@ function Cart() {
                         </td>
                         <td>
                           <button
-                            onClick={async() => removeItem(item.book_id, item.type)}
+                            onClick={async () =>
+                              removeItem(item.book_id, item.type)
+                            }
                             className="remove-button"
                           >
                             <i className="fa fa-times"></i>
@@ -299,32 +279,6 @@ function Cart() {
                     <span>Tạm tính:</span>
                     <span>{subtotalAmount.toLocaleString()}đ</span>
                   </div>
-
-                  {/* Phần Voucher */}
-                  <div className="voucher-section">
-                    <label htmlFor="voucher">Mã giảm giá:</label>
-                    <div className="voucher-input-group">
-                      <input
-                        type="text"
-                        id="voucher"
-                        placeholder="Nhập mã voucher"
-                        value={voucherCode}
-                        onChange={(e) => setVoucherCode(e.target.value)}
-                      />
-                      <button
-                        onClick={handleApplyVoucher}
-                        className="apply-voucher-button"
-                      >
-                        Áp dụng
-                      </button>
-                    </div>
-                    {voucherMessage.text && (
-                      <p className={`voucher-message ${voucherMessage.type}`}>
-                        {voucherMessage.text}
-                      </p>
-                    )}
-                  </div>
-                  {/* Hết Phần Voucher */}
 
                   {discountAmount > 0 && (
                     <div className="summary-row discount-row">
@@ -350,7 +304,7 @@ function Cart() {
           )}
         </div>
       </div>
-          <ChatBubble />
+      <ChatBubble />
       <Footer />
     </div>
   );

@@ -4,6 +4,35 @@
   padding: 40px 0;
 }
 
+.voucher-select-group {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.voucher-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.voucher-select:focus {
+  outline: none;
+  border-color: #0171f9;
+}
+
+.voucher-select option {
+  padding: 10px;
+}
+
+/* Xóa các style không cần thiết của input và button cũ */
+.voucher-input-group {
+  display: none;
+}
+
 .checkout-block {
   background-color: #f8f9fa;
   padding: 25px;
