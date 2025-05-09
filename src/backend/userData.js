@@ -21,3 +21,9 @@ export async function updateCartItems(email, items){
         console.log(error);
     }
 }
+export async function updateVoucherItems(email, items){
+    const {data, error} = await supabase.from("accounts").update({ user_voucher: items }).eq("email", email);
+    if(error){
+        console.log(error);
+    }
+}

@@ -20,3 +20,11 @@ export async function getVoucher(type) {
         return filteredData;
     }
 }
+export async function getUserVoucher(voucherList) {
+    const { data, error } = await supabase.from("voucher").select().in("voucher_id", voucherList);
+    if(error){
+        console.log(error);
+        return [];
+    }
+    return data;
+}
