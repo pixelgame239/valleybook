@@ -1,5 +1,6 @@
 .edit-order-container {
-  max-width: 600px;
+  width: 75vw; /* Occupy 90% of the viewport width */
+  max-width: none;
   margin: 30px auto;
   padding: 20px;
   border: 1px solid #0171f9;

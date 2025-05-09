@@ -1,5 +1,6 @@
 // src/admin/accounts.js
 import React from "react";
+import EditAccount from "../pages/EditAccount";
 // Import các components cần thiết cho List, Edit, Create và các input
 import {
   List,
@@ -34,26 +35,9 @@ export const AccountList = (props) => (
 );
 
 // Component chỉnh sửa tài khoản
-export const AccountEdit = (props) => (
-  <Edit {...props}>
-    {" "}
-    {/* props từ react-admin (chứa id của record) */}
-    <SimpleForm>
-      {" "}
-      {/* Form đơn giản */}
-      {/* Trường khóa chính thường không được chỉnh sửa hoặc là disabled */}
-      {/* source="username" ở đây là tên cột trong database */}
-      <TextInput source="username" disabled label="Username (Primary Key)" />
-      {/* Các input cho các trường có thể chỉnh sửa */}
-      <EmailField source="email" />
-      <TextInput source="name_alias" />
-      <TextInput source="phone_number" />
-      {/* Input cho trường boolean (black_list) */}
-      <BooleanInput source="black_list" />
-      {/* created_at thường được quản lý bởi database, không cần input */}
-    </SimpleForm>
-  </Edit>
-);
+export const AccountEdit = () => {
+  return <EditAccount />;
+};
 
 // Component thêm mới tài khoản
 export const AccountCreate = (props) => (

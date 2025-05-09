@@ -5,37 +5,35 @@ import { getUserData } from "../backend/userData";
 import "./EditAccount.css";
 
 function EditAccount() {
-  // Here the route parameter id is the username (primary key)
+  // Here the route parameter id is expected to be the user's email.
   const { id } = useParams();
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
   const [formData, setFormData] = useState({
     username: "",
-    password: "",
     email: "",
     phone_number: "",
     address: "",
-    user_voucher: "",
-    cart_items: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     async function fetchAccount() {
-      // getUserData should now lookup by username
+      // If the route parameter is not a valid email, show error.
+      // if (!id.includes("@")) {
+      //   setErrorMessage("Không tìm thấy thông tin tài khoản.");
+      //   return;
+      // }
+
+      // Fetch account data by email
       const data = await getUserData(id);
       if (data) {
         setAccount(data);
         setFormData({
           username: data.username || "",
-          // For security reasons, we leave password field empty unless set intentionally
-          password: "",
           email: data.email || "",
           phone_number: data.phone_number || "",
           address: data.address || "",
-          user_voucher: data.user_voucher || "",
-          // Display cart_items as a JSON string if present
-          cart_items: data.cart_items ? JSON.stringify(data.cart_items) : "",
         });
       } else {
         setErrorMessage("Không tìm thấy thông tin tài khoản.");
@@ -51,27 +49,13 @@ function EditAccount() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Exclude username from update as it's the primary key
-    const { username, password, ...updatedData } = formData;
-    // If password is provided update it; otherwise leave it unchanged
-    if (password) {
-      updatedData.password = password;
-    }
-    // Process cart_items: if empty string, set to empty array; otherwise, try parsing.
-    if (updatedData.cart_items.trim() === "") {
-      updatedData.cart_items = [];
-    } else {
-      try {
-        updatedData.cart_items = JSON.parse(updatedData.cart_items);
-      } catch (parseError) {
-        console.error("Error parsing cart_items JSON:", parseError);
-        updatedData.cart_items = []; // fallback to empty array
-      }
-    }
+    // Exclude username from update since it's the primary key
+    const { username, ...updatedData } = formData;
+    // Update by matching the email (which is passed as id)
     const { error } = await supabase
       .from("accounts")
       .update(updatedData)
-      .eq("username", id);
+      .eq("email", id);
 
     if (error) {
       setErrorMessage("Có lỗi xảy ra khi cập nhật tài khoản.");
@@ -106,19 +90,6 @@ function EditAccount() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">
-            Mật khẩu (nhập vào nếu muốn thay đổi)
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Để trống nếu không thay đổi"
-          />
-        </div>
-        <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -148,26 +119,6 @@ function EditAccount() {
             name="address"
             value={formData.address}
             onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="user_voucher">Voucher của người dùng</label>
-          <input
-            type="text"
-            id="user_voucher"
-            name="user_voucher"
-            value={formData.user_voucher}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="cart_items">Giỏ hàng (JSON)</label>
-          <textarea
-            id="cart_items"
-            name="cart_items"
-            value={formData.cart_items}
-            onChange={handleChange}
-            rows="5"
           />
         </div>
         <button type="submit" className="submit-btn">

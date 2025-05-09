@@ -1,4 +1,5 @@
 import React from "react";
+import EditVoucher from "../pages/EditVoucher";
 import {
   List,
   Datagrid,
@@ -27,18 +28,9 @@ export const VoucherList = (props) => (
   </List>
 );
 
-export const VoucherEdit = (props) => (
-  <Edit {...props}>
-    <SimpleForm>
-      <TextInput disabled source="voucher_id" label="Voucher ID" />
-      <NumberInput source="quantity" label="Quantity" />
-      <TextInput source="detail" label="Detail" />
-      <NumberInput source="discount" label="Discount" />
-      <DateField source="created_at" label="Created At" />
-      <TextInput source="used_user" label="Used User" />
-    </SimpleForm>
-  </Edit>
-);
+export const VoucherEdit = () => {
+  return <EditVoucher />;
+};
 
 export const VoucherCreate = (props) => (
   <Create {...props}>

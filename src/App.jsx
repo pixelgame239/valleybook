@@ -118,11 +118,11 @@ function App() {
               />
             }
           />
-          <Route path="/admin/books/:id" element={<EditBook />} />
-          <Route path="/admin/accounts/:id" element={<EditAccount />} />{" "}
+          {/* <Route path="/admin/books/:id" element={<EditBook />} /> */}
+          {/* <Route path="/admin/accounts/:id" element={<EditAccount />} />{" "}
           <Route path="/admin/orders/:id" element={<EditOrder />} />{" "}
           <Route path="/admin/voucher/:id" element={<EditVoucher />} />
-          <Route path="/admin/authors/:id" element={<EditAuthor />} />
+          <Route path="/admin/authors/:id" element={<EditAuthor />} /> */}
           {/* New route for editing orders */}
           {/* Updated route for accounts */}
           <Route path="/signIn" element={<LoginPage />} />

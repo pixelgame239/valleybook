@@ -1,5 +1,6 @@
 // src/admin/books.js
 import React from "react";
+import EditBook from "../pages/EditBook";
 // Import các components cần thiết cho List, Edit, Create và các input
 import {
   List,
@@ -34,9 +35,12 @@ const TruncatedTextField = ({ source, maxLength = 100 }) => {
 // Component hiển thị danh sách sách (giữ nguyên, đã dùng TruncatedTextField)
 export const BookList = (props) => (
   <List {...props}>
-    <Datagrid rowClick="edit">
-      {" "}
-      {/* rowClick="edit" cho phép click vào dòng để chỉnh sửa */}
+    <Datagrid
+      rowClick={(id, basePath, record) => {
+        // Always navigate to the edit view for the clicked record.
+        return "edit";
+      }}
+    >
       <TextField source="book_id" label="Book ID" />
       <TextField source="book_name" label="Book Name" />
       <TruncatedTextField
@@ -47,8 +51,7 @@ export const BookList = (props) => (
       <NumberField source="price" label="Price" />
       <NumberField source="quantity" label="Quantity" />
       <NumberField source="discount" label="Discount" />
-      <TextField source="author_id" label="Author ID" />{" "}
-      {/* Hiển thị ID tác giả */}
+      <TextField source="author_id" label="Author ID" />
       <DateField source="created_at" label="Created At" showTime />
       <ImageField source="url_image" label="Image" title="book_name" />
       <TextField source="reviews" label="Reviews" />
@@ -57,27 +60,9 @@ export const BookList = (props) => (
 );
 
 // --- Component chỉnh sửa sách ---
-export const BookEdit = (props) => (
-  <Edit {...props}>
-    <SimpleForm>
-      {/* book_id là khóa chính, hiển thị nhưng disabled khi chỉnh sửa */}
-      <TextInput source="book_id" disabled label="Book ID (Primary Key)" />
-      <TextInput source="book_name" label="Book Name" />
-      {/* Sử dụng multiline cho các trường văn bản dài */}
-      <TextInput source="description" label="Description" multiline />
-      <NumberInput source="price" label="Price" />
-      <NumberInput source="quantity" label="Quantity" />
-      <NumberInput source="discount" label="Discount" />
-      {/* author_id: hiện tại dùng TextInput, có thể nâng cấp lên ReferenceInput sau */}
-      <TextInput source="author_id" label="Author ID" />
-      {/* url_image: hiện tại dùng TextInput cho URL, có thể nâng cấp lên ImageInput sau */}
-      <TextInput source="url_image" label="Image URL" />
-      {/* reviews: sử dụng multiline nếu là văn bản dài */}
-      <TextInput source="reviews" label="Reviews" multiline />
-      {/* created_at thường không chỉnh sửa */}
-    </SimpleForm>
-  </Edit>
-);
+export const BookEdit = () => {
+  return <EditBook />;
+};
 
 // --- Component thêm mới sách ---
 export const BookCreate = (props) => (

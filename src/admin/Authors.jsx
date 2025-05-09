@@ -1,4 +1,5 @@
 import React from "react";
+import EditAuthor from "../pages/EditAuthor";
 import {
   List,
   Datagrid,
@@ -23,16 +24,9 @@ export const AuthorList = (props) => (
   </List>
 );
 
-export const AuthorEdit = (props) => (
-  <Edit {...props}>
-    <SimpleForm>
-      <TextInput disabled source="author_id" label="Author ID" />
-      <TextInput source="author_name" label="Author Name" />
-      <TextInput multiline source="biography" label="Biography" />
-      <DateField source="created_at" label="Created At" />
-    </SimpleForm>
-  </Edit>
-);
+export const AuthorEdit = (props) => {
+  return <EditAuthor />;
+};
 
 export const AuthorCreate = (props) => (
   <Create {...props}>
