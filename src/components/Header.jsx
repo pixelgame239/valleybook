@@ -207,12 +207,6 @@ function Header({ currentPage }) {
                       {showDropdown && (
                         <div className="dropdown-menu">
                           <ul>
-                            <li
-                              onClick={handleSignOut}
-                              style={{ textAlign: "center" }}
-                            >
-                              Đăng xuất
-                            </li>
                             <li>
                               <Link
                                 to="/profile"
@@ -224,6 +218,24 @@ function Header({ currentPage }) {
                               >
                                 Hồ sơ
                               </Link>
+                            </li>
+                            {userInfo.email==="admin1@valleybook.com"?
+                            <li>
+                              <Link
+                              to="/admin"
+                              style={{
+                                color: "black",
+                                textTransform: "none",
+                                textAlign: "center",
+                              }}
+                            >
+                              Quản lý
+                            </Link></li>:null}
+                            <li
+                              onClick={handleSignOut}
+                              style={{ textAlign: "center" }}
+                            >
+                              Đăng xuất
                             </li>
                           </ul>
                         </div>

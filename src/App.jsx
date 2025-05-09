@@ -113,6 +113,8 @@ function App() {
               />
             }
           />
+          <Route path="/admin/books/:id" element={<Cart />} />
+          
           <Route path="/signIn" element={<LoginPage />} />
           <Route path="/signUp" element={<Signup></Signup>}></Route>
           <Route path="/policy" element={<Policy />} />
