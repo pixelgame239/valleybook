@@ -68,3 +68,132 @@
   color: #0171f9;
   font-weight: bold;
 }
+/* GachaStrip.module.css (or Gacha.module.css) */
+
+/* Add these styles for the overlay */
+.overlay {
+  position: fixed; /* Fix the position relative to the viewport */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000; /* Make sure it's above other content */
+}
+
+.overlayContent {
+  background-color: white; /* Background for the overlay content */
+  padding: 20px;
+  border-radius: 10px;
+  position: relative; /* Needed for absolute positioning of the close button */
+  max-width: 95%; /* Maximum width of the content */
+  max-height: 95%; /* Maximum height of the content */
+  overflow: auto; /* Add scroll if content exceeds max height */
+}
+
+.closeOverlayBtn {
+  position: absolute; /* Position the close button absolutely */
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #333;
+}
+
+.closeOverlayBtn:hover {
+  color: #000;
+}
+
+/* You can add styles for the open button here as well if you put overlay styles in this file */
+.openOverlayBtn {
+  margin-top: 30px;
+  padding: 10px 25px;
+  font-size: 18px;
+  background-color: #0171f9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.openOverlayBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Keep your existing GachaStrip styles below this */
+.gachaContainer {
+  text-align: center;
+  font-family: sans-serif;
+  /* margin-top: 40px;  Remove or adjust this margin as it's now in an overlay */
+}
+
+.stripFrame {
+  width: 90vw;
+  max-width: 1000px;
+  overflow: hidden;
+  border: 3px solid #0171f9;
+  border-radius: 10px;
+  margin: 0 auto;
+  position: relative;
+  background-color: #f0f8ff;
+}
+
+.strip {
+  display: flex;
+  transition: transform 3s ease-out;
+}
+
+.stripItem {
+  flex: 0 0 calc(90vw / 7);
+  max-width: 140px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #0171f9;
+  font-weight: bold;
+  font-size: 16px;
+  border-right: 1px solid #0171f9;
+  box-sizing: border-box;
+}
+
+.indicator {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 40px;
+  color: black;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.spinBtn {
+  margin-top: 30px;
+  padding: 10px 25px;
+  font-size: 18px;
+  background-color: #0171f9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.spinBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #0171f9;
+  font-weight: bold;
+}
