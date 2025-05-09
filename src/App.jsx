@@ -115,6 +115,8 @@ function App() {
               />
             }
           />
+          <Route path="/admin/books/:id" element={<Cart />} />
+
           {/* <Route path="/admin/books/:id" element={<EditBook />} /> */}
           {/* <Route path="/admin/accounts/:id" element={<EditAccount />} />{" "}
           <Route path="/admin/orders/:id" element={<EditOrder />} />{" "}
@@ -158,7 +160,7 @@ function App() {
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/order-success" element={<OrderSuccess />} />
-          <Route path="/tracking" element={<OrderTracking />} />
+          <Route path="/tracking/:orderId" element={<OrderTracking />} />
           <Route path="/orders" element={<OrderList />} />
         </Routes>
       </BrowserRouter>
