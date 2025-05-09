@@ -133,7 +133,7 @@ export default function Footer() {
                       textDecoration: "none", // Optional: removes underline
                     }}
                   >
-                    Trịnh Văn Bô, Nam Từ Liêm, Hà Nội
+                    Toà nhà Đại học Công nghệ Đông Á, <br /> Nam Từ Liêm, Hà Nội
                   </a>
                 </li>
                 <li

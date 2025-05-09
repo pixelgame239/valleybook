@@ -22,7 +22,7 @@ function PrestigeBrand() {
         <Preloader />
       ) : (
         <>
-          <Header currentPage="shop" />{" "}
+          <Header />{" "}
           <div className="page-heading header-text">
             {" "}
             <div className="container">
@@ -104,7 +104,7 @@ function PrestigeBrand() {
               </div>{" "}
             </div>{" "}
           </div>
-          <ChatBubble/>
+          <ChatBubble />
           <Footer />{" "}
         </>
       )}{" "}

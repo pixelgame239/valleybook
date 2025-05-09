@@ -1,5 +1,8 @@
 // src/admin/accounts.js
 import React from "react";
+import EditAccount from "../pages/EditAccount";
+import { useNavigate } from "react-router-dom";
+
 // Import các components cần thiết cho List, Edit, Create và các input
 import {
   List,
@@ -11,6 +14,7 @@ import {
   SimpleForm, // Import SimpleForm (hoặc TabbedForm)
   TextInput, // Import các loại Input
   BooleanInput,
+  useRedirect,
 } from "react-admin";
 
 // Component hiển thị danh sách tài khoản (giữ nguyên)
@@ -34,51 +38,28 @@ export const AccountList = (props) => (
 );
 
 // Component chỉnh sửa tài khoản
-export const AccountEdit = (props) => (
-  <Edit {...props}>
-    {" "}
-    {/* props từ react-admin (chứa id của record) */}
-    <SimpleForm>
-      {" "}
-      {/* Form đơn giản */}
-      {/* Trường khóa chính thường không được chỉnh sửa hoặc là disabled */}
-      {/* source="username" ở đây là tên cột trong database */}
-      <TextInput source="username" disabled label="Username (Primary Key)" />
-      {/* Các input cho các trường có thể chỉnh sửa */}
-      <EmailField source="email" />
-      <TextInput source="name_alias" />
-      <TextInput source="phone_number" />
-      {/* Input cho trường boolean (black_list) */}
-      <BooleanInput source="black_list" />
-      {/* created_at thường được quản lý bởi database, không cần input */}
-    </SimpleForm>
-  </Edit>
-);
+export const AccountEdit = () => {
+  return <EditAccount />;
+};
 
 // Component thêm mới tài khoản
-export const AccountCreate = (props) => (
-  <Create {...props}>
-    {" "}
-    {/* props từ react-admin */}
-    <SimpleForm>
-      {" "}
-      {/* Form đơn giản */}
-      {/* Trường khóa chính (username) cần được nhập khi tạo mới và là bắt buộc */}
-      <TextInput source="username" required />{" "}
-      <TextInput source="password" required />{" "}
-      {/* required làm trường bắt buộc */}
-      {/* Các input cho các trường khi tạo mới */}
-      <TextInput source="email" required type="email" label="Email" />{" "}
-      {/* required làm trường bắt buộc */}
-      <TextInput source="name_alias" />
-      <TextInput source="phone_number" />
-      {/* Trường boolean khi tạo mới, có thể set giá trị mặc định */}
-      <BooleanInput source="black_list" defaultValue={false} />{" "}
-      {/* Set giá trị mặc định */}
-      {/* created_at sẽ được database tự set */}
-    </SimpleForm>
-  </Create>
-);
+export const AccountCreate = (props) => {
+  const redirect = useRedirect();
 
-// Export tất cả các components
-// export { AccountList, AccountEdit, AccountCreate }; // Cách export khác
+  const handleSuccess = () => {
+    // Force redirect to the account list view
+    redirect("list");
+  };
+
+  return (
+    <Create {...props}>
+      <SimpleForm redirect="list" onSuccess={handleSuccess}>
+        <TextInput source="username" required />
+        <TextInput source="password" required />
+        <TextInput source="email" required type="email" label="Email" />
+        <TextInput source="phone_number" />
+        <TextInput source="address" />
+      </SimpleForm>
+    </Create>
+  );
+};
