@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -6,6 +6,7 @@ import "../../public/assets/css/Checkout.css"; // Đảm bảo bạn đã tạo 
 import ChatBubble from "../components/ChatBubble";
 import { getVoucher } from "../backend/voucherData";
 import { insertOrder } from "../backend/orderData";
+import { AuthContext } from "../components/AuthContext";
 
 // --- Helper Functions for Cart ---
 // --- End Helper Functions ---
@@ -28,6 +29,7 @@ function Checkout() {
   const navigate = useNavigate();
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherMessage, setVoucherMessage] = useState({ text: "", type: "" });
+  const { loggedIn } = useContext(AuthContext);
 
   const [cartItems, setCartItems] = useState([]);
   const [formData, setFormData] = useState({
@@ -368,6 +370,7 @@ function Checkout() {
                       className={errors.email ? "error-input" : ""}
                       required
                       aria-describedby="emailError"
+                      disabled={loggedIn} // disable if loggedIn is true
                     />
                     {errors.email && (
                       <small id="emailError" className="error-message">
@@ -386,6 +389,7 @@ function Checkout() {
                       className={errors.phone ? "error-input" : ""}
                       required
                       aria-describedby="phoneError"
+                      disabled={loggedIn} // disable if loggedIn is true
                     />
                     {errors.phone && (
                       <small id="phoneError" className="error-message">
