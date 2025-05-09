@@ -480,6 +480,27 @@ export default function Footer() {
                   style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
                 >
                   <a
+                    href="/policy#khuyen-mai"
+                    title="Chính sách thanh toán/ Khuyến mãi"
+                    style={{
+                      boxSizing: "border-box",
+                      textDecoration: "none",
+                      backgroundColor: "transparent",
+                      color: "white",
+                      fontFamily: "'civil-regular', sans-serif",
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                    }}
+                  >
+                    Chính sách khuyến mãi
+                  </a>
+                </li>
+
+                <li
+                  className="li_menu"
+                  style={{ boxSizing: "border-box", margin: "0px 0px 12px" }}
+                >
+                  <a
                     href="/policy#van-chuyen"
                     title="Chính sách thanh toán/ vận chuyển"
                     style={{
