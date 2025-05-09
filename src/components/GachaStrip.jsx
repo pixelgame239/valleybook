@@ -5,21 +5,24 @@ import Preloader from "./Preloader";
 import voucher from "../../public/assets/images/voucher.png";
 import freeShip from "../../public/assets/images/freeship.png";
 
-function GachaStrip() {
+// Accept onCloseOverlay prop
+function GachaStrip({ onCloseOverlay }) {
   const [basePrizes, setBasePrizes] = useState([]);
   const [isSpinning, setIsSpinning] = useState(false);
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(true);
   const stripRef = useRef(null);
   const stripContainerRef = useRef(null);
-  useEffect(()=>{
-    const fetchVoucher = async() =>{
+
+  useEffect(() => {
+    const fetchVoucher = async () => {
       const tempData = await getVoucher("Voucher");
-      setBasePrizes(prev=>prev = tempData);
+      setBasePrizes((prev) => (prev = tempData));
       setLoading(false);
     };
     fetchVoucher();
   }, []);
+
   // Tạo một mảng dài gấp nhiều lần để tạo hiệu ứng vô hạn
   const extendedPrizes = [...Array(50)].flatMap(() => basePrizes);
 
@@ -27,7 +30,7 @@ function GachaStrip() {
     if (isSpinning) return;
 
     setIsSpinning(true);
-    setResult("");
+    setResult(""); // Reset result when spinning starts
     const itemWidth = stripRef.current.children[0].offsetWidth;
     const visibleItems = 7;
     const middleItemIndex = Math.floor(visibleItems / 2);
@@ -50,13 +53,19 @@ function GachaStrip() {
     // Sau khi quay xong, lấy kết quả
     setTimeout(() => {
       setIsSpinning(false);
-      setResult(basePrizes[randomExtra - 1].voucher_id);
+      // Make sure randomExtra is a valid index
+      if (randomExtra >= 0 && randomExtra < basePrizes.length) {
+        setResult(basePrizes[randomExtra - 1].voucher_id); // Use randomExtra directly for the result index
+      } else {
+        // Handle case where randomExtra is out of bounds (shouldn't happen with Math.random)
+        setResult("Không tìm thấy kết quả");
+      }
 
       // ✅ Reset về vị trí tương đương ở giữa strip để tránh lỗi "quay ngược"
       const itemWidth = stripRef.current.children[0].offsetWidth;
       const visibleItems = 7;
       const middleItemIndex = Math.floor(visibleItems / 2);
-      const safeIndex = basePrizes.length * 2 + middleItemIndex + randomExtra;
+      const safeIndex = basePrizes.length * 2 + middleItemIndex + randomExtra; // Use randomExtra here too
       const newTranslateX = safeIndex * itemWidth;
 
       // ⚠️ Loại bỏ transition trước khi reset
@@ -65,32 +74,63 @@ function GachaStrip() {
     }, 4000);
   };
 
+  // Determine button text and action based on state
+  const getButtonText = () => {
+    if (loading) return "Đang tải...";
+    if (isSpinning) return "Đang quay...";
+    if (result) return "Đóng"; // Change text to "Đóng" when result is available
+    return "Quay"; // Default text
+  };
+
+  const handleButtonClick = () => {
+    if (result) {
+      // If result is available, call the close overlay function
+      onCloseOverlay();
+    } else {
+      // Otherwise, handle the spin
+      handleSpin();
+    }
+  };
+
   return (
     <div className={styles.gachaContainer}>
-      {loading?<Preloader></Preloader>:<>
-      <div className={styles.stripFrame} ref={stripContainerRef}>
-        <div className={styles.strip} ref={stripRef}>
-          {extendedPrizes.map((prize, index) => (
-            <div className={styles.stripItem} key={index}>
-              <img src={prize.voucher_id.startsWith("V")?voucher:freeShip}></img>
-              <p>{prize.discount>100?`${prize.discount.toLocaleString()}đ`:`${prize.discount}%`}</p>
+      {loading ? (
+        <Preloader />
+      ) : (
+        <>
+          <div className={styles.stripFrame} ref={stripContainerRef}>
+            <div className={styles.strip} ref={stripRef}>
+              {extendedPrizes.map((prize, index) => (
+                <div className={styles.stripItem} key={index}>
+                  <img
+                    src={prize.voucher_id.startsWith("V") ? voucher : freeShip}
+                    alt={prize.voucher_id}
+                  ></img>{" "}
+                  {/* Add alt text */}
+                  <p>
+                    {prize.discount > 100
+                      ? `${prize.discount.toLocaleString()}đ`
+                      : `${prize.discount}%`}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className={styles.indicator}>▼</div>
-      </div>
-      <button
-        className={styles.spinBtn}
-        onClick={handleSpin}
-        disabled={isSpinning}
-      >
-        {isSpinning ? "Đang quay..."  : "Quay"}
-      </button>
-      {result && !isSpinning && (
-        <div className={styles.result}>
-          🎉 Bạn nhận được: <strong>{result}</strong>!
-        </div>
-      )}</>}
+            <div className={styles.indicator}>▼</div>
+          </div>
+          <button
+            className={styles.spinBtn}
+            onClick={handleButtonClick} // Use the new handler
+            disabled={isSpinning || loading} // Disable while spinning or loading
+          >
+            {getButtonText()} {/* Use the function to get button text */}
+          </button>
+          {result && !isSpinning && (
+            <div className={styles.result}>
+              🎉 Bạn nhận được: <strong>{result}</strong>!
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
