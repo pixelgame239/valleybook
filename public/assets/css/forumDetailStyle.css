@@ -29,7 +29,7 @@
   font-size: 20px;
   padding: 15px;
   white-space: pre-wrap;
-  line-height: 1.2;
+  line-height: 1.4;
   word-wrap: break-word; /* Breaks long words */
   overflow-wrap: break-word; /* Ensures wrapping for long content */
 }

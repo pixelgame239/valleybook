@@ -30,11 +30,7 @@ import Gacha from "./pages/Gacha.jsx";
 import OrderSuccess from "./pages/OrderSuccess";
 import OrderTracking from "./pages/OrderTracking";
 import OrderList from "./pages/OrderList";
-import EditBook from "./pages/EditBook";
-import EditAccount from "./pages/EditAccount"; // <-- Import EditAccount component
-import EditOrder from "./pages/EditOrder"; // <-- Import EditOrder component
-import EditVoucher from "./pages/EditVoucher";
-import EditAuthor from "./pages/EditAuthor";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 function App() {
   const audioRef = useRef(null);
@@ -97,6 +93,7 @@ function App() {
             onInit={() => setIsAudioInitialized(true)}
           />
         </div>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />

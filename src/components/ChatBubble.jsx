@@ -81,6 +81,56 @@ export default function ChatBubble() {
     return () => supabase.removeChannel(subscription);
   }, [anonymousUserId]);
 
+  useEffect(() => {
+    // Define the admin receiver email
+    const adminReceiver = "admin1@valleybook.com";
+
+    // Subscribe to realtime changes for the messages table where receiver_id is adminReceiver
+    const subscription = supabase
+      .channel("admin-unread-messages")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `receiver_id=eq.${adminReceiver}`,
+        },
+        (payload) => {
+          // When a new message is inserted and read is false, update unreadCount
+          if (payload.new && payload.new.read === false) {
+            setUnreadCounts((prev) => prev + 1);
+          }
+        }
+      )
+      .subscribe();
+
+    // Optionally, you can also subscribe to UPDATE events for marking messages as read
+    const updateSubscription = supabase
+      .channel("admin-updates")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "messages",
+          filter: `receiver_id=eq.${adminReceiver}`,
+        },
+        (payload) => {
+          if (payload.new && payload.new.read) {
+            // Reduce the unread count when messages get marked as read
+            setUnreadCounts((prev) => Math.max(prev - 1, 0));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+      supabase.removeChannel(updateSubscription);
+    };
+  }, []);
+
   // ---- Logic hiển thị/ẩn tin nhắn ban đầu và cửa sổ chat ----
   useEffect(() => {
     const timer = setTimeout(() => {
