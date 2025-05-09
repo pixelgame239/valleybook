@@ -1,12 +1,13 @@
 // src/AdminApp.js
 import React from "react";
-import { Admin, Resource } from "react-admin";
+import { Admin, Resource, CustomRoutes } from "react-admin";
 import dataProvider from "./admin/DataProvider.js"; // Import Data Provider
-
+import { Route } from "react-router-dom";
 // Import các components hiển thị dữ liệu
 import { AccountCreate, AccountList, AccountEdit } from "./admin/Accounts.jsx"; // <-- Import AccountList
 import { BookList, BookEdit, BookCreate } from "./admin/Books.jsx"; // <-- IMPORT BookList
 import { OrderList, OrderEdit, OrderCreate } from "./admin/Orders.jsx"; // <-- IMPORT components cho orders
+import Cart from "./pages/Cart.jsx";
 
 // Bạn sẽ cần thêm Auth Provider sau này cho việc đăng nhập admin
 // import { authProvider } from './admin/dataProvider';
