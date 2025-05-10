@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSingleBookData } from "../backend/getBookData";
+import { uploadImage } from "../components/UploadToSupabase"; // Import hàm uploadImage
 import supabase from "../backend/initSupabase";
 import "./EditBook.css";
 
@@ -14,7 +15,7 @@ function EditBook() {
     price: "",
     description: "",
     quantity: "", // Added field for quantity
-    // ... add other editable fields as needed
+    imageFile: null, // Field for the image file
   });
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -29,7 +30,7 @@ function EditBook() {
           price: data.price || "",
           description: data.description || "",
           quantity: data.quantity || "", // Set quantity from fetched data
-          // ... fill in other fields if present
+          imageFile: null, // Reset image field on load
         });
       } else {
         setErrorMessage("Không tìm thấy thông tin sách.");
@@ -39,17 +40,38 @@ function EditBook() {
   }, [id]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target;
+    if (name === "imageFile") {
+      // Handle file selection
+      setFormData((prev) => ({ ...prev, imageFile: files[0] }));
+    } else {
+      // Handle other input fields
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let updatedData = { ...formData };
+    // If there's a new image, upload it to Supabase and get the URL
+    if (formData.imageFile) {
+      const imageUrl = await uploadImage(formData.imageFile);
+      if (imageUrl) {
+        updatedData.url_image = imageUrl;
+      } else {
+        setErrorMessage("Lỗi khi tải lên ảnh.");
+        return;
+      }
+    }
+
     // Remove username from updated data (can't be edited)
-    const { username, ...updatedData } = formData;
+    const { imageFile, ...bookDataToUpdate } = updatedData;
+
+    // Update the book in the database
     const { error } = await supabase
       .from("books")
-      .update(updatedData)
+      .update(bookDataToUpdate)
       .eq("book_id", id);
     if (error) {
       setErrorMessage("Có lỗi xảy ra khi cập nhật sách.");
@@ -83,14 +105,25 @@ function EditBook() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="url_image">URL ảnh</label>
+          <label htmlFor="url_image">Ảnh hiện tại</label>
+          {formData.url_image && (
+            <div>
+              <img
+                src={formData.url_image}
+                alt="Book cover"
+                style={{ width: "150px", height: "auto", marginBottom: "10px" }}
+              />
+            </div>
+          )}
+        </div>
+        <div className="form-group">
+          <label htmlFor="imageFile">Chọn ảnh mới (nếu có)</label>
           <input
-            type="text"
-            id="url_image"
-            name="url_image"
-            value={formData.url_image}
+            type="file"
+            id="imageFile"
+            name="imageFile"
+            accept="image/*"
             onChange={handleChange}
-            required
           />
         </div>
         <div className="form-group">
@@ -126,7 +159,6 @@ function EditBook() {
           />
         </div>
 
-        {/* Add more fields as needed */}
         <button type="submit" className="submit-btn">
           Lưu thay đổi
         </button>

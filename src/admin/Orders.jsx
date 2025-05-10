@@ -26,7 +26,7 @@ export const OrderList = (props) => (
       {/* rowClick="edit" để có thể click vào dòng chỉnh sửa */}
       {/* source="" phải khớp với tên cột trong bảng 'orders' */}
       <TextField source="order_id" label="Order ID" />
-      <TextField source="username" label="Username" /> {/* Hiển thị username */}
+      <TextField source="email" label="Email" /> {/* Hiển thị email */}
       <DateField source="created_at" label="Created At" showTime />{" "}
       {/* Hiển thị ngày tạo */}
       {/* order_details có thể dài hoặc phức tạp, ban đầu dùng TextField */}

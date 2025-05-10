@@ -1,7 +1,10 @@
 import React from "react";
 import banner from "/assets/images/banner-image.jpg";
+import { useNavigate } from "react-router-dom";
 
 function MainBanner() {
+  const navigate = useNavigate();
+
   return (
     <div className="main-banner py-5" style={{ backgroundColor: "#fff9f2" }}>
       <div className="container">
@@ -56,7 +59,9 @@ function MainBanner() {
                   borderRadius: "12px",
                   boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
                   transform: "scale(1.2)", // hoặc dùng transform để phóng to
+                  cursor: "pointer",
                 }}
+                onClick={() => navigate("/shop")}
               />
             </div>
           </div>

@@ -120,25 +120,31 @@ function EditOrder() {
         </div>
         <div className="form-group">
           <label htmlFor="status">Trạng thái</label>
-          <input
-            type="text"
+          <select
             id="status"
             name="status"
             value={formData.status}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
+            <option value="Đang xử lý">Đang xử lý</option>
+            <option value="Hoàn thành">Hoàn thành</option>
+            <option value="Đã hủy">Đã hủy</option>
+          </select>
         </div>
         <div className="form-group">
           <label htmlFor="payment_method">Phương thức thanh toán</label>
-          <input
-            type="text"
+          <select
             id="payment_method"
             name="payment_method"
             value={formData.payment_method}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="cod">cod</option>
+            <option value="bank">bank</option>
+          </select>
         </div>
         <div className="form-group">
           <label htmlFor="order_details">Chi tiết đơn hàng (JSON)</label>

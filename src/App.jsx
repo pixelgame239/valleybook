@@ -115,7 +115,7 @@ function App() {
               />
             }
           />
-          <Route path="/admin/books/:id" element={<Cart />} />
+          {/* <Route path="/admin/books/:id" element={<Cart />} /> */}
 
           {/* <Route path="/admin/books/:id" element={<EditBook />} /> */}
           {/* <Route path="/admin/accounts/:id" element={<EditAccount />} />{" "}
