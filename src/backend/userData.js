@@ -43,15 +43,6 @@ export async function signUpNewUser(
     console.log(error);
   }
 }
-export async function updateCartItems(email, items) {
-  const { data, error } = await supabase
-    .from("accounts")
-    .update({ cart_items: items })
-    .eq("email", email);
-  if (error) {
-    console.log(error);
-  }
-}
 
 export async function updateUserData(username, updateFields) {
   const { data, error } = await supabase
