@@ -1,17 +1,19 @@
 // src/pages/OrderSuccess.jsx
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../../public/assets/css/OrderSuccess.css"; // Tạo file CSS riêng nếu cần style đặc biệt
 import "../../public/assets/css/Checkout.css"; // Hoặc tái sử dụng style từ Checkout
 
 function OrderSuccess() {
+  const location  = useLocation();
+  const { confirm } = location.state || false;
   useEffect(() => {
     document.title = "Đặt hàng thành công - Valley Book";
     window.scrollTo(0, 0); // Cuộn lên đầu trang
   }, []);
-
+  const { paymentMethod } = useParams();
   return (
     <div>
       <Header currentPage="orderSuccess" />{" "}
@@ -48,10 +50,10 @@ function OrderSuccess() {
                 {/* Bạn có thể thêm thông tin chi tiết hơn nếu có, ví dụ mã đơn hàng */}
                 {/* Mã đơn hàng của bạn là: <strong>#12345</strong> */}
               </p>
-              <p>
-                Một email xác nhận chi tiết đơn hàng đã được gửi đến địa chỉ
-                email của bạn.
-              </p>
+              {confirm?<p>
+                Một email xác nhận đơn hàng đã được gửi đến địa chỉ email của bạn.
+              </p>:null}
+              
               <div className="order-success-actions">
                 <Link to="/shop" className="orange-button">
                   {" "}
