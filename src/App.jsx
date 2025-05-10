@@ -26,7 +26,6 @@ import ForumDetailPage from "./pages/ForumDetailPage.jsx";
 import BackgroundMusic from "./components/BackgroundMusic.jsx";
 import Confirmation from "./pages/Confirmation";
 import Profile from "./pages/Profile";
-import Gacha from "./pages/Gacha.jsx";
 import OrderSuccess from "./pages/OrderSuccess";
 import OrderTracking from "./pages/OrderTracking";
 import OrderList from "./pages/OrderList";
@@ -136,7 +135,6 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/adminChat" element={<AdminChatScreen />} />
           <Route path="/setNewPassword" element={<SetNewPassword />} />
-          <Route path="/gacha" element={<Gacha />} />
           <Route
             path="/forum"
             element={
