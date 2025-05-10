@@ -221,7 +221,7 @@ function Header({ currentPage }) {
                                 style={{
                                   position: "absolute",
                                   top: "-4px",
-                                  right: "-4px",
+                                  right: "7px",
                                   width: "10px",
                                   height: "10px",
                                   backgroundColor: "red",
