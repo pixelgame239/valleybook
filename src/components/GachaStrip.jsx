@@ -4,6 +4,7 @@ import { getVoucher } from "../backend/voucherData";
 import Preloader from "./Preloader";
 import voucher from "../../public/assets/images/voucher.png";
 import freeShip from "../../public/assets/images/freeship.png";
+import { fetchVoucher, updateVoucherItems } from "../backend/userData";
 
 // Accept onCloseOverlay prop
 function GachaStrip({ onCloseOverlay }) {
@@ -13,6 +14,7 @@ function GachaStrip({ onCloseOverlay }) {
   const [loading, setLoading] = useState(true);
   const stripRef = useRef(null);
   const stripContainerRef = useRef(null);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   useEffect(() => {
     const fetchVoucher = async () => {
@@ -51,11 +53,16 @@ function GachaStrip({ onCloseOverlay }) {
     stripRef.current.style.transform = `translateX(-${translateX}px)`;
 
     // Sau khi quay xong, lấy kết quả
-    setTimeout(() => {
+    setTimeout(async () => {
       setIsSpinning(false);
       // Make sure randomExtra is a valid index
       if (randomExtra >= 0 && randomExtra < basePrizes.length) {
-        setResult(basePrizes[randomExtra - 1].voucher_id); // Use randomExtra directly for the result index
+        let tempResult = basePrizes[randomExtra-1];
+        setResult(tempResult.detail); // Use randomExtra directly for the result index
+        let userVoucher  = await fetchVoucher(userInfo.email);
+        console.log(userVoucher);
+        userVoucher.push(tempResult.voucher_id);
+        await updateVoucherItems(userInfo.email, userVoucher);
       } else {
         // Handle case where randomExtra is out of bounds (shouldn't happen with Math.random)
         setResult("Không tìm thấy kết quả");
@@ -78,7 +85,7 @@ function GachaStrip({ onCloseOverlay }) {
   const getButtonText = () => {
     if (loading) return "Đang tải...";
     if (isSpinning) return "Đang quay...";
-    if (result) return "Đóng"; // Change text to "Đóng" when result is available
+    if (result) return "Xác nhận"; // Change text to "Đóng" when result is available
     return "Quay"; // Default text
   };
 
@@ -126,7 +133,7 @@ function GachaStrip({ onCloseOverlay }) {
           </button>
           {result && !isSpinning && (
             <div className={styles.result}>
-              🎉 Bạn nhận được: <strong>{result}</strong>!
+              🎉 Bạn nhận được mã <strong>{result}</strong>!
             </div>
           )}
         </>

@@ -6,40 +6,44 @@ import Header from "../components/Header"; // Import Header
 import Footer from "../components/Footer"; // Import Footer
 
 const Profile = () => {
-  const { userInfo, userData } = useContext(AuthContext);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [editing, setEditing] = useState(false);
   const [editingAddress, setEditingAddress] = useState(false);
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    detailAddress: "",
-    province: "",
-    district: "",
-    ward: "",
+    username: userInfo.username,
+    email: userInfo.email,
+    phoneNumber: userInfo.phone_number,
+    address: userInfo.address,
+    detailAddress: userInfo.address.split(", ")[0] || "",
+    wardCode: "",
+    wardName: userInfo.address.split(", ")[1] || "",
+    districtCode: "",
+    districtName: userInfo.address.split(", ")[2] || "",
+    provinceCode: "",
+    provinceName: userInfo.address.split(", ")[3] || "",
   });
 
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
-
-  useEffect(() => {
+    useEffect(() => {
     // Load thông tin người dùng ban đầu
     if (userInfo) {
       setFormData({
-        username: userInfo.username || "",
-        email: userData?.email || "",
-        phoneNumber: userInfo.phone_number || "",
-        address: userInfo.address || "",
-        detailAddress: userInfo.detail_address || "",
-        province: userInfo.province || "",
-        district: userInfo.district || "",
-        ward: userInfo.ward || "",
+           username: userInfo.username,
+          email: userInfo.email,
+          phoneNumber: userInfo.phone_number,
+          address: userInfo.address,
+          detailAddress: userInfo.address.split(", ")[0] || "",
+          wardCode: "",
+          wardName: userInfo.address.split(", ")[1] || "",
+          districtCode: "",
+          districtName: userInfo.address.split(", ")[2] || "",
+          provinceCode: "",
+          provinceName: userInfo.address.split(", ")[3] || "",
       });
     }
-  }, [userInfo, userData]);
-
+  }, []);
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
@@ -53,6 +57,19 @@ const Profile = () => {
 
     fetchProvinces();
   }, []);
+  useEffect(() => {
+    if (formData.provinceName && provinces.length > 0) {
+      const matchedProvince = provinces.find(
+        (prov) => prov.name.toLowerCase() === formData.provinceName.toLowerCase()
+      );
+      if (matchedProvince && matchedProvince.code !== formData.provinceCode) {
+        setFormData((prev) => ({
+          ...prev,
+          provinceCode: matchedProvince.code,
+        }));
+      }
+    }
+  }, [formData.provinceName, provinces, formData.provinceCode]);
 
   useEffect(() => {
     const fetchDistricts = async (provinceCode) => {
@@ -71,8 +88,21 @@ const Profile = () => {
       }
     };
 
-    fetchDistricts(formData.province);
-  }, [formData.province]);
+    fetchDistricts(formData.provinceCode);
+  }, [formData.provinceCode]);
+    useEffect(() => {
+    if (formData.districtName && districts.length > 0) {
+      const matchedDistrict = districts.find(
+        (dist) => dist.name.toLowerCase() === formData.districtName.toLowerCase()
+      );
+      if (matchedDistrict && matchedDistrict.code !== formData.districtCode) {
+        setFormData((prev) => ({
+          ...prev,
+          districtCode: matchedDistrict.code,
+        }));
+      }
+    }
+  }, [formData.districtName, districts, formData.districtCode]);
 
   useEffect(() => {
     const fetchWards = async (districtCode) => {
@@ -91,15 +121,114 @@ const Profile = () => {
       }
     };
 
-    fetchWards(formData.district);
-  }, [formData.district]);
+    fetchWards(formData.districtCode);
+  }, [formData.districtCode]);
+  useEffect(() => {
+    if (formData.wardName && wards.length > 0) {
+      const matchedWard = wards.find(
+        (ward) => ward.name.toLowerCase() === formData.wardName.toLowerCase()
+      );
+      if (matchedWard && matchedWard.code !== formData.wardCode) {
+        setFormData((prev) => ({
+          ...prev,
+          wardCode: matchedWard.code,
+        }));
+      }
+    }
+  }, [formData.wardName, wards, formData.wardCode]);
+  useEffect(() => {
+      if (provinces.length && formData.provinceName) {
+        const selectedProvince = provinces.find(
+          (prov) =>
+            prov.name.trim().toLowerCase() === formData.provinceName.trim().toLowerCase()
+        );
+        if (selectedProvince) {
+          setFormData((prev) => ({
+            ...prev,
+            provinceCode: selectedProvince.code,
+          }));
+        }
+      }
+    }, [provinces, formData.provinceName]);
+  
+    // --- Lookup District Code by Name when districts data is loaded ---
+    useEffect(() => {
+      if (districts.length && formData.districtName) {
+        const selectedDistrict = districts.find(
+          (dist) =>
+            dist.name.trim().toLowerCase() === formData.districtName.trim().toLowerCase()
+        );
+        if (selectedDistrict) {
+          setFormData((prev) => ({
+            ...prev,
+            districtCode: selectedDistrict.code,
+          }));
+        }
+      }
+    }, [districts, formData.districtName]);
+  
+    // --- Lookup Ward Code by Name when wards data is loaded ---
+    useEffect(() => {
+      if (wards.length && formData.wardName) {
+        const selectedWard = wards.find(
+          (ward) =>
+            ward.name.trim().toLowerCase() === formData.wardName.trim().toLowerCase()
+        );
+        if (selectedWard) {
+          setFormData((prev) => ({
+            ...prev,
+            wardCode: selectedWard.code,
+          }));
+        }
+      }
+    }, [wards, formData.wardName]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+const handleProvinceChange = (e) => {
+    const provinceCode = e.target.value;
+    const selectedProvince = provinces.find(
+      (prov) => String(prov.code) === provinceCode
+    );
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      provinceCode,
+      provinceName: selectedProvince ? selectedProvince.name : "",
+      // Reset district & ward when province changes:
+      districtCode: "",
+      districtName: "",
+      wardCode: "",
+      wardName: "",
     }));
+  };
+
+const handleDistrictChange = (e) => {
+  const districtCode = e.target.value;
+  const selectedDistrict = districts.find(
+    (dist) => String(dist.code) === districtCode
+  );
+  setFormData((prev) => ({
+    ...prev,
+    districtCode,
+    districtName: selectedDistrict ? selectedDistrict.name : "",
+    // Reset ward when district changes:
+    wardCode: "",
+    wardName: "",
+  }));
+};
+
+  const handleWardChange = (e) => {
+    const wardCode = e.target.value;
+    const selectedWard = wards.find(
+      (ward) => String(ward.code) === wardCode
+    );
+    setFormData((prev) => ({
+      ...prev,
+      wardCode,
+      wardName: selectedWard ? selectedWard.name : "",
+    }));
+  };
+    const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleEditClick = () => {
@@ -112,11 +241,15 @@ const Profile = () => {
     setFormData({
       username: userInfo?.username || "",
       phoneNumber: userInfo?.phone_number || "",
+      email: userInfo.email,
       address: userInfo?.address || "",
       detailAddress: userInfo?.detail_address || "",
-      province: userInfo?.province || "",
-      district: userInfo?.district || "",
-      ward: userInfo?.ward || "",
+      wardCode: "",
+      wardName: userInfo.address.split(", ")[1] || "",
+      districtCode: "",
+      districtName: userInfo.address.split(", ")[2] || "",
+      provinceCode: "",
+      provinceName: userInfo.address.split(", ")[3] || "",
     });
   };
 
@@ -127,13 +260,14 @@ const Profile = () => {
         .update({
           username: formData.username,
           phone_number: formData.phoneNumber,
+          address: `${formData.detailAddress}, ${formData.wardName}, ${formData.districtName}, ${formData.provinceName}`
           // address: formData.address,
           //detail_address: formData.detailAddress,
           //province: formData.province,
           //district: formData.district,
           // ward: formData.ward,
         })
-        .eq("email", userData.email);
+        .eq("email", userInfo.email);
       if (error) {
         console.error("Lỗi cập nhật thông tin:", error);
         // Xử lý lỗi
@@ -141,6 +275,11 @@ const Profile = () => {
         console.log("Cập nhật thông tin thành công:", data);
         // Cập nhật context hoặc state để phản ánh thay đổi
         setEditing(false);
+        setFormData((prev) => ({
+          ...prev,           // Spread the previous state
+          address: `${formData.detailAddress}, ${formData.wardName}, ${formData.districtName}, ${formData.provinceName}`, // Update only the address
+        }));
+
         setEditingAddress(false);
       }
     } catch (error) {
@@ -186,7 +325,7 @@ const Profile = () => {
                   type="text"
                   name="username"
                   value={formData.username}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="form-group">
@@ -194,7 +333,7 @@ const Profile = () => {
                 <input
                   type="text"
                   name="email"
-                  value={userData?.email}
+                  value={formData.email}
                   readOnly
                 />
               </div>
@@ -204,7 +343,7 @@ const Profile = () => {
                   type="text"
                   name="phoneNumber"
                   value={formData.phoneNumber}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                 />
               </div>
               {editingAddress ? (
@@ -215,15 +354,15 @@ const Profile = () => {
                       type="text"
                       name="detailAddress"
                       value={formData.detailAddress}
-                      onChange={handleChange}
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="form-group">
                     <label>Tỉnh/Thành phố</label>
                     <select
-                      name="province"
-                      value={formData.province}
-                      onChange={handleChange}
+                      name="provinceCode"
+                      value={formData.provinceCode}
+                      onChange={handleProvinceChange}
                     >
                       <option value="">Chọn tỉnh/thành phố</option>
                       {provinces.map((province) => (
@@ -236,9 +375,9 @@ const Profile = () => {
                   <div className="form-group">
                     <label>Huyện/Quận</label>
                     <select
-                      name="district"
-                      value={formData.district}
-                      onChange={handleChange}
+                      name="districtCode"
+                      value={formData.districtCode}
+                      onChange={handleDistrictChange}
                     >
                       <option value="">Chọn huyện/quận</option>
                       {districts.map((district) => (
@@ -251,9 +390,9 @@ const Profile = () => {
                   <div className="form-group">
                     <label>Xã/Phường</label>
                     <select
-                      name="ward"
-                      value={formData.ward}
-                      onChange={handleChange}
+                      name="wardCode"
+                      value={formData.wardCode}
+                      onChange={handleWardChange}
                     >
                       <option value="">Chọn xã/phường</option>
                       {wards.map((ward) => (
@@ -290,16 +429,16 @@ const Profile = () => {
           ) : (
             <div className="pprofile-details">
               <p>
-                <strong>Username:</strong> {userInfo?.username}
+                <strong>Username:</strong> {formData.username}
               </p>
               <p>
-                <strong>Email:</strong> {userData?.email}
+                <strong>Email:</strong> {formData.email}
               </p>
               <p>
-                <strong>Số điện thoại:</strong> {userInfo?.phone_number}
+                <strong>Số điện thoại:</strong> {formData.phoneNumber}
               </p>
               <p>
-                <strong>Địa chỉ:</strong> {userInfo?.address}
+                <strong>Địa chỉ:</strong> {formData.address}
               </p>
               <button type="button" onClick={handleEditClick}>
                 Sửa thông tin
