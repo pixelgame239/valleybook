@@ -685,7 +685,7 @@ function ProductDetails({ onMusicControl }) {
                   {/* ... (Phần form viết đánh giá giữ nguyên) ... */}
                   {userInfo &&
                     !showReviewForm &&
-                    !book.reviews.some(
+                    !(book.reviews || []).some(
                       (review) => review.username === userInfo.username
                     ) && (
                       <button
