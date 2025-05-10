@@ -6,7 +6,11 @@ import "../../public/assets/css/Checkout.css"; // Đảm bảo bạn đã tạo 
 import ChatBubble from "../components/ChatBubble";
 import { AuthContext } from "../components/AuthContext";
 import { getUserVoucher, getVoucher } from "../backend/voucherData";
-import { generateNewOrder, handleSendEmail, insertOrder } from "../backend/orderData";
+import {
+  generateNewOrder,
+  handleSendEmail,
+  insertOrder,
+} from "../backend/orderData";
 import supabase from "../backend/initSupabase";
 import { updateCartItems, updateVoucherItems } from "../backend/userData";
 import gachaStyles from "../components/GachaStrip.module.css";
@@ -69,7 +73,6 @@ function Checkout() {
           notes: "",
         }
   );
-  
 
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [errors, setErrors] = useState({});
@@ -95,22 +98,22 @@ function Checkout() {
   const [availableVouchers, setAvailableVouchers] = useState([]);
 
   const handleApplyVoucher = (code) => {
-    if(code==="default"){
+    if (code === "default") {
       setDiscountAmount(0);
-    setVoucherMessage({
-      text: "Đã bỏ áp dụng mã giảm giá",
-      type: "info",
-    });
-    // Optionally clear any previously applied voucher in state as well.
-    return;
+      setVoucherMessage({
+        text: "Đã bỏ áp dụng mã giảm giá",
+        type: "info",
+      });
+      // Optionally clear any previously applied voucher in state as well.
+      return;
     }
     const voucher = availableVouchers.find((v) => v.code === code);
     console.log(voucher);
     if (voucher) {
       let discountValue = 0;
-      if (voucher.discount<=100&&voucher.code.startsWith("VG")) {
+      if (voucher.discount <= 100 && voucher.code.startsWith("VG")) {
         discountValue = (subtotalAmount * voucher.discount) / 100;
-      } else if (voucher.code ==="FSHIP100") {
+      } else if (voucher.code === "FSHIP100") {
         discountValue = shippingCost;
       } else {
         discountValue = voucher.discount;
@@ -228,9 +231,7 @@ function Checkout() {
 
   const handleWardChange = (e) => {
     const wardCode = e.target.value;
-    const selectedWard = wards.find(
-      (ward) => String(ward.code) === wardCode
-    );
+    const selectedWard = wards.find((ward) => String(ward.code) === wardCode);
     setFormData((prev) => ({
       ...prev,
       wardCode,
@@ -256,10 +257,8 @@ function Checkout() {
     }
     if (!formData.address.trim())
       newErrors.address = "Vui lòng nhập địa chỉ (Số nhà, tên đường)";
-    if (!formData.wardCode)
-      newErrors.ward = "Vui lòng chọn Phường/Xã";
-    if (!formData.districtCode)
-      newErrors.district = "Vui lòng chọn Quận/Huyện";
+    if (!formData.wardCode) newErrors.ward = "Vui lòng chọn Phường/Xã";
+    if (!formData.districtCode) newErrors.district = "Vui lòng chọn Quận/Huyện";
     if (!formData.provinceCode)
       newErrors.province = "Vui lòng chọn Tỉnh/Thành phố";
     return newErrors;
@@ -295,35 +294,39 @@ function Checkout() {
 
     try {
       let needConfirm = false;
-      const orderStatus = paymentMethod=== "bank"? "Đang chờ xác nhận" : (userInfo?"Đang xử lý" : "Đang chờ xác nhận"); 
+      const orderStatus =
+        paymentMethod === "bank"
+          ? "Đang chờ xác nhận"
+          : userInfo
+          ? "Đang xử lý"
+          : "Đang chờ xác nhận";
       const result = await insertOrder(orderDetails, orderStatus);
-      if(!userInfo&&paymentMethod==="cod"){
+      if (!userInfo && paymentMethod === "cod") {
         // console.log(result.order_id, result.email);
         await handleSendEmail(`${result.order_id}`, result.email);
-        needConfirm=true;
+        needConfirm = true;
       }
       console.log("Order inserted successfully:", result);
-      if(userInfo){
+      if (userInfo) {
         localStorage.setItem("cart_items", "[]");
-        if(userInfo.user_voucher&&userInfo.user_voucher.length>0){
+        if (userInfo.user_voucher && userInfo.user_voucher.length > 0) {
           const voucherArr = userInfo.user_voucher;
           const indexToRemove = voucherArr.indexOf(voucherCode);
-          if(indexToRemove !==-1){
-            voucherArr.splice(indexToRemove,1);
+          if (indexToRemove !== -1) {
+            voucherArr.splice(indexToRemove, 1);
           }
           const updatedAvailableVouchers = voucherArr;
           await updateVoucherItems(userInfo.email, updatedAvailableVouchers);
         }
         await updateCartItems(userInfo.email, []);
-         sessionStorage.removeItem("cart_items");
+        sessionStorage.removeItem("cart_items");
         sessionStorage.removeItem("discountAmount");
-        if(orderDetails.total>300000){
+        if (orderDetails.total > 300000) {
           console.log("Overlay");
           setIsOverlayOpen(true);
+        } else {
+          navigate("/order-success", { state: { confirm: needConfirm } });
         }
-          else{
-            navigate("/order-success", {state: {confirm: needConfirm}});
-      }
       }
     } catch (error) {
       console.error("Error placing order:", error);
@@ -409,15 +412,16 @@ function Checkout() {
         console.error("Error fetching vouchers:", error);
       }
     };
-    if(userInfo){
-        fetchVouchers();
+    if (userInfo) {
+      fetchVouchers();
     }
   }, []);
   useEffect(() => {
     if (provinces.length && formData.provinceName) {
       const selectedProvince = provinces.find(
         (prov) =>
-          prov.name.trim().toLowerCase() === formData.provinceName.trim().toLowerCase()
+          prov.name.trim().toLowerCase() ===
+          formData.provinceName.trim().toLowerCase()
       );
       if (selectedProvince) {
         setFormData((prev) => ({
@@ -433,7 +437,8 @@ function Checkout() {
     if (districts.length && formData.districtName) {
       const selectedDistrict = districts.find(
         (dist) =>
-          dist.name.trim().toLowerCase() === formData.districtName.trim().toLowerCase()
+          dist.name.trim().toLowerCase() ===
+          formData.districtName.trim().toLowerCase()
       );
       if (selectedDistrict) {
         setFormData((prev) => ({
@@ -449,7 +454,8 @@ function Checkout() {
     if (wards.length && formData.wardName) {
       const selectedWard = wards.find(
         (ward) =>
-          ward.name.trim().toLowerCase() === formData.wardName.trim().toLowerCase()
+          ward.name.trim().toLowerCase() ===
+          formData.wardName.trim().toLowerCase()
       );
       if (selectedWard) {
         setFormData((prev) => ({
@@ -476,20 +482,22 @@ function Checkout() {
         </div>
       </div>
       {isOverlayOpen && (
-            <div className={gachaStyles.overlay}>
-              <div className={gachaStyles.overlayContent}>
-                {/* Remove the close button here, we'll use the main button in GachaStrip */}
-                {/* <button onClick={closeOverlay} className={styles.closeOverlayBtn}>
+        <div className={gachaStyles.overlay}>
+          <div className={gachaStyles.overlayContent}>
+            {/* Remove the close button here, we'll use the main button in GachaStrip */}
+            {/* <button onClick={closeOverlay} className={styles.closeOverlayBtn}>
                   &times;
                 </button> */}
-                {/* Pass the closeOverlay function as a prop */}
-                <GachaStrip onCloseOverlay={()=>{
-                  setIsOverlayOpen(false);
-                  navigate("/order-success");
-                }} />
-              </div>
-            </div>
-          )}
+            {/* Pass the closeOverlay function as a prop */}
+            <GachaStrip
+              onCloseOverlay={() => {
+                setIsOverlayOpen(false);
+                navigate("/order-success");
+              }}
+            />
+          </div>
+        </div>
+      )}
       <div className="checkout-section container">
         {/* ----- Form chính bao bọc toàn bộ nội dung ----- */}
         <form onSubmit={handleSubmitOrder} noValidate>
@@ -503,7 +511,7 @@ function Checkout() {
                 <h4>Thông tin giao hàng</h4>
                 <div className="row">
                   <div className="col-md-12 form-group">
-                    <label htmlFor="fullName">Người nhận *</label>
+                    <label htmlFor="fullName">Họ và tên *</label>
                     <input
                       type="text"
                       id="fullName"
@@ -697,7 +705,8 @@ function Checkout() {
                     onChange={(e) => setPaymentMethod(e.target.value)}
                   />
                   <label htmlFor="paymentBank">
-                    <i className="fas fa-university"></i> Chuyển khoản ngân hàng hoặc ví điện tử
+                    <i className="fas fa-university"></i> Chuyển khoản ngân hàng
+                    hoặc ví điện tử
                   </label>
                   {paymentMethod === "bank" && (
                     <div className="payment-info bank-info">
@@ -772,35 +781,42 @@ function Checkout() {
                 </div>
 
                 {/* Phần Voucher */}
-                  {userInfo?
-                      <div className="voucher-section">
-                      <label htmlFor="voucher">Mã giảm giá:</label>
-                      <div className="voucher-select-group">
-                        <select
-                          id="voucher"
-                          value={voucherCode}
-                          onChange={(e) => {
-                            setVoucherCode(e.target.value);
-                            if (e.target.value) {
-                              handleApplyVoucher(e.target.value);
-                            }
-                          }}
-                          className="voucher-select"
-                        >
-                          <option key="" value="default">{availableVouchers.length>0?"Chọn mã giảm giá":"Chưa có mã giảm giá nào"}</option>
-                          {availableVouchers.map((voucher) => (
-                            <option key={voucher.code} value={voucher.code}>
-                              {voucher.detail}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      {voucherMessage.text && (
-                        <p className={`voucher-message ${voucherMessage.type}`}>
-                          {voucherMessage.text}
-                        </p>
-                      )}
-                    </div>:<p>Hãy đăng nhập để sử dụng voucher</p>}
+                {userInfo ? (
+                  <div className="voucher-section">
+                    <label htmlFor="voucher">Mã giảm giá:</label>
+                    <div className="voucher-select-group">
+                      <select
+                        id="voucher"
+                        value={voucherCode}
+                        onChange={(e) => {
+                          setVoucherCode(e.target.value);
+                          if (e.target.value) {
+                            handleApplyVoucher(e.target.value);
+                          }
+                        }}
+                        className="voucher-select"
+                      >
+                        <option key="" value="default">
+                          {availableVouchers.length > 0
+                            ? "Chọn mã giảm giá"
+                            : "Chưa có mã giảm giá nào"}
+                        </option>
+                        {availableVouchers.map((voucher) => (
+                          <option key={voucher.code} value={voucher.code}>
+                            {voucher.detail}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {voucherMessage.text && (
+                      <p className={`voucher-message ${voucherMessage.type}`}>
+                        {voucherMessage.text}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <p>Hãy đăng nhập để sử dụng voucher</p>
+                )}
                 {/* Hết Phần Voucher */}
 
                 {/* --- Hiển thị Tổng tiền --- */}
