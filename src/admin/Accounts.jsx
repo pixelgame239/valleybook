@@ -28,10 +28,9 @@ export const AccountList = (props) => (
       <TextField source="username" label="Username (ID)" />
       <EmailField source="email" /> {/* Ví dụ cột Email */}
       {/* <TextField source="created_at" /> Có thể không cần hiển thị trong danh sách chính*/}
-      <TextField source="name_alias" />
       <TextField source="phone_number" />
+      <TextField source="address" />
       {/* Sử dụng BooleanField nếu muốn hiển thị checkbox/icon thay vì true/false */}
-      <TextField source="black_list" />
       {/* Thêm các TextField hoặc loại Field khác */}
     </Datagrid>
   </List>

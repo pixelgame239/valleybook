@@ -90,16 +90,7 @@ function EditAuthor() {
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="created_at">Created At (không thể chỉnh sửa)</label>
-          <input
-            type="text"
-            id="created_at"
-            name="created_at"
-            value={formData.created_at}
-            disabled
-          />
-        </div>
+
         <button type="submit" className="submit-btn">
           Lưu thay đổi
         </button>

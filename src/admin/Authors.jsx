@@ -17,7 +17,7 @@ export const AuthorList = (props) => (
     <Datagrid rowClick="edit">
       <TextField source="author_id" label="Author ID" />
       <TextField source="author_name" label="Author Name" />
-      <DateField source="created_at" label="Created At" />
+      <DateField source="Created_at" label="Created At" />
       <EditButton />
     </Datagrid>
   </List>
