@@ -218,6 +218,12 @@ const ForumDetailPage = () => {
                       className="reply-input"
                       value={answerContent}
                       onChange={(e) => setAnswerContent(e.target.value)}
+                      onKeyPress={async (e) => {
+                        if (e.key === "Enter" && answerContent.trim() !== "") {
+                          await handleReply();
+                          setExpanded(false);
+                        }
+                      }}
                     />
                     <button
                       className="send-button"
@@ -225,15 +231,15 @@ const ForumDetailPage = () => {
                         await handleReply();
                         setExpanded(false);
                       }}
-                      disabled={answerContent.trim === ""}
+                      disabled={answerContent.trim() === ""}
                     >
-                      <SendIcon></SendIcon>
+                      <SendIcon />
                     </button>
                     <button
                       className="cancel-button"
                       onClick={() => setExpanded(false)}
                     >
-                      <CancelRoundedIcon></CancelRoundedIcon>
+                      <CancelRoundedIcon />
                     </button>
                   </>
                 )}

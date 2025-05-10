@@ -66,9 +66,7 @@ function Policy() {
 
               <p>- Họ tên, email, số điện thoại</p>
               <p>- Địa chỉ giao hàng, thông tin hoá đơn</p>
-              <p>
-                - Thông tin tài khoản khi thanh toán (không lưu trữ dữ liệu thẻ)
-              </p>
+              <p>- Thông tin tài khoản khi thanh toán</p>
               <p>- Lịch sử mua hàng và tương tác với website</p>
 
               <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>
@@ -78,7 +76,6 @@ function Policy() {
               <p>- Xử lý đơn hàng và giao hàng</p>
               <p>- Gửi thông báo về trạng thái đơn hàng</p>
               <p>- Hỗ trợ chăm sóc khách hàng, bảo hành và hậu mãi</p>
-              <p>- Gửi thông tin khuyến mãi (nếu bạn đăng ký nhận)</p>
               <p>- Cải thiện dịch vụ và trải nghiệm người dùng</p>
 
               <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>
@@ -107,7 +104,6 @@ function Policy() {
                 - Kiểm tra, cập nhật hoặc yêu cầu xóa thông tin cá nhân bất kỳ
                 lúc nào.
               </p>
-              <p>- Rút lại sự đồng ý nhận email marketing.</p>
               <p>
                 - Mọi yêu cầu về thông tin cá nhân được xử lý trong vòng 48 giờ.
               </p>
@@ -162,7 +158,6 @@ function Policy() {
             </p>
 
             <p>+ File bị lỗi, không mở được dù đã thử hỗ trợ</p>
-            <p>+ Khách hàng không thể truy cập nội dung hợp lệ</p>
 
             <p>1.2. Sản phẩm bị giao nhầm lẫn do lỗi từ Valley Book.</p>
             <p>1.3. Sản phẩm nhầm do khách hàng đặt nhầm</p>
@@ -206,7 +201,7 @@ function Policy() {
               có giá trị 300k trở lên.
             </p>
             <p>
-              - Phần quà nhận được là các voucher giảm gía và miễn phí vận
+              - Phần quà nhận được là các voucher giảm giá và miễn phí vận
               chuyển áp dụng cho đơn hàng tiếp theo.
             </p>
             <h5>2. Valley Chill</h5>
@@ -279,18 +274,17 @@ function Policy() {
             <p>
               <strong>Kênh liên hệ hỗ trợ:</strong>
             </p>
-            <ul>
-              <li>
-                <strong>Email:</strong> cskh@valleybook.vn
-              </li>
-              <li>
-                <strong>Zalo CSKH:</strong> 0869003199
-              </li>
-              <li>
-                <strong>Fanpage Facebook:</strong> Valley Book – thung lũng của
-                tri thức
-              </li>
-            </ul>
+
+            <p>
+              <strong>Email:</strong> cskh@valleybook.vn
+            </p>
+            <p>
+              <strong>Zalo CSKH:</strong> 0869003199
+            </p>
+            <p>
+              <strong>Fanpage Facebook:</strong> Valley Book – thung lũng của
+              tri thức
+            </p>
           </div>
           <ChatBubble />
 
