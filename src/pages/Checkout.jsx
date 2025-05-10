@@ -529,7 +529,7 @@ function Checkout() {
                 <h4>Thông tin giao hàng</h4>
                 <div className="row">
                   <div className="col-md-12 form-group">
-                    <label htmlFor="fullName">Người nhận *</label>
+                    <label htmlFor="fullName">Họ và tên *</label>
                     <input
                       type="text"
                       id="fullName"
@@ -693,26 +693,31 @@ function Checkout() {
               {/* --- Phương thức thanh toán --- */}
               <div className="checkout-block">
                 <h4>Phương thức thanh toán</h4>
-                <div className="radio-option">
-                  <input
-                    type="radio"
-                    id="paymentCod"
-                    name="paymentMethod"
-                    value="cod"
-                    checked={paymentMethod === "cod"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                  />
-                  <label htmlFor="paymentCod">
-                    <i className="fas fa-money-bill-wave"></i> Thanh toán khi
-                    nhận hàng (COD)
-                  </label>
-                  {paymentMethod === "cod" && (
-                    <p className="payment-info">
-                      Bạn trả tiền mặt cho nhân viên giao hàng khi nhận sản
-                      phẩm.
-                    </p>
-                  )}
-                </div>
+                {!cartItems.every((item) => {
+                  const type = mapBookType(item.type);
+                  return type === "Ebook" || type === "Sách nói";
+                }) && (
+                  <div className="radio-option">
+                    <input
+                      type="radio"
+                      id="paymentCod"
+                      name="paymentMethod"
+                      value="cod"
+                      checked={paymentMethod === "cod"}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    <label htmlFor="paymentCod">
+                      <i className="fas fa-money-bill-wave"></i> Thanh toán khi
+                      nhận hàng (COD)
+                    </label>
+                    {paymentMethod === "cod" && (
+                      <p className="payment-info">
+                        Bạn trả tiền mặt cho nhân viên giao hàng khi nhận sản
+                        phẩm.
+                      </p>
+                    )}
+                  </div>
+                )}
                 <div className="radio-option">
                   <input
                     type="radio"
