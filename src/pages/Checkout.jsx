@@ -301,6 +301,10 @@ function Checkout() {
         // console.log(result.order_id, result.email);
         await handleSendEmail(`${result.order_id}`, result.email);
         needConfirm=true;
+        navigate("/order-success", {state: {confirm: needConfirm}});
+      }
+      else if(!userInfo&&paymentMethod==="bank"){
+         navigate("/order-success", {state: {confirm: needConfirm}});
       }
       console.log("Order inserted successfully:", result);
       if(userInfo){
