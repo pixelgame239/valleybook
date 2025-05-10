@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import supabase from "../backend/initSupabase";
 import "../../public/assets/css/headerStyle.css";
@@ -12,6 +12,7 @@ function Header({ currentPage }) {
   const dropdownRef = useRef(null);
   const bellDropdownRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { loggedIn, userData } = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBellDropdown, setShowBellDropdown] = useState(false);
@@ -172,19 +173,20 @@ function Header({ currentPage }) {
                           left: "75%",
                         }}
                       >
-                        {userInfo
-                          ? (() => {
-                              const cartItems = JSON.parse(
-                                localStorage.getItem("cart_items")
-                              );
-                              return <NotificationSign items={cartItems} />;
-                            })()
-                          : (() => {
-                              const cartItems = JSON.parse(
-                                sessionStorage.getItem("cart_items")
-                              );
-                              return <NotificationSign items={cartItems} />;
-                            })()}
+                        {location.pathname !== "/order-success" &&
+                          (userInfo
+                            ? (() => {
+                                const cartItems = JSON.parse(
+                                  localStorage.getItem("cart_items")
+                                );
+                                return <NotificationSign items={cartItems} />;
+                              })()
+                            : (() => {
+                                const cartItems = JSON.parse(
+                                  sessionStorage.getItem("cart_items")
+                                );
+                                return <NotificationSign items={cartItems} />;
+                              })())}
                       </div>
                     </button>
                   </Link>
