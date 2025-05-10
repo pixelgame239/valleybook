@@ -7,11 +7,12 @@ import "../../public/assets/css/OrderSuccess.css"; // Tạo file CSS riêng nế
 import "../../public/assets/css/Checkout.css"; // Hoặc tái sử dụng style từ Checkout
 
 function OrderSuccess() {
-  const location  = useLocation();
+  const location = useLocation();
   const { confirm } = location.state || false;
   useEffect(() => {
     document.title = "Đặt hàng thành công - Valley Book";
     window.scrollTo(0, 0); // Cuộn lên đầu trang
+    sessionStorage.removeItem("cart_items"); // Clear cart data from session storage
   }, []);
   const { paymentMethod } = useParams();
   return (
@@ -50,10 +51,12 @@ function OrderSuccess() {
                 {/* Bạn có thể thêm thông tin chi tiết hơn nếu có, ví dụ mã đơn hàng */}
                 {/* Mã đơn hàng của bạn là: <strong>#12345</strong> */}
               </p>
-              {confirm?<p>
-                Một email xác nhận đơn hàng đã được gửi đến địa chỉ email của bạn.
-              </p>:null}
-              
+              {confirm ? (
+                <p>
+                  Một email xác nhận đơn hàng đã được gửi đến địa chỉ email của
+                  bạn.
+                </p>
+              ) : null}
               <div className="order-success-actions">
                 <Link to="/shop" className="orange-button">
                   {" "}
