@@ -1,4 +1,5 @@
 import React from "react";
+import EditGenre from "../pages/EditGenre";
 import {
   List,
   Datagrid,
@@ -19,13 +20,7 @@ export const GenreList = (props) => (
   </List>
 );
 
-export const GenreEdit = (props) => (
-  <Edit {...props}>
-    <SimpleForm>
-      <TextInput disabled source="genre_name" label="Genre Name" />
-    </SimpleForm>
-  </Edit>
-);
+export const GenreEdit = (props) => <EditGenre {...props} />;
 
 export const GenreCreate = (props) => (
   <Create {...props}>

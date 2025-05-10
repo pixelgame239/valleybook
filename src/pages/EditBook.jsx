@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSingleBookData } from "../backend/getBookData";
+import { uploadImage } from "../components/UploadToSupabase"; // Import hàm uploadImage
 import supabase from "../backend/initSupabase";
 import "./EditBook.css";
 
@@ -55,7 +56,7 @@ function EditBook() {
     let updatedData = { ...formData };
     // If there's a new image, upload it to Supabase and get the URL
     if (formData.imageFile) {
-      const imageUrl = await uploadImageToSupabase(formData.imageFile);
+      const imageUrl = await uploadImage(formData.imageFile);
       if (imageUrl) {
         updatedData.url_image = imageUrl;
       } else {
@@ -77,33 +78,6 @@ function EditBook() {
       console.error("Update error:", error);
     } else {
       navigate("/admin/books");
-    }
-  };
-
-  const uploadImageToSupabase = async (file) => {
-    try {
-      const fileName = `${Date.now()}_${file.name}`;
-      const filePath = `image/${fileName}`;
-
-      // Upload image to Supabase Storage
-      const { data, error } = await supabase.storage
-        .from("image") // Specify the bucket
-        .upload(filePath, file);
-
-      if (error) {
-        console.error("Upload error:", error);
-        return null;
-      }
-
-      // Get the public URL of the uploaded image
-      const imageUrl = supabase.storage
-        .from("image")
-        .getPublicUrl(filePath).publicURL;
-
-      return imageUrl;
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      return null;
     }
   };
 
