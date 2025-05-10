@@ -8,6 +8,8 @@ import { getUserVoucher, getVoucher } from "../backend/voucherData";
 import { generateNewOrder, handleSendEmail, insertOrder } from "../backend/orderData";
 import supabase from "../backend/initSupabase";
 import { updateCartItems, updateVoucherItems } from "../backend/userData";
+import gachaStyles from "../components/GachaStrip.module.css";
+import GachaStrip from "../components/GachaStrip";
 
 // --- Helper Functions for Cart ---
 // --- End Helper Functions ---
@@ -31,7 +33,7 @@ function Checkout() {
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherMessage, setVoucherMessage] = useState({ text: "", type: "" });
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [formData, setFormData] = useState(
     userInfo
@@ -300,18 +302,26 @@ function Checkout() {
       console.log("Order inserted successfully:", result);
       if(userInfo){
         localStorage.setItem("cart_items", "[]");
-        const voucherArr = userInfo.user_voucher;
-        const indexToRemove = voucherArr.indexOf(voucherCode);
-        if(indexToRemove !==-1){
-          voucherArr.splice(indexToRemove,1);
+        if(userInfo.user_voucher&&userInfo.user_voucher.length>0){
+          const voucherArr = userInfo.user_voucher;
+          const indexToRemove = voucherArr.indexOf(voucherCode);
+          if(indexToRemove !==-1){
+            voucherArr.splice(indexToRemove,1);
+          }
+          const updatedAvailableVouchers = voucherArr;
+          await updateVoucherItems(userInfo.email, updatedAvailableVouchers);
         }
-        const updatedAvailableVouchers = voucherArr;
-        await updateVoucherItems(userInfo.email, updatedAvailableVouchers);
         await updateCartItems(userInfo.email, []);
+         sessionStorage.removeItem("cart_items");
+        sessionStorage.removeItem("discountAmount");
+        if(orderDetails.total>300000){
+          console.log("Overlay");
+          setIsOverlayOpen(true);
+        }
+          else{
+            navigate("/order-success", {state: {confirm: needConfirm}});
       }
-      sessionStorage.removeItem("cart_items");
-      sessionStorage.removeItem("discountAmount");
-      navigate("/order-success", {state: {confirm: needConfirm}});
+      }
     } catch (error) {
       console.error("Error placing order:", error);
       alert("Đã có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.");
@@ -462,7 +472,21 @@ function Checkout() {
           </div>
         </div>
       </div>
-
+      {isOverlayOpen && (
+            <div className={gachaStyles.overlay}>
+              <div className={gachaStyles.overlayContent}>
+                {/* Remove the close button here, we'll use the main button in GachaStrip */}
+                {/* <button onClick={closeOverlay} className={styles.closeOverlayBtn}>
+                  &times;
+                </button> */}
+                {/* Pass the closeOverlay function as a prop */}
+                <GachaStrip onCloseOverlay={()=>{
+                  setIsOverlayOpen(false);
+                  navigate("/order-success");
+                }} />
+              </div>
+            </div>
+          )}
       <div className="checkout-section container">
         {/* ----- Form chính bao bọc toàn bộ nội dung ----- */}
         <form onSubmit={handleSubmitOrder} noValidate>
@@ -668,7 +692,7 @@ function Checkout() {
                     onChange={(e) => setPaymentMethod(e.target.value)}
                   />
                   <label htmlFor="paymentBank">
-                    <i className="fas fa-university"></i> Chuyển khoản ngân hàng
+                    <i className="fas fa-university"></i> Chuyển khoản ngân hàng hoặc ví điện tử
                   </label>
                   {paymentMethod === "bank" && (
                     <div className="payment-info bank-info">

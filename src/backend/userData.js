@@ -27,3 +27,17 @@ export async function updateVoucherItems(email, items){
         console.log(error);
     }
 }
+export async function fetchVoucher(userEmail) {
+    const { data, error } = await supabase.from("accounts").select("user_voucher").eq("email", userEmail).single();
+    if(error){
+        console.log(error);
+        return [];
+    }
+    else{
+        if(data.user_voucher===null || data.user_voucher.length===0){
+            return [];
+        }
+        else{
+            return data.user_voucher.filter(voucher => voucher !== null);        }
+    }
+}
