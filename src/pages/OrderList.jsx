@@ -7,7 +7,7 @@ import ChatBubble from "../components/ChatBubble";
 import "../../public/assets/css/OrderList.css";
 import { getAllOrders } from "../backend/orderData";
 import { AuthContext } from "../components/AuthContext"; // Import AuthContext
-
+import supabase from "../backend/initSupabase";
 function OrderList() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -49,6 +49,46 @@ function OrderList() {
 
     fetchOrders();
   }, [userData, loggedIn]); // Thêm userData và loggedIn vào dependency array
+
+  useEffect(() => {
+    if (!loggedIn || !userData?.email) return;
+
+    const realtimeChannel = supabase
+      .channel("orders_realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*", // listen for INSERT, UPDATE, DELETE events
+          schema: "public",
+          table: "orders",
+          filter: `email=eq.${userData.email}`,
+        },
+        (payload) => {
+          console.log("Realtime order event:", payload);
+          // Re-fetch orders on any change
+          getAllOrders(userData.email)
+            .then((data) => {
+              const formattedOrders = data.map((order) => ({
+                id: order.order_id,
+                date: new Date(order.created_at).toLocaleDateString("vi-VN"),
+                total: order.total_price,
+                status: order.status,
+              }));
+              setOrders(formattedOrders);
+              setError(null);
+            })
+            .catch((err) => {
+              console.error("Error fetching orders in realtime:", err);
+              setError("Lỗi tải danh sách đơn hàng.");
+            });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(realtimeChannel);
+    };
+  }, [loggedIn, userData]);
 
   if (loading) {
     return <div>Đang tải danh sách đơn hàng...</div>;

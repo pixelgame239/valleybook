@@ -30,7 +30,7 @@ function Header({ currentPage }) {
   };
 
   const toggleDropdown = () => {
-    setShowDropdown((prev) => (!prev));
+    setShowDropdown((prev) => !prev);
   };
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -136,17 +136,19 @@ function Header({ currentPage }) {
                           left: "75%",
                         }}
                       >
-                      {userInfo ? (
-                              (() => {
-                                const cartItems = JSON.parse(localStorage.getItem("cart_items"));
-                                return <NotificationSign items={cartItems} />;
-                              })()
-                            ) : (
-                              (() => {
-                                const cartItems = JSON.parse(sessionStorage.getItem("cart_items"));
-                                return <NotificationSign items={cartItems} />;
-                              })()
-                            )}
+                        {userInfo
+                          ? (() => {
+                              const cartItems = JSON.parse(
+                                localStorage.getItem("cart_items")
+                              );
+                              return <NotificationSign items={cartItems} />;
+                            })()
+                          : (() => {
+                              const cartItems = JSON.parse(
+                                sessionStorage.getItem("cart_items")
+                              );
+                              return <NotificationSign items={cartItems} />;
+                            })()}
                       </div>
                     </button>
                   </Link>
@@ -219,18 +221,32 @@ function Header({ currentPage }) {
                                 Hồ sơ
                               </Link>
                             </li>
-                            {userInfo.email==="admin1@valleybook.com"?
+                            {userInfo.email === "admin1@valleybook.com" ? (
+                              <li>
+                                <Link
+                                  to="/admin"
+                                  style={{
+                                    color: "black",
+                                    textTransform: "none",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  Quản lý
+                                </Link>
+                              </li>
+                            ) : null}
                             <li>
                               <Link
-                              to="/admin"
-                              style={{
-                                color: "black",
-                                textTransform: "none",
-                                textAlign: "center",
-                              }}
-                            >
-                              Quản lý
-                            </Link></li>:null}
+                                to="/orders"
+                                style={{
+                                  color: "black",
+                                  textTransform: "none",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Đơn mua
+                              </Link>
+                            </li>
                             <li
                               onClick={handleSignOut}
                               style={{ textAlign: "center" }}
