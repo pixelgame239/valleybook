@@ -4,8 +4,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../../public/assets/css/Checkout.css"; // Đảm bảo bạn đã tạo và thêm CSS vào file này
 import ChatBubble from "../components/ChatBubble";
-import { getVoucher } from "../backend/voucherData";
-import { insertOrder } from "../backend/orderData";
 import { AuthContext } from "../components/AuthContext";
 import { getUserVoucher, getVoucher } from "../backend/voucherData";
 import { generateNewOrder, handleSendEmail, insertOrder } from "../backend/orderData";
