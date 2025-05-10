@@ -806,10 +806,6 @@ Banner Style
   position: relative;
 }
 
-.main-banner .right-image img {
-  border-radius: 25px;
-}
-
 .main-banner .right-image span.price {
   position: absolute;
   right: 20px;
