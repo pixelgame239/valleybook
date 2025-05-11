@@ -83,10 +83,10 @@ export async function generateNewOrder(){
 export async function handleSendEmail (orderID, userEmail) {
   // Create your payload with the required fields.
   const payload = {
-    sender: "MS_F0Drdc@test-eqvygm00n3wl0p7w.mlsender.net",
+    sender: "MS_QDAqcB@test-q3enl6kkov042vwr.mlsender.net",
     recipient: userEmail, // Replace with the actual recipient email
     subject: "Xác nhận đơn hàng của bạn",
-    html_body: `<html><body><p>Confirm your order</p><a href=\"https://asrqcfdysjuddpjxnnkx.supabase.co/functions/v1/confirm_order?token=${orderID}\">Confirm</a>.</body></html>`
+    html_body: `<html><body><p>Vui lòng xác nhận đơn hàng của bạn</p><a href=\"https://asrqcfdysjuddpjxnnkx.supabase.co/functions/v1/confirm_order?token=${orderID}\">Xác nhận</a>.</body></html>`,
   };
 
   // Call the remote procedure (RPC)
