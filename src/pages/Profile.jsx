@@ -12,15 +12,15 @@ const Profile = () => {
   const [formData, setFormData] = useState({
     username: userInfo.username,
     email: userInfo.email,
-    phoneNumber: userInfo.phone_number,
-    address: userInfo.address,
-    detailAddress: userInfo.address.split(", ")[0] || "",
+    phoneNumber: userInfo.phoneNumber?userInfo.phone_number:"",
+    address: userInfo.address?userInfo.address:"",
+    detailAddress: userInfo.address?userInfo.address.split(", ")[0]:"",
     wardCode: "",
-    wardName: userInfo.address.split(", ")[1] || "",
+    wardName: userInfo.address?userInfo.address.split(", ")[1] || "":"",
     districtCode: "",
-    districtName: userInfo.address.split(", ")[2] || "",
+    districtName: userInfo.address?userInfo.address.split(", ")[2] || "":"",
     provinceCode: "",
-    provinceName: userInfo.address.split(", ")[3] || "",
+    provinceName: userInfo.address?userInfo.address.split(", ")[3] || "":"",
   });
 
   const [provinces, setProvinces] = useState([]);
@@ -32,15 +32,15 @@ const Profile = () => {
       setFormData({
            username: userInfo.username,
           email: userInfo.email,
-          phoneNumber: userInfo.phone_number,
-          address: userInfo.address,
-          detailAddress: userInfo.address.split(", ")[0] || "",
+          phoneNumber: userInfo.phoneNumber?userInfo.phone_number:"",
+          address: userInfo.address?userInfo.address:"",
+          detailAddress: userInfo.address?userInfo.address.split(", ")[0]:"",
           wardCode: "",
-          wardName: userInfo.address.split(", ")[1] || "",
+          wardName: userInfo.address?userInfo.address.split(", ")[1] || "":"",
           districtCode: "",
-          districtName: userInfo.address.split(", ")[2] || "",
+          districtName: userInfo.address?userInfo.address.split(", ")[2] || "":"",
           provinceCode: "",
-          provinceName: userInfo.address.split(", ")[3] || "",
+          provinceName: userInfo.address?userInfo.address.split(", ")[3] || "":"",
       });
     }
   }, []);
@@ -239,17 +239,17 @@ const handleDistrictChange = (e) => {
     setEditing(false);
     setEditingAddress(false);
     setFormData({
-      username: userInfo?.username || "",
-      phoneNumber: userInfo?.phone_number || "",
-      email: userInfo.email,
-      address: userInfo?.address || "",
-      detailAddress: userInfo?.detail_address || "",
-      wardCode: "",
-      wardName: userInfo.address.split(", ")[1] || "",
-      districtCode: "",
-      districtName: userInfo.address.split(", ")[2] || "",
-      provinceCode: "",
-      provinceName: userInfo.address.split(", ")[3] || "",
+          username: userInfo.username,
+          email: userInfo.email,
+          phoneNumber: userInfo.phoneNumber?userInfo.phone_number:"",
+          address: userInfo.address?userInfo.address:"",
+          detailAddress: userInfo.address?userInfo.address.split(", ")[0]:"",
+          wardCode: "",
+          wardName: userInfo.address?userInfo.address.split(", ")[1] || "":"",
+          districtCode: "",
+          districtName: userInfo.address?userInfo.address.split(", ")[2] || "":"",
+          provinceCode: "",
+          provinceName: userInfo.address?userInfo.address.split(", ")[3] || "":"",
     });
   };
 

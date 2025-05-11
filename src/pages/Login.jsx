@@ -69,7 +69,7 @@ const LoginPage = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
 
-      options: { redirectTo: "https://valleybook.is-great.org/signIn" },
+      options: { redirectTo: "http://locahost:5173/signIn" },
 
     });
     if (!error) {

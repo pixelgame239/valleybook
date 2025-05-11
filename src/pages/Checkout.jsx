@@ -46,17 +46,17 @@ function Checkout() {
     userInfo
       ? {
           fullName: userInfo.username,
-          phone: userInfo.phone_number,
+          phone: userInfo.phoneNumber?userInfo.phone_number:"",
           email: userInfo.email,
-          address: userInfo.address.split(", ")[0],
+          address: userInfo.address?userInfo.address.split(", ")[0]:"",
           // Initialize codes as empty since you'll look them up later
           wardCode: "",
           // Extract ward name from the address (if provided)
-          wardName: userInfo.address.split(", ")[1] || "",
+          wardName: userInfo.address?userInfo.address.split(", ")[1] || "":"",
           districtCode: "",
-          districtName: userInfo.address.split(", ")[2] || "",
+          districtName: userInfo.address?userInfo.address.split(", ")[2] || "":"",
           provinceCode: "",
-          provinceName: userInfo.address.split(", ")[3] || "",
+          provinceName: userInfo.address?userInfo.address.split(", ")[3] || "":"",
           notes: "",
         }
       : {
@@ -576,7 +576,6 @@ function Checkout() {
                       className={errors.phone ? "error-input" : ""}
                       required
                       aria-describedby="phoneError"
-                      disabled={loggedIn} // disable if loggedIn is true
                     />
                     {errors.phone && (
                       <small id="phoneError" className="error-message">
