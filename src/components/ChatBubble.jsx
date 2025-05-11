@@ -10,6 +10,7 @@ import { getAnonymousUserId } from "../backend/AnonymousUser";
 
 export default function ChatBubble() {
   const { userData } = useContext(AuthContext);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [open, setOpen] = useState(false);
   const [showInitialMessage, setShowInitialMessage] = useState(false);
   const [unreadCount, setUnreadCounts] = useState(0);
@@ -19,7 +20,7 @@ export default function ChatBubble() {
   const chatBubbleRef = useRef(null);
 
   useEffect(() => {
-    const userId = getAnonymousUserId();
+    const userId = userInfo ? userInfo.email :getAnonymousUserId();
     setAnonymousUserId(userId);
     console.log("Anonymous User ID:", userId);
   }, []);

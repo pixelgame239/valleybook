@@ -11,13 +11,14 @@ function ChatWindow({ isOpen }) {
   const [anonymousUserId, setAnonymousUserId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const messagesEndRef = useRef(null);
   const channelRef = useRef(null); // Ref để lưu channel hiện tại
 
   // Lấy Anonymous User ID khi component mount
   useEffect(() => {
-    const userId = getAnonymousUserId();
+    const userId = userInfo ? userInfo.email :getAnonymousUserId();
     setAnonymousUserId(userId);
     console.log("Anonymous User ID:", userId);
   }, []);
