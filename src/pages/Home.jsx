@@ -82,7 +82,7 @@ function Home() {
         <Preloader />
       ) : (
         <>
-          <MyAudioPlayer />
+          {/* <MyAudioPlayer /> */}
           <Header currentPage="home" />
           <MainBanner />
           <Features />
