@@ -529,7 +529,7 @@ function Checkout() {
                 <h4>Thông tin giao hàng</h4>
                 <div className="row">
                   <div className="col-md-12 form-group">
-                    <label htmlFor="fullName">Họ và tên *</label>
+                    <label htmlFor="fullName">Người nhận *</label>
                     <input
                       type="text"
                       id="fullName"
