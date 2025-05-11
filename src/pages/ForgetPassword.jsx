@@ -20,7 +20,7 @@ const ForgetPassword = () => {
     } else {
       // Giả sử gửi yêu cầu thành công
       await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "http://localhost:5173/setNewPassword",
+        redirectTo: "https://valleybook.is-great.org/setNewPassword",
       });
 
       if (error) {
