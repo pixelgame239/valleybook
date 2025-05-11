@@ -46,7 +46,7 @@ function Checkout() {
     userInfo
       ? {
           fullName: userInfo.username,
-          phone: userInfo.phoneNumber?userInfo.phone_number:"",
+          phone: userInfo.phone_number?userInfo.phone_number:"",
           email: userInfo.email,
           address: userInfo.address?userInfo.address.split(", ")[0]:"",
           // Initialize codes as empty since you'll look them up later

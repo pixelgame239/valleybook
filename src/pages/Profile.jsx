@@ -12,7 +12,7 @@ const Profile = () => {
   const [formData, setFormData] = useState({
     username: userInfo.username,
     email: userInfo.email,
-    phoneNumber: userInfo.phoneNumber?userInfo.phone_number:"",
+    phoneNumber: userInfo.phone_number?userInfo.phone_number:"",
     address: userInfo.address?userInfo.address:"",
     detailAddress: userInfo.address?userInfo.address.split(", ")[0]:"",
     wardCode: "",
