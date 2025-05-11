@@ -18,7 +18,7 @@ const EventPopup = ({ onClose }) => {
           &times; {/* Ký tự 'X' */}
         </button>
         <img
-          src="../public/assets/images/valleychill.jpg"
+          src="https://asrqcfdysjuddpjxnnkx.supabase.co/storage/v1/object/public/image//valleychillll.png"
           alt="Sự kiện Valley Chill"
           className="event-popup-image"
         />

@@ -197,3 +197,8 @@
   color: #0171f9;
   font-weight: bold;
 }
+.subTitle {
+  text-align: center;
+  color: #ec493d;
+  margin-bottom: 20px; /* Thêm khoảng cách dưới tiêu đề phụ và trên vòng quay */
+}
