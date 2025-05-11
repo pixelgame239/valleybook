@@ -82,7 +82,7 @@ function Contact() {
                       onMouseLeave={() => setShowMessage(false)}
                     >
                       <img
-                        src="../public/assets/images/cu_sach.png"
+                        src="https://asrqcfdysjuddpjxnnkx.supabase.co/storage/v1/object/public/image//cu_sach.png"
                         alt="Cú Sách"
                         className="owl-img"
                         style={{
