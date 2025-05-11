@@ -57,9 +57,9 @@ function GachaStrip({ onCloseOverlay }) {
       setIsSpinning(false);
       // Make sure randomExtra is a valid index
       if (randomExtra >= 0 && randomExtra < basePrizes.length) {
-        let tempResult = basePrizes[randomExtra-1];
+        let tempResult = basePrizes[randomExtra - 1];
         setResult(tempResult.detail); // Use randomExtra directly for the result index
-        let userVoucher  = await fetchVoucher(userInfo.email);
+        let userVoucher = await fetchVoucher(userInfo.email);
         console.log(userVoucher);
         userVoucher.push(tempResult.voucher_id);
         await updateVoucherItems(userInfo.email, userVoucher);
@@ -105,6 +105,10 @@ function GachaStrip({ onCloseOverlay }) {
         <Preloader />
       ) : (
         <>
+          <h2>Chúc mừng bạn đã đủ điều kiện tham gia VQMM</h2>
+          <h3 className={styles.subTitle}>
+            Mã giảm giá sẽ được áp dụng trong đơn hàng tiếp theo
+          </h3>
           <div className={styles.stripFrame} ref={stripContainerRef}>
             <div className={styles.strip} ref={stripRef}>
               {extendedPrizes.map((prize, index) => (
