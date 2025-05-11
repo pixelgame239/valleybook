@@ -69,7 +69,7 @@ const LoginPage = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
 
-      options: { redirectTo: "http://locahost:5173/signIn" },
+      options: { redirectTo: "http://valleybook.onlinewebshop.net/signIn" },
 
     });
     if (!error) {

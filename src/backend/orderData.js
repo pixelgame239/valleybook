@@ -86,7 +86,7 @@ export async function handleSendEmail (orderID, userEmail) {
     sender: "MS_F0Drdc@test-eqvygm00n3wl0p7w.mlsender.net",
     recipient: userEmail, // Replace with the actual recipient email
     subject: "Xác nhận đơn hàng của bạn",
-    html_body: `<html><body><p>Confirm your order</p><a href=\"https://asrqcfdysjuddpjxnnkx.supabase.co/functions/v1/confirm_order?token=${orderID}\">Confirm</a>.</body></html>`
+    html_body: `<html><body><p>Confirm your order</p><a href=\"https://asrqcfdysjuddpjxnnkx.supabase.co/functions/v1/alter_order?token=${orderID}\">Confirm</a>.</body></html>`
   };
 
   // Call the remote procedure (RPC)

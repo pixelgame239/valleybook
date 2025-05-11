@@ -205,7 +205,7 @@ const Signup = () => {
       password: formData.confirmPassword,
       options: {
         // Thêm options
-        emailRedirectTo:"https://valleybook.is-great.org/signUp"
+        emailRedirectTo:"http://valleybook.onlinewebshop.net/signUp"
       },
     });
     if (error) {
