@@ -15,11 +15,11 @@ const Signup = () => {
     detailAddress: "",
     province: {
       province_code: "",
-      province_name: ""
+      province_name: "",
     },
     district: {
-       district_code: "",
-      district_name: ""
+      district_code: "",
+      district_name: "",
     },
     ward: {
       ward_code: "",
@@ -99,57 +99,92 @@ const Signup = () => {
   };
   const handleProvinceChange = (e) => {
     const selectedCode = e.target.value;
-    const selectedProvince = provinces.find(p => p.code.toString() === selectedCode);
-    setFormData(prev => ({
+    const selectedProvince = provinces.find(
+      (p) => p.code.toString() === selectedCode
+    );
+    setFormData((prev) => ({
       ...prev,
       province: {
         province_code: selectedProvince.code,
-        province_name: selectedProvince.name
+        province_name: selectedProvince.name,
       },
       district: { district_code: "", district_name: "" }, // reset
-      ward: { ward_code: "", ward_name: "" }
+      ward: { ward_code: "", ward_name: "" },
     }));
   };
   const handleDistrictChange = (e) => {
     const selectedCode = e.target.value;
-    const selectedDistrict = districts.find(p => p.code.toString() === selectedCode);
-    setFormData(prev => ({
+    const selectedDistrict = districts.find(
+      (p) => p.code.toString() === selectedCode
+    );
+    setFormData((prev) => ({
       ...prev,
       district: {
         district_code: selectedDistrict.code,
-        district_name: selectedDistrict.name
+        district_name: selectedDistrict.name,
       },
-      ward: { ward_code: "", ward_name: "" }
+      ward: { ward_code: "", ward_name: "" },
     }));
   };
   const handleWardChange = (e) => {
     const selectedCode = e.target.value;
-    const selectedWard = wards.find(p => p.code.toString() === selectedCode);
-    setFormData(prev => ({
+    const selectedWard = wards.find((p) => p.code.toString() === selectedCode);
+    setFormData((prev) => ({
       ...prev,
       ward: {
         ward_code: selectedWard.code,
-        ward_name: selectedWard.name
-      }
+        ward_name: selectedWard.name,
+      },
     }));
   };
 
-
   const validateForm = () => {
     const errors = {};
-    console.log(formData.province);
-    console.log(formData.district);
-    console.log(formData.ward);
-    if (!formData.email) errors.email = "Bạn cần nhập đúng email";
-    if (!formData.password)
-      errors.password = "Mật khẩu không đủ điều kiện bảo mật";
-    if (formData.password !== formData.confirmPassword)
+    // Kiểm tra email
+    if (!formData.email) {
+      errors.email = "Bạn cần nhập email";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      // Kiểm tra định dạng email cơ bản
+      errors.email = "Email không hợp lệ";
+    }
+
+    // Kiểm tra số điện thoại
+    if (!formData.phoneNumber) {
+      errors.phoneNumber = "Bạn cần nhập số điện thoại";
+    } else if (!/^(0[3|5|7|8|9])+([0-9]{8})\b/.test(formData.phoneNumber)) {
+      // Regex này kiểm tra số điện thoại Việt Nam phổ biến:
+      // - Bắt đầu bằng 0
+      // - Tiếp theo là 3, 5, 7, 8, hoặc 9
+      // - Theo sau là 8 chữ số nữa
+      // \b là để đảm bảo khớp toàn bộ từ (tránh trường hợp số dài hơn vẫn khớp)
+      errors.phoneNumber = "Số điện thoại không hợp lệ";
+    }
+
+    // Kiểm tra mật khẩu
+    if (!formData.password) {
+      errors.password = "Bạn cần nhập mật khẩu";
+    } else if (formData.password.length < 6) {
+      // Ví dụ: mật khẩu ít nhất 6 ký tự
+      errors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+    }
+
+    if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = "Mật khẩu không trùng khớp";
-    if (!formData.detailAddress)
+    }
+
+    if (!formData.detailAddress.trim()) {
       errors.detailAddress = "Vui lòng nhập địa chỉ chi tiết";
-    if (!formData.province) errors.province = "Vui lòng chọn tỉnh/thành phố";
-    if (!formData.district) errors.district = "Vui lòng chọn huyện/quận";
-    if (!formData.ward) errors.ward = "Vui lòng chọn xã/phường";
+    }
+
+    if (!formData.province || !formData.province.province_code) {
+      errors.province = "Vui lòng chọn tỉnh/thành phố";
+    }
+    if (!formData.district || !formData.district.district_code) {
+      errors.district = "Vui lòng chọn huyện/quận";
+    }
+    if (!formData.ward || !formData.ward.ward_code) {
+      errors.ward = "Vui lòng chọn xã/phường";
+    }
 
     return errors;
   };
@@ -185,20 +220,26 @@ const Signup = () => {
       setShowConfirmation(true); // Hiển thị màn hình chờ xác nhận
     }
   };
-  useEffect(()=>{
-      const { data: authListener } = supabase.auth.onAuthStateChange(
-          async (event, session) => {
-            if (event === "SIGNED_IN") {
-              const tempUsername = formData.email.split("@")[0];
-              await signUpNewUser(tempUsername, formData.email, formData.confirmPassword, `${formData.detailAddress}, ${formData.ward.ward_name}, ${formData.district.district_name}, ${formData.province.province_name}`, formData.phoneNumber)
-              navigate("/");
-            } 
-          }
-        );
-        return () => {
-          authListener.subscription.unsubscribe();
-        };
-  })
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === "SIGNED_IN") {
+          const tempUsername = formData.email.split("@")[0];
+          await signUpNewUser(
+            tempUsername,
+            formData.email,
+            formData.confirmPassword,
+            `${formData.detailAddress}, ${formData.ward.ward_name}, ${formData.district.district_name}, ${formData.province.province_name}`,
+            formData.phoneNumber
+          );
+          navigate("/");
+        }
+      }
+    );
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  });
 
   // Hàm này sẽ được gọi khi người dùng xác nhận email thành công (thông qua URL chuyển hướng)
   // useEffect(() => {
