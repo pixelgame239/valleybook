@@ -5,7 +5,6 @@ import MainBanner from "../components/MainBanner";
 import Features from "../components/Features";
 import Trending from "../components/Trending";
 import MostPlayed from "../components/MostPlayed";
-import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 import "../../public/assets/css/Contact.css";
 import ChatBubble from "../components/ChatBubble";
