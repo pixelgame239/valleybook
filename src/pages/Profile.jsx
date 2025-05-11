@@ -4,6 +4,7 @@ import { AuthContext } from "../components/AuthContext";
 import supabase from "../backend/initSupabase";
 import Header from "../components/Header"; // Import Header
 import Footer from "../components/Footer"; // Import Footer
+import AvtImg from "../../public/assets/images/bookLogo.png";
 
 const Profile = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -311,7 +312,7 @@ const handleDistrictChange = (e) => {
       <div className="pprofile-container">
         <div className="pprofile-header">
           <img
-            src="../public/assets/images/bookLogo.png"
+            src={AvtImg}
             alt="Ảnh đại diện"
             className="pprofile-avatar"
           />
