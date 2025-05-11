@@ -258,7 +258,11 @@ function Header({ currentPage }) {
                                         borderBottom: "1px solid #eee",
                                         cursor: "pointer",
                                       }}
-                                      onClick={() => navigate("/admin/orders")}
+                                      onClick={() =>
+                                        navigate(
+                                          `/admin/orders/${order.order_id}`
+                                        )
+                                      }
                                     >
                                       Đơn hàng #{order.order_id} mới
                                     </li>
