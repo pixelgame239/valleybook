@@ -25,58 +25,63 @@ const LoginPage = () => {
     if (error) {
       alert("Sai tài khoản hoặc mật khẩu");
     } else {
-      if(!isGoogle){
+      if (!isGoogle) {
         console.log("normal login");
         navigate("/");
-        setLoggedIn(true);  
+        setLoggedIn(true);
       }
     }
   };
-  useEffect(()=>{
-    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN") {
-        const userEmail = session.user.email;
-  
-        // Check if user exists
-        const { data: accountData, error: fetchError } = await supabase
-          .from("accounts")
-          .select("email")
-          .eq("email", userEmail)
-          .single();
-        
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === "SIGNED_IN") {
+          const userEmail = session.user.email;
+
+          // Check if user exists
+          const { data: accountData, error: fetchError } = await supabase
+            .from("accounts")
+            .select("email")
+            .eq("email", userEmail)
+            .single();
+
           console.log(accountData);
-  
-        if (!accountData) {
-          const tempUsername = userEmail.split("@")[0];
-          await signUpNewUser(tempUsername, userEmail, null, null, null);
+
+          if (!accountData) {
+            const tempUsername = userEmail.split("@")[0];
+            await signUpNewUser(tempUsername, userEmail, null, null, null);
+          }
+
+          console.log("User data inserted or found");
+          setLoggedIn(true);
+          setIsGoogle(false);
+          navigate("/"); // 👈 Redirect only after session is valid
         }
-  
-        console.log("User data inserted or found");
-        setLoggedIn(true);
-        setIsGoogle(false);
-        navigate("/"); // 👈 Redirect only after session is valid
       }
-    });
-  
+    );
+
     // Optional cleanup
     return () => {
       listener.subscription.unsubscribe();
     };
-  }, [isGoogle])
+  }, [isGoogle]);
   const handleGoogleSignIn = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options:{redirectTo:"http://localhost:5173/signIn"}
+      options: { redirectTo: "https://valleybook.is-great.org/signIn" },
     });
-    if(!error){
-      setIsGoogle(prev=>prev=!prev);
+    if (!error) {
+      setIsGoogle((prev) => (prev = !prev));
       console.log("Running");
+    }
   };
-}
   return (
     <div className="login-page">
       <div className="login-container">
-        <form className="login-form" onSubmit={async(e)=>await handleSubmit(e)}>
+        <form
+          className="login-form"
+          onSubmit={async (e) => await handleSubmit(e)}
+        >
           <h2 style={{ color: "#0171F9" }}>Đăng Nhập</h2>
 
           <div className="input-group">
