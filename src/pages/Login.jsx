@@ -66,7 +66,7 @@ const LoginPage = () => {
   const handleGoogleSignIn = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options:{redirectTo:"http://localhost:5173/signIn"}
+      options:{redirectTo:"https://valleybook.is-great.org/signIn"}
     });
     if(!error){
       setIsGoogle(prev=>prev=!prev);
