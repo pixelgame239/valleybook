@@ -16,7 +16,7 @@ function AudioPlayer({ onClose }) {
         ref={audioRef}
         controls
         autoPlay
-        src="/assets/audio/sach-noi-giet-con-chim-nhai.mp3"
+        src="https://asrqcfdysjuddpjxnnkx.supabase.co/storage/v1/object/sign/audio/sach-noi-giet-con-chim-nhai.mp3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdWRpby9zYWNoLW5vaS1naWV0LWNvbi1jaGltLW5oYWkubXAzIiwiaWF0IjoxNzQ2OTUwNzg3LCJleHAiOjE3Nzg0ODY3ODd9.xI60od7RAy9EEWzfRWUuLQC_dCc1XdGbm7eagS5Dd68"
       />
       <button onClick={onClose} className="close-audio-button">
         <i className="fas fa-times"></i>
