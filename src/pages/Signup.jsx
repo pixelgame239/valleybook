@@ -168,11 +168,11 @@ const Signup = () => {
     const { data, error } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.confirmPassword,
-      options: {
-        // Thêm options
-        emailRedirectTo:"https://asrqcfdysjuddpjxnnkx.supabase.co/auth/v1/callback"
-        // emailRedirectTo: "localhost:5173", // Đặt URL chuyển hướng sau khi xác nhận
-      },
+      // options: {
+      //   // Thêm options
+      //   // emailRedirectTo:"https://asrqcfdysjuddpjxnnkx.supabase.co/auth/v1/callback"
+      //   // emailRedirectTo: "localhost:5173", // Đặt URL chuyển hướng sau khi xác nhận
+      // },
     });
     if (error) {
       console.error("Lỗi đăng ký:", error.message);
