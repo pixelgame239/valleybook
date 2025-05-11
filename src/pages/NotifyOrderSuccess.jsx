@@ -8,13 +8,11 @@ import "../../public/assets/css/Checkout.css"; // Hoặc tái sử dụng style 
 
 function NotifyOrderSuccess() {
   const location = useLocation();
-  const { confirm } = location.state || false;
   useEffect(() => {
     document.title = "Đặt hàng thành công - Valley Book";
     window.scrollTo(0, 0); // Cuộn lên đầu trang
     sessionStorage.removeItem("cart_items"); // Clear cart data from session storage
   }, []);
-  const { paymentMethod } = useParams();
   return (
     <div>
       <Header currentPage="orderSuccess" />{" "}
