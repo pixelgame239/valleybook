@@ -30,7 +30,6 @@ function GachaStrip({ onCloseOverlay }) {
 
   const handleSpin = () => {
     if (isSpinning) return;
-
     setIsSpinning(true);
     setResult(""); // Reset result when spinning starts
     const itemWidth = stripRef.current.children[0].offsetWidth;
@@ -57,7 +56,13 @@ function GachaStrip({ onCloseOverlay }) {
       setIsSpinning(false);
       // Make sure randomExtra is a valid index
       if (randomExtra >= 0 && randomExtra < basePrizes.length) {
-        let tempResult = basePrizes[randomExtra - 1];
+        let tempResult;
+        if(randomExtra===0){
+           tempResult = basePrizes[basePrizes.length-1];
+        }
+        else{
+          tempResult = basePrizes[randomExtra - 1];
+        }
         setResult(tempResult.detail); // Use randomExtra directly for the result index
         let userVoucher = await fetchVoucher(userInfo.email);
         console.log(userVoucher);

@@ -224,13 +224,15 @@ const Signup = () => {
       async (event, session) => {
         if (event === "SIGNED_IN") {
           const tempUsername = formData.email.split("@")[0];
-          await signUpNewUser(
-            tempUsername,
-            formData.email,
-            formData.confirmPassword,
-            `${formData.detailAddress}, ${formData.ward.ward_name}, ${formData.district.district_name}, ${formData.province.province_name}`,
-            formData.phoneNumber
-          );
+          if(formData.email&&formData.email.trim()!==""){
+              await signUpNewUser(
+              tempUsername,
+              formData.email,
+              formData.confirmPassword,
+              `${formData.detailAddress}, ${formData.ward.ward_name}, ${formData.district.district_name}, ${formData.province.province_name}`,
+              formData.phoneNumber
+            );
+          }
           navigate("/");
         }
       }
