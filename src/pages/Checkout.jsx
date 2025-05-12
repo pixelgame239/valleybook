@@ -46,17 +46,23 @@ function Checkout() {
     userInfo
       ? {
           fullName: userInfo.username,
-          phone: userInfo.phone_number?userInfo.phone_number:"",
+          phone: userInfo.phone_number ? userInfo.phone_number : "",
           email: userInfo.email,
-          address: userInfo.address?userInfo.address.split(", ")[0]:"",
+          address: userInfo.address ? userInfo.address.split(", ")[0] : "",
           // Initialize codes as empty since you'll look them up later
           wardCode: "",
           // Extract ward name from the address (if provided)
-          wardName: userInfo.address?userInfo.address.split(", ")[1] || "":"",
+          wardName: userInfo.address
+            ? userInfo.address.split(", ")[1] || ""
+            : "",
           districtCode: "",
-          districtName: userInfo.address?userInfo.address.split(", ")[2] || "":"",
+          districtName: userInfo.address
+            ? userInfo.address.split(", ")[2] || ""
+            : "",
           provinceCode: "",
-          provinceName: userInfo.address?userInfo.address.split(", ")[3] || "":"",
+          provinceName: userInfo.address
+            ? userInfo.address.split(", ")[3] || ""
+            : "",
           notes: "",
         }
       : {
@@ -743,15 +749,25 @@ function Checkout() {
                         <strong>Ngân hàng:</strong> MB Bank
                       </p>
                       <p>
-                        <strong>Số tài khoản:</strong> 0123456789
+                        <strong>Số tài khoản:</strong> 0964326802
                       </p>
                       <p>
-                        <strong>Chủ tài khoản:</strong> VALLEY BOOK STORE
+                        <strong>Chủ tài khoản:</strong> ĐẶNG BẢO HOÀNG
                       </p>
                       <p>
                         (Đơn hàng sẽ được xử lý sau khi chúng tôi nhận được
                         thanh toán)
                       </p>
+                      <img
+                        src="https://asrqcfdysjuddpjxnnkx.supabase.co/storage/v1/object/public/image//qr.jpg"
+                        alt="qr thanh toán"
+                        style={{
+                          width: "50%",
+                          display: "block",
+                          marginLeft: "auto",
+                          marginRight: "auto",
+                        }}
+                      />
                     </div>
                   )}
                 </div>
