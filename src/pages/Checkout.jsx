@@ -155,7 +155,6 @@ function Checkout() {
     window.scrollTo(0, 0);
   }, []);
 
-  // --- Calculate Totals ---
   const subtotalAmount = useMemo(
     () =>
       cartItems.reduce(
@@ -170,50 +169,55 @@ function Checkout() {
     parseFloat(sessionStorage.getItem("discountAmount") || "0")
   );
 
-  const calculateShippingCost = (provinceCode) => {
-    // For example, if province code 1 means Hà Nội
-    return +provinceCode === 1 ? 20000 : 30000;
+  /**
+   * Cập nhật hàm tính phí vận chuyển:
+   * - Miễn phí cho đơn > 300k ở Hà Nội (code 1)
+   * - Miễn phí cho đơn > 400k các tỉnh khác
+   * - Nếu dưới ngưỡng: Hà Nội 20k, tỉnh khác 30k
+   */
+  const calculateShippingCost = (provinceCode, subtotal) => {
+    const isHanoi = +provinceCode === 1;
+    if (isHanoi) {
+      return subtotal > 300_000 ? 0 : 20_000;
+    } else {
+      return subtotal > 400_000 ? 0 : 30_000;
+    }
   };
 
+  // Thời gian giao hàng
   const calculateDeliveryTime = (provinceCode) => {
     return +provinceCode === 1 ? "1–2 ngày" : "3–5 ngày";
   };
 
+  // Tính phí vận chuyển, riêng ebook/audio miễn phí
   const shippingCost = useMemo(() => {
     const allDigital = cartItems.every(
       (item) => item.type === "ebook" || item.type === "audio"
     );
-
     if (cartItems.length > 0 && allDigital) {
       return 0;
     }
+    return calculateShippingCost(formData.provinceCode, subtotalAmount);
+  }, [cartItems, formData.provinceCode, subtotalAmount]);
 
-    return calculateShippingCost(formData.provinceCode);
-  }, [cartItems, formData.provinceCode]);
-
+  // Thời gian giao hàng final
   const deliveryTime = useMemo(() => {
-    // Kiểm tra xem tất cả các mặt hàng trong giỏ có phải là kỹ thuật số không (ebook hoặc audio)
     const allDigital = cartItems.every(
       (item) => item.type === "ebook" || item.type === "audio"
     );
-
     if (cartItems.length > 0 && allDigital) {
-      return "30 phút"; // Thời gian giao hàng cho các sản phẩm số
+      return "30 phút";
     }
-    // Nếu có sách giấy hoặc giỏ hàng trống, tính toán thời gian giao hàng như bình thường
     return calculateDeliveryTime(formData.provinceCode);
-  }, [cartItems, formData.provinceCode]); // Thêm cartItems vào mảng dependencies
+  }, [cartItems, formData.provinceCode]);
 
   const finalTotalAmount = subtotalAmount - discountAmount + shippingCost;
-  // --- End Calculation ---
 
-  // Generic input change handler for text fields.
+  // Xử lý form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: null }));
-    }
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
   };
 
   // --- Updated Handlers for Dropdowns ---
