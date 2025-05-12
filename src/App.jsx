@@ -12,6 +12,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 import { AuthProvider } from "./components/AuthContext";
 import NewBook from "./pages/NewBook";
 import Cart from "./pages/Cart";
+import NotifyOrderSuccess from "./pages/NotifyOrderSuccess";
 import { BookProvider } from "./backend/BookContext";
 import PrestigeBrand from "./pages/PrestigeBrand";
 import Checkout from "./pages/Checkout";
@@ -160,6 +161,7 @@ function App() {
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/tracking/:orderId" element={<OrderTracking />} />
           <Route path="/orders" element={<OrderList />} />
+          <Route path="/notifyOrderSuccess" element={<NotifyOrderSuccess />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import supabase from "../backend/initSupabase";
 import { AuthContext } from "../components/AuthContext";
-import { signUpNewUser } from "../backend/userData";
+import { signUpNewUser, getUserData } from "../backend/userData";
 
 const LoginPage = () => {
   const { setLoggedIn } = useContext(AuthContext);
@@ -50,8 +50,14 @@ const LoginPage = () => {
           if (!accountData) {
             const tempUsername = userEmail.split("@")[0];
             await signUpNewUser(tempUsername, userEmail, null, null, null);
+                const tempData = await getUserData(userEmail);
+                localStorage.setItem("userInfo", JSON.stringify(tempData));
+                if (tempData.cart_items == null) {
+                  localStorage.setItem("cart_items", "[]");
+                } else {
+                  localStorage.setItem("cart_items", JSON.stringify(tempData.cart_items));
+                }
           }
-
           console.log("User data inserted or found");
           setLoggedIn(true);
           setIsGoogle(false);

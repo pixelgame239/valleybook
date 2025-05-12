@@ -4,6 +4,7 @@ import { AuthContext } from "../components/AuthContext";
 import supabase from "../backend/initSupabase";
 import Header from "../components/Header"; // Import Header
 import Footer from "../components/Footer"; // Import Footer
+import AvtImg from "../../public/assets/images/bookLogo.png";
 
 const Profile = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -12,15 +13,15 @@ const Profile = () => {
   const [formData, setFormData] = useState({
     username: userInfo.username,
     email: userInfo.email,
-    phoneNumber: userInfo.phone_number,
-    address: userInfo.address,
-    detailAddress: userInfo.address.split(", ")[0] || "",
+    phoneNumber: userInfo.phone_number?userInfo.phone_number:"",
+    address: userInfo.address?userInfo.address:"",
+    detailAddress: userInfo.address?userInfo.address.split(", ")[0]:"",
     wardCode: "",
-    wardName: userInfo.address.split(", ")[1] || "",
+    wardName: userInfo.address?userInfo.address.split(", ")[1] || "":"",
     districtCode: "",
-    districtName: userInfo.address.split(", ")[2] || "",
+    districtName: userInfo.address?userInfo.address.split(", ")[2] || "":"",
     provinceCode: "",
-    provinceName: userInfo.address.split(", ")[3] || "",
+    provinceName: userInfo.address?userInfo.address.split(", ")[3] || "":"",
   });
 
   const [provinces, setProvinces] = useState([]);
@@ -32,15 +33,15 @@ const Profile = () => {
       setFormData({
            username: userInfo.username,
           email: userInfo.email,
-          phoneNumber: userInfo.phone_number,
-          address: userInfo.address,
-          detailAddress: userInfo.address.split(", ")[0] || "",
+          phoneNumber: userInfo.phone_number?userInfo.phone_number:"",
+          address: userInfo.address?userInfo.address:"",
+          detailAddress: userInfo.address?userInfo.address.split(", ")[0]:"",
           wardCode: "",
-          wardName: userInfo.address.split(", ")[1] || "",
+          wardName: userInfo.address?userInfo.address.split(", ")[1] || "":"",
           districtCode: "",
-          districtName: userInfo.address.split(", ")[2] || "",
+          districtName: userInfo.address?userInfo.address.split(", ")[2] || "":"",
           provinceCode: "",
-          provinceName: userInfo.address.split(", ")[3] || "",
+          provinceName: userInfo.address?userInfo.address.split(", ")[3] || "":"",
       });
     }
   }, []);
@@ -239,17 +240,17 @@ const handleDistrictChange = (e) => {
     setEditing(false);
     setEditingAddress(false);
     setFormData({
-      username: userInfo?.username || "",
-      phoneNumber: userInfo?.phone_number || "",
-      email: userInfo.email,
-      address: userInfo?.address || "",
-      detailAddress: userInfo?.detail_address || "",
-      wardCode: "",
-      wardName: userInfo.address.split(", ")[1] || "",
-      districtCode: "",
-      districtName: userInfo.address.split(", ")[2] || "",
-      provinceCode: "",
-      provinceName: userInfo.address.split(", ")[3] || "",
+          username: userInfo.username,
+          email: userInfo.email,
+          phoneNumber: userInfo.phone_number?userInfo.phone_number:"",
+          address: userInfo.address?userInfo.address:"",
+          detailAddress: userInfo.address?userInfo.address.split(", ")[0]:"",
+          wardCode: "",
+          wardName: userInfo.address?userInfo.address.split(", ")[1] || "":"",
+          districtCode: "",
+          districtName: userInfo.address?userInfo.address.split(", ")[2] || "":"",
+          provinceCode: "",
+          provinceName: userInfo.address?userInfo.address.split(", ")[3] || "":"",
     });
   };
 
@@ -311,7 +312,7 @@ const handleDistrictChange = (e) => {
       <div className="pprofile-container">
         <div className="pprofile-header">
           <img
-            src="../public/assets/images/bookLogo.png"
+            src={AvtImg}
             alt="Ảnh đại diện"
             className="pprofile-avatar"
           />

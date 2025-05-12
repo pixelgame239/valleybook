@@ -593,7 +593,7 @@ export default function Footer() {
                 <img
                   className="lazyload loaded"
                   alt="Phương thức thanh toán"
-                  src="/assets/images/Tiktok.webp"
+                  src="/assets/images/Tiktok.png"
                   style={{
                     boxSizing: "border-box",
                     borderStyle: "none",

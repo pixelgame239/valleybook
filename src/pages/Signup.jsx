@@ -203,11 +203,10 @@ const Signup = () => {
     const { data, error } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.confirmPassword,
-      // options: {
-      //   // Thêm options
-      //   // emailRedirectTo:"https://asrqcfdysjuddpjxnnkx.supabase.co/auth/v1/callback"
-      //   // emailRedirectTo: "localhost:5173", // Đặt URL chuyển hướng sau khi xác nhận
-      // },
+      options: {
+        // Thêm options
+        emailRedirectTo:"https://valleybook.is-great.org/signUp"
+      },
     });
     if (error) {
       console.error("Lỗi đăng ký:", error.message);
@@ -225,13 +224,15 @@ const Signup = () => {
       async (event, session) => {
         if (event === "SIGNED_IN") {
           const tempUsername = formData.email.split("@")[0];
-          await signUpNewUser(
-            tempUsername,
-            formData.email,
-            formData.confirmPassword,
-            `${formData.detailAddress}, ${formData.ward.ward_name}, ${formData.district.district_name}, ${formData.province.province_name}`,
-            formData.phoneNumber
-          );
+          if(formData.email&&formData.email.trim()!==""){
+              await signUpNewUser(
+              tempUsername,
+              formData.email,
+              formData.confirmPassword,
+              `${formData.detailAddress}, ${formData.ward.ward_name}, ${formData.district.district_name}, ${formData.province.province_name}`,
+              formData.phoneNumber
+            );
+          }
           navigate("/");
         }
       }

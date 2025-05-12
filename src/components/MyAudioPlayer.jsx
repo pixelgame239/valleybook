@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from "react";
 
 function MyAudioPlayer() {
-  const audioUrl = "/audio/web-sound-2.mp3";
+  const audioUrl =
+    "https://asrqcfdysjuddpjxnnkx.supabase.co/storage/v1/object/sign/audio/web-sound-2.mp3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdWRpby93ZWItc291bmQtMi5tcDMiLCJpYXQiOjE3NDY5NTExMTQsImV4cCI6MTc3ODQ4NzExNH0.U0EdcZs_PpnEllKGh4QmdAAFMTDZLAKbnCzYYUfQ99E";
 
   // 1. Tạo một ref để tham chiếu đến phần tử audio
   const audioRef = useRef(null);
