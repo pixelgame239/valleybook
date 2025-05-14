@@ -1,2 +1,2 @@
 # Valley Book e-commerce website
-Link website: valleybook.is-great.org
+Link website: [Valley Book](https://valleybook.is-great.org)
