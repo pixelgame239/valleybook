@@ -83,7 +83,7 @@ export async function generateNewOrder(){
 export async function handleSendEmail (orderID, userEmail) {
   // Create your payload with the required fields.
   const payload = {
-    sender: "MS_0ikNTZ@test-z0vklo669r1l7qrx.mlsender.net",
+    sender: "MAILERSEND_EMAIL",
     recipient: userEmail, // Replace with the actual recipient email
     subject: "Xác nhận đơn hàng của bạn",
     html_body: `<html><body><p>Xác nhận đơn hàng của bạn</p><a href=\"https://asrqcfdysjuddpjxnnkx.supabase.co/functions/v1/alter_order?token=${orderID}\">Xác nhận</a>.</body></html>`
